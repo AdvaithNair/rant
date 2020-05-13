@@ -49,13 +49,12 @@ brew install node
 ```
 npm install express --save
 npm install @types/express --save
-npm install @types/express-serve-static-core --save
 ```
 
 #### Firebase
 ```
 npm install -g firebase-tools
-npm install firebase --save
+firebase init
 ```
 
 ## Contributors
