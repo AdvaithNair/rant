@@ -32,7 +32,7 @@ exports.firebaseAuth  = (
           .get();
       })
       .then(data => {
-        let userName =
+        const userName =
           data.docs[0].data().firstName.toString() +
           " " +
           data.docs[0].data().lastName.toString();

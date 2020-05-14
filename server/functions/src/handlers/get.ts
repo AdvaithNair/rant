@@ -7,7 +7,7 @@ exports.getAllRants = (req: express.Request, res: express.Response) => {
     .orderBy("createdAt", "desc")
     .get()
     .then((data: any) => {
-      let rants: FirebaseFirestore.DocumentData[] = [];
+      const rants: FirebaseFirestore.DocumentData[] = [];
 
       data.forEach((doc: any) => {
         rants.push({
