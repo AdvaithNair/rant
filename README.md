@@ -56,12 +56,29 @@ npm install @types/express --save
 npm install -g firebase-tools
 firebase init
 ```
+## Directory
+
+### Client
+* Not Created Yet
+
+### Server
+* **functions** - Firebase Cloud Functions default directory
+  * **lib** - JS output files for deployment
+  * **src** - TS input files (main files)
+    * **handlers** - ExpressJS route handlers (stores functions to be executed)
+    * **util** - utilities to support the handlers
+    * *customRequest.d.ts* - additional user property for ExpressJS Request type (used for LogIn)
+    * *index.ts* - main file for ExpressJS API and Firebase Cloud Functions
 
 ## Contributors
 
-* **Advaith Nair** - *Project Manager and Full Stack Developer* - [Website](https://advaithnair.com)
-* **Miles Gregg** - *Full Stack Developer* - [GitHub](https://github.com/MilesGregg)
+* **Advaith Nair** 
+    * *Project Manager*
+    * *Full Stack Developer*
+    * [Website](https://advaithnair.com)
+* **Miles Gregg**
+    * *Full Stack Developer*
+    * [GitHub](https://github.com/MilesGregg)
 
 ## Contact
 For questions, feel free to contact us at either [advaithnair2@gmail.com](mailto:advaithnair2@gmail.com) or [milesgregg3@gmail.com](mailto:milesgregg3@gmail.com)
-
