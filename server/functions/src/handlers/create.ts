@@ -2,12 +2,16 @@ import * as express from "express";
 
 const { db } = require("../util/admin");
 
+// Creates a Rant (Post)
 exports.createRant = (req: express.Request, res: express.Response) => {
+    // Catches Empty Rant Body
     if (req.body.body.trim() === "") {
       res.status(400).json({ body: "Body Must Not Be Empty" });
       return;
     }
+    // ADD EMPTY TITLE CATCHING
 
+    // New Rant Object
     const newRant = {
       userName: req.user.userName,
       title: req.body.title,
@@ -17,6 +21,7 @@ exports.createRant = (req: express.Request, res: express.Response) => {
       createdAt: new Date().toISOString()
     };
 
+    // Adds Rant Object to Database
     db.collection("rants")
       .add(newRant)
       .then((doc: any) => {

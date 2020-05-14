@@ -2,13 +2,16 @@ import * as express from "express";
 
 const { db } = require("../util/admin");
 
+// Retrieves All Rants (Posts)
 exports.getAllRants = (req: express.Request, res: express.Response) => {
   db.collection("rants")
     .orderBy("createdAt", "desc")
     .get()
     .then((data: any) => {
+      // Array of Documents
       const rants: FirebaseFirestore.DocumentData[] = [];
 
+      // Add Documents to Array
       data.forEach((doc: any) => {
         rants.push({
           rantID: doc.id,
@@ -21,6 +24,7 @@ exports.getAllRants = (req: express.Request, res: express.Response) => {
         });
       });
 
+      // Return Array
       return res.json(rants);
     })
     .catch((err: any) => console.error(err));

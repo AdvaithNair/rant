@@ -10,19 +10,15 @@ const { signUp, logIn, uploadImage } = require("./handlers/users");
 // Initialize Express
 const app: express.Application = express();
 
-// Get All Rants
+// Get
 app.get("/get/all_rants", getAllRants);
 
-// Create Rant
+// Create
 app.post("/create/rant", firebaseAuth, createRant);
 
-// User Sign Up
+// User
 app.post("/user/signup", signUp);
-
-// User Log In
 app.post("/user/login", logIn);
-
-// User Upload Image
 app.post('/user/image', firebaseAuth, uploadImage);
 
 // Exports To Cloud Functions
