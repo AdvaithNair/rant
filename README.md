@@ -63,8 +63,7 @@ firebase init
 
 ### Server
 * **functions** - Firebase Cloud Functions default directory
-  * **lib** - JS output files for deployment
-  * **src** - TS input files (main files)
+  * **src** - primary TS files
     * **handlers** - ExpressJS route handlers (stores functions to be executed)
     * **util** - utilities to support the handlers
     * *customRequest.d.ts* - additional user property for ExpressJS Request type (used for LogIn)
