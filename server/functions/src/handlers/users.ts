@@ -5,7 +5,11 @@ import * as admin from "firebase-admin";
 const { v1: uuidv1 } = require("uuid");
 const { db } = require("../util/admin");
 const { firebaseConfig } = require("../util/config");
-const { validateSignUp, validateLogIn } = require("../util/validation");
+const {
+  validateSignUp,
+  validateLogIn,
+  reduceUserDetails
+} = require("../util/validation");
 
 // Initialize Firebase App
 firebase.initializeApp(firebaseConfig);
@@ -127,6 +131,7 @@ exports.logIn = (req: express.Request, res: express.Response) => {
     });
 };
 
+// Uploads Image to Firebase Cloud Storage and Updates Image URL to Database
 exports.uploadImage = (req: express.Request, res: express.Response) => {
   // Imports for Image Upload
   const BusBoy = require("busboy");
@@ -204,4 +209,60 @@ exports.uploadImage = (req: express.Request, res: express.Response) => {
 
   // Ends Image Reader Process
   busboy.end(req.rawBody);
+};
+
+// Updates User Information
+exports.updateUser = (req: express.Request, res: express.Response) => {
+  const userDetails = reduceUserDetails(req.body);
+
+  db.doc(`/users/${req.user.uid}`)
+    .update(userDetails)
+    .then(() => {
+      return res.status(200).json({ message: "Details Added Successfully" });
+    })
+    .catch((err: any) => {
+      console.error(err);
+      return res.status(500).json({ error: err.code });
+    });
+};
+
+// Retrieves User Information
+exports.getUser = (req: express.Request, res: express.Response) => {
+  // Object Storing User Information
+  const userData: { [k: string]: any } = {};
+
+  // Returns User Information from Database
+  db.doc(`/users/${req.user.uid}`)
+    .get()
+    .then((doc: any) => {
+      // Gets Information
+      if (doc.exists) {
+        // Stores About Information to User Information Object
+        userData.about = doc.data();
+
+        // Gets User Comments
+        return db
+          .collection("comments")
+          .where("userID", "==", req.user.uid)
+          .get();
+      }
+    })
+    .then((data: any) => {
+      // Initial Comments Array
+      userData.comments = [];
+
+      // Pushes Each Comment to Array
+      data.forEach((doc: any) => {
+        userData.comments.push(doc.data());
+      });
+
+      // Returns User Data
+      // Returns User Data
+      return res.status(200).json({ userData });
+    })
+    .catch((err: any) => {
+      // Returns Error
+      console.error(err);
+      return res.status(500).json({ error: err.code });
+    });
 };

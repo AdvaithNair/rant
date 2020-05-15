@@ -1,3 +1,5 @@
+import * as express from "express";
+
 // Checks if Input String is of Email Type
 const isEmail = (input: string) => {
   const regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -12,15 +14,34 @@ const isEmpty = (input: string) => {
 };
 
 // Default Empty Message
-const emptyMessage: string = "Must not be empty";
+const emptyMessage: string = "Must Not Be Empty";
 
+// Validates Rant Creation Form
+exports.validateRant = (req: express.Request) => {
+  // Errors Object for Frontend
+  const errors: { [k: string]: string } = {};
+
+  // Checks Title Input
+  if (isEmpty(req.body.title)) errors.title = emptyMessage;
+
+  // Checks Body Input
+  if (isEmpty(req.body.body)) errors.body = emptyMessage;
+
+  // Returns Errors and Validation Status
+  return {
+    errors,
+    valid: Object.keys(errors).length === 0 ? true : false
+  };
+};
+
+// Validates Sign Up Form
 exports.validateSignUp = (data: any) => {
   // Errors Object for Frontend
   const errors: { [k: string]: string } = {};
 
   // Checks Username Input
   if (isEmpty(data.firstName)) errors.firstName = emptyMessage;
-  if (isEmpty(data.lastName)) errors.lastName = emptyMessage;
+  // if (isEmpty(data.lastName)) errors.lastName = emptyMessage;
 
   // Checks Email Input
   if (isEmpty(data.email)) errors.email = emptyMessage;
@@ -38,6 +59,7 @@ exports.validateSignUp = (data: any) => {
   };
 };
 
+// Validates Log In Form
 exports.validateLogIn = (data: any) => {
   // Errors Object for Frontend
   const errors: { [k: string]: string } = {};
@@ -54,3 +76,20 @@ exports.validateLogIn = (data: any) => {
     valid: Object.keys(errors).length === 0 ? true : false
   };
 };
+
+// Adds Nonempty Properties to User Details Object
+exports.reduceUserDetails = (data: any) => {
+  const userDetails: { [k: string]: string } = {};
+
+  // Adds Bio
+  if(!isEmpty(data.bio.trim())) userDetails.bio = data.bio;
+
+  // Adds Website
+  if(!isEmpty(data.website.trim())) {
+    if(data.website.trim().substring(0, 4) !== 'http') userDetails.website = `http://${data.website.trim()}`;
+    else userDetails.website = data.website;
+  }
+
+  // Returns Updated Object
+  return userDetails;
+}
