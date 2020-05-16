@@ -1,6 +1,7 @@
 import * as express from "express";
 import * as firebase from "firebase";
 import * as admin from "firebase-admin";
+import * as functions from "firebase-functions";
 
 const { v1: uuidv1 } = require("uuid");
 const { db } = require("../util/admin");
@@ -17,7 +18,8 @@ firebase.initializeApp(firebaseConfig);
 // Signs Up User to Firebase Authentication and Database
 exports.signUp = (req: express.Request, res: express.Response) => {
   // New User Object
-  const newUser = {
+  const newUser: { [k: string]: string } = {
+    handle: req.body.handle,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
@@ -42,9 +44,12 @@ exports.signUp = (req: express.Request, res: express.Response) => {
   let userID: string;
 
   // Signs Up User in Database
-  db.doc(`users/${newUser.email}`)
+  db.doc(`users/${newUser.handle}`)
     .get()
     .then((doc: any) => {
+      // Checks Handle
+      if (doc.exists)
+        return res.status(400).json({ handle: "This Handle is Already Taken" });
       // Initial Sign Up
       return firebase
         .auth()
@@ -57,11 +62,14 @@ exports.signUp = (req: express.Request, res: express.Response) => {
     })
     .then((token: any) => {
       authToken = token;
-
+      const userName =
+        newUser.firstName.toString() + " " + newUser.lastName.toString();
       // User Credentials for Database
       const userCredentials = {
+        handle: newUser.handle,
         firstName: newUser.firstName,
         lastName: newUser.lastName,
+        userName: userName,
         email: newUser.email,
         userID,
         imageURL: `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${noImg}?alt=media`,
@@ -69,7 +77,7 @@ exports.signUp = (req: express.Request, res: express.Response) => {
       };
 
       // Creates User Instance in Database
-      return db.doc(`/users/${userID}`).set(userCredentials);
+      return db.doc(`/users/${userCredentials.handle}`).set(userCredentials);
     })
     .then(() => {
       // Returns Authentication Token
@@ -86,20 +94,23 @@ exports.signUp = (req: express.Request, res: express.Response) => {
       else if (err.code === "auth/weak-password")
         return res.status(400).json({ password: "Weak Password" });
       // Returns Default Error
-      else return res.status(500).json({ error: err.code });
+      else
+        return res
+          .status(500)
+          .json({ general: "Something Went Wrong. Please Try Again." });
     });
 };
 
 // Logs In User to App (Provides Authentication Token)
 exports.logIn = (req: express.Request, res: express.Response) => {
   // User Object
-  const user = {
+  const newUser = {
     email: req.body.email,
     password: req.body.password
   };
 
   // Runs LogIn Validation
-  const { errors, valid } = validateLogIn(user);
+  const { errors, valid } = validateLogIn(newUser);
 
   // Sends Error if Invalid
   if (!valid) {
@@ -110,7 +121,7 @@ exports.logIn = (req: express.Request, res: express.Response) => {
   // Logs In Using Firebase Authentication
   firebase
     .auth()
-    .signInWithEmailAndPassword(user.email, user.password)
+    .signInWithEmailAndPassword(newUser.email, newUser.password)
     .then((data: any) => {
       // Provides Authentication Token
       return data.user.getIdToken();
@@ -123,11 +134,8 @@ exports.logIn = (req: express.Request, res: express.Response) => {
       // Returns Errors
       console.error(err);
 
-      // Returns Custom Wrong Password Error
-      if (err.code === "auth/wrong-password")
-        return res.status(403).json({ general: "Incorrect Credentials" });
       // Returns Default Error
-      else return res.status(500).json({ error: err.code });
+      return res.status(403).json({ general: "Incorrect Credentials" });
     });
 };
 
@@ -194,7 +202,7 @@ exports.uploadImage = (req: express.Request, res: express.Response) => {
       .then(() => {
         // Updates User Image URL in Database
         const imageURL = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${imageFileName}?alt=media`;
-        return db.doc(`/users/${req.user.uid}`).update({ imageURL });
+        return db.doc(`/users/${req.user.handle}`).update({ imageURL });
       })
       .then(() => {
         // Success Message
@@ -215,7 +223,7 @@ exports.uploadImage = (req: express.Request, res: express.Response) => {
 exports.updateUser = (req: express.Request, res: express.Response) => {
   const userDetails = reduceUserDetails(req.body);
 
-  db.doc(`/users/${req.user.uid}`)
+  db.doc(`/users/${req.user.handle}`)
     .update(userDetails)
     .then(() => {
       return res.status(200).json({ message: "Details Added Successfully" });
@@ -226,13 +234,13 @@ exports.updateUser = (req: express.Request, res: express.Response) => {
     });
 };
 
-// Retrieves User Information
+// Retrieves Own User Information
 exports.getUser = (req: express.Request, res: express.Response) => {
   // Object Storing User Information
   const userData: { [k: string]: any } = {};
 
   // Returns User Information from Database
-  db.doc(`/users/${req.user.uid}`)
+  db.doc(`/users/${req.user.handle}`)
     .get()
     .then((doc: any) => {
       // Gets Information
@@ -242,21 +250,47 @@ exports.getUser = (req: express.Request, res: express.Response) => {
 
         // Gets User Comments
         return db
-          .collection("comments")
+          .collection("likes")
           .where("userID", "==", req.user.uid)
           .get();
       }
     })
     .then((data: any) => {
-      // Initial Comments Array
-      userData.comments = [];
+      // Initial Likes Array
+      userData.likes = [];
 
-      // Pushes Each Comment to Array
+      // Pushes Each Like to Array
       data.forEach((doc: any) => {
-        userData.comments.push(doc.data());
+        userData.likes.push(doc.data());
       });
 
-      // Returns User Data
+      // Gets Newest 25 Notifications
+      // TODO: Possibly Change This Limit
+      return db
+        .collection("notifications")
+        .where("recipient", "==", req.user.uid)
+        .orderBy("createdAt", "desc")
+        .limit(25)
+        .get();
+    })
+    .then((data: any) => {
+      // Initial Notificaitons Array
+      userData.notifications = [];
+
+      // Pushes Each Notification to Array
+      data.forEach((doc: any) => {
+        userData.notifications.push({
+          recipient: doc.data().recipient,
+          sender: doc.data().sender,
+          senderName: doc.data().senderName,
+          createdAt: doc.data().createdAt,
+          rantID: doc.data().rantID,
+          type: doc.data().type,
+          read: doc.data().read,
+          notificationID: doc.id
+        });
+      });
+
       // Returns User Data
       return res.status(200).json({ userData });
     })
@@ -266,3 +300,81 @@ exports.getUser = (req: express.Request, res: express.Response) => {
       return res.status(500).json({ error: err.code });
     });
 };
+
+// Retrieves User Information
+// TODO: FIX THIS
+exports.getUserDetails = (req: express.Request, res: express.Response) => {
+  const userData: { [k: string]: any } = {};
+  db.doc(`/users/${req.params.handle}`)
+    .get()
+    .then((doc: any) => {
+      if (doc.exists) {
+        userData.user = doc.data();
+        return db
+          .collection("rants")
+          .where("handle", "==", req.params.handle)
+          .orderBy("createdAt", "desc")
+          .get();
+      }
+    })
+    .then((data: any) => {
+      userData.rants = [];
+      data.forEach((doc: any) => {
+        userData.rants.push({
+          title: doc.data().title,
+          body: doc.data().body,
+          createdAt: doc.data().createdAt,
+          userName: doc.data().userName,
+          handle: doc.data().handle,
+          userImage: doc.data().userImage,
+          likeCount: doc.data().likeCount,
+          commentCount: doc.data().commentCount,
+          rantID: doc.id
+        });
+      });
+
+      // Returns User Data
+      return res.json({ userData });
+    });
+};
+
+// Updates Images
+exports.onImageChange = functions.firestore
+  .document("/users/{userID}")
+  .onUpdate((change: any) => {
+    // If the Image URL has changed
+    if (change.before.data().imageURL !== change.after.data().imageURL) {
+      const batch = db.batch();
+
+      // Get All Corresponding Rant Documents
+      return db
+        .collection("rants")
+        .where("handle", "==", change.before.data().handle)
+        .get()
+        .then((data: any) => {
+          // Update Each Rant
+          data.forEach((doc: any) => {
+            batch.update(db.doc(`/rants/${doc.id}`), {
+              imageURL: change.after.data().imageURL
+            });
+          });
+
+          // Get All Corresponding Comment Documents
+          return db
+            .collection("comments")
+            .where("handle", "==", change.before.data().handle)
+            .get();
+        })
+        .then((data: any) => {
+          // Update Each Comment
+          data.forEach((doc: any) => {
+            batch.update(db.doc(`/comments/${doc.id}`), {
+              imageURL: change.after.data().imageURL
+            });
+          });
+
+          // Commit Batch (Update All)
+          return batch.commit();
+        });
+    } else return true;
+  });

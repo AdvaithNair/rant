@@ -44,6 +44,7 @@ exports.firebaseAuth = (
         " " +
         data.docs[0].data().lastName.toString();
       req.user.userName = userName;
+      req.user.handle = data.docs[0].data().handle.toString();
       req.user.imageURL = data.docs[0].data().imageURL.toString();
       return next();
     })

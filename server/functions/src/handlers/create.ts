@@ -19,6 +19,7 @@ exports.createRant = (req: express.Request, res: express.Response) => {
   const newRant: { [k: string]: any } = {
     userName: req.user.userName,
     userID: req.user.uid,
+    handle: req.user.handle,
     imageURL: req.user.imageURL,
     title: req.body.title,
     body: req.body.body,
@@ -57,6 +58,7 @@ exports.createComment = (req: express.Request, res: express.Response) => {
     rantID: req.params.rantID,
     commenterID: req.user.uid,
     userName: req.user.userName,
+    handle: req.user.handle,
     imageURL: req.user.imageURL
   };
 
@@ -118,7 +120,9 @@ exports.toggleLike = (req: express.Request, res: express.Response) => {
           .collection("likes")
           .add({
             rantID: req.params.rantID,
-            userID: req.user.uid
+            userID: req.user.uid,
+            userName: req.user.userName,
+            handle: req.user.handle
           })
           .then(() => {
             // Increment Like Count and Update in Database

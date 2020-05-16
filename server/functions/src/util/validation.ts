@@ -39,6 +39,9 @@ exports.validateSignUp = (data: any) => {
   // Errors Object for Frontend
   const errors: { [k: string]: string } = {};
 
+  // Checks Handle Input
+  if (isEmpty(data.handle)) errors.handle = emptyMessage;
+
   // Checks Username Input
   if (isEmpty(data.firstName)) errors.firstName = emptyMessage;
   // if (isEmpty(data.lastName)) errors.lastName = emptyMessage;
@@ -80,6 +83,8 @@ exports.validateLogIn = (data: any) => {
 // Adds Nonempty Properties to User Details Object
 exports.reduceUserDetails = (data: any) => {
   const userDetails: { [k: string]: string } = {};
+
+  // TODO: Change User Handle Feature
 
   // Adds Bio
   if(!isEmpty(data.bio.trim())) userDetails.bio = data.bio;
