@@ -16,8 +16,6 @@ It utilizes the following technologies:
 
 All code is constructed using Typescript.
 
-NOTE: The client code is not generated yet, we will do this once we finish the backend's primary structures.
-
 ## Prerequisites
 
 ### Technologies Used
@@ -59,7 +57,12 @@ firebase init
 ## Directory
 
 ### Client
-* Not Created Yet
+* **public** - details for publishing the page
+* **src** - contains main React code (tsx components)
+  * **assets** - assets for the project
+    * **images** - various static images for the site (such as logo)
+  * **pages** - files containing components for each page
+    * **components** - micro-components used for each main page
 
 ### Server
 * **functions** - Firebase Cloud Functions default directory
