@@ -1,0 +1,21 @@
+.header-content {
+    width: 80%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.header-logo {
+    height: 50px;
+    float: left;
+}
+
+.content-right {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+}
+
+.spacer {
+    padding-left: 50px;
+}

@@ -1,0 +1,85 @@
+.rant-body {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 20px;
+    display: block;
+    box-shadow: 0px 0px 5px 0px #3F3F3F;
+}
+
+.rant-body:hover {
+    box-shadow: 0px 0px 5px 3px #3F3F3F;
+}
+
+.rant-title {
+    background-color: #F012BE;
+    display: inline-flex;
+    width: 100%;
+    position: relative;
+}
+
+.rant-title-text {
+    float: left;
+    padding-left: 20px;
+    margin-top: -10px;
+    color: white;
+    height: 65px;
+    margin-bottom: 8px;
+}
+
+.rant-title-text h1 {
+    font-weight: bold;
+}
+
+.more-icon {
+    float: right;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.clear {
+    clear: both;
+}
+
+.rant-credits {
+    width: auto;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    height: 110px;
+    position: relative;
+}
+
+.rant-credits-img img {
+    width: 100px;
+    border-radius: 100px;
+    float: left;
+    border: solid 5px transparent;
+    background-image: linear-gradient(white, white), radial-gradient(circle at top left, #F012BE, #39CCCC);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+}
+
+.rant-credits-info {
+    float: left;
+    margin-left: 20px;
+    font-style: normal;
+}
+
+.rant-credits-date {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    text-align: right;
+}
+
+.rant-credits-date p {
+    margin-top: -10px;
+}
+
+.rant-content {
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-bottom: 20px;
+}
