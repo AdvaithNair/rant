@@ -16,13 +16,13 @@ It utilizes the following technologies:
 
 All code is constructed using Typescript.
 
-NOTE: The client code is not generated yet, we will do this once we finish the backend's primary structures.
-
 ## Prerequisites
 
 ### Technologies Used
 * [ReactJS](https://reactjs.org/)
 * [React Redux](https://redux.js.org/)
+* [Axios](https://github.com/axios/axios)
+* [DayJS](https://github.com/iamkun/dayjs)
 * [NodeJS](https://nodejs.org/en/)
 * [ExpressJS](https://expressjs.com/)
 * [Firebase](https://firebase.google.com/)
@@ -34,6 +34,16 @@ Execute these commands to ensure Rant can run properly.
 #### ReactJS
 ```
 npm install react --save
+```
+
+#### Axios
+```
+npm install axios --save
+```
+
+#### DayJS
+```
+npm install dayjs --save
 ```
 
 #### NodeJS
@@ -59,7 +69,12 @@ firebase init
 ## Directory
 
 ### Client
-* Not Created Yet
+* **public** - details for publishing the page
+* **src** - contains main React code (tsx components)
+  * **assets** - assets for the project
+    * **images** - various static images for the site (such as logo)
+  * **pages** - files containing components for each page
+    * **components** - micro-components used for each main page
 
 ### Server
 * **functions** - Firebase Cloud Functions default directory
