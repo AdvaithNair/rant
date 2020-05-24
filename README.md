@@ -21,6 +21,8 @@ All code is constructed using Typescript.
 ### Technologies Used
 * [ReactJS](https://reactjs.org/)
 * [React Redux](https://redux.js.org/)
+* [Axios](https://github.com/axios/axios)
+* [DayJS](https://github.com/iamkun/dayjs)
 * [NodeJS](https://nodejs.org/en/)
 * [ExpressJS](https://expressjs.com/)
 * [Firebase](https://firebase.google.com/)
@@ -32,6 +34,16 @@ Execute these commands to ensure Rant can run properly.
 #### ReactJS
 ```
 npm install react --save
+```
+
+#### Axios
+```
+npm install axios --save
+```
+
+#### DayJS
+```
+npm install dayjs --save
 ```
 
 #### NodeJS
