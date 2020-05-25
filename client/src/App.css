@@ -1,3 +1,6 @@
+/* 
+APP ----------------------------------------------------------------------------------------------------------------------------------------------
+*/
 body {
   font-family: 'Montserrat';
 }
@@ -14,4 +17,213 @@ body {
   font-style: bold;
   font-weight: 700;
   src: local('Montserrat-Bold'), url(http://fonts.gstatic.com/s/montserrat/v6/IQHow_FEYlDC4Gzy_m8fcvEr6Hm6RMS0v1dtXsGir4g.ttf) format('truetype');
+}
+
+/*
+PAGES ----------------------------------------------------------------------------------------------------------------------------------------------
+*/
+
+/* Home Page */
+.rant-container {
+  margin: 80px auto 0 auto;
+}
+
+.search-bar {
+  margin: 80px auto 0 auto;
+  height: 50px;
+  background-color: grey;
+  width: 80%;
+}
+
+.footer {
+  height: 40px;
+  background-color: #CCCCCC;
+  margin-top: 50px;
+}
+
+.footer p {
+  font-size: 14pt;
+  text-align: center;
+  padding-top: 10px;
+  margin-bottom: 10px;
+  background: linear-gradient(to right, #F012BE 40%, #39CCCC 60%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.footer p b {
+  font-size: 14pt;
+}
+
+/* Landing Page */
+.background-image {
+  background-image: url("./assets/images/LandingArt.png");
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position: top;
+  filter: blur(15px);
+  height: 100vw;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: -1;
+  display: block;
+}
+
+.landing-content {
+  margin: 0 auto;
+  margin-top: 250px;
+  width: 40%;
+}
+
+.landing-logo {
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.landing-button {
+  margin: 0 auto;
+  margin-top: 40px;
+}
+
+/* Sign Up Page */
+.signup-content {
+  width: 30%;
+  margin: 0 auto;
+  margin-top: 200px;
+  background-color: white;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.signup-logo {
+  width: 60%;
+  display: block;
+  margin: 0 auto;
+  padding-top: 20px;
+}
+
+/*
+COMPONENTS ----------------------------------------------------------------------------------------------------------------------------------------------
+*/
+/* Rant Component */
+.rant-body {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 20px;
+  display: block;
+  box-shadow: 0px 0px 5px 0px #3F3F3F;
+  -webkit-transition: box-shadow 0.3s ease;
+  -moz-transition: box-shadow 0.3s ease;
+  -o-transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease;
+}
+
+.rant-body:hover {
+  box-shadow: 0px 0px 5px 3px #3F3F3F;
+}
+
+.rant-title {
+  background-color: #F012BE;
+  display: inline-flex;
+  width: 100%;
+  position: relative;
+}
+
+.rant-title-text {
+  float: left;
+  padding-left: 20px;
+  margin-top: -10px;
+  color: white;
+  height: 65px;
+  margin-bottom: 8px;
+}
+
+.rant-title-text h1 {
+  font-weight: bold;
+}
+
+.more-icon {
+  float: right;
+  position: absolute;
+  right: 0px;
+  top: 5px;
+}
+
+.clear {
+  clear: both;
+}
+
+.rant-credits {
+  width: auto;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+  height: 110px;
+  position: relative;
+}
+
+.rant-credits-img img {
+  width: 100px;
+  border-radius: 100px;
+  float: left;
+  border: solid 5px transparent;
+  background-image: linear-gradient(white, white), radial-gradient(circle at top left, #F012BE, #39CCCC);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+
+.rant-credits-info {
+  float: left;
+  margin-left: 20px;
+  font-style: normal;
+}
+
+.rant-credits-info h3 {
+  margin-top: -10px;
+  color: #39CCCC;
+}
+
+.rant-credits-date {
+  position: absolute;
+  right: 0;
+  top: 0;
+  text-align: right;
+}
+
+.rant-credits-date p {
+  margin-top: -10px;
+}
+
+.rant-content {
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-bottom: 20px;
+}
+
+/* Header Component */
+.header-content {
+  width: 80%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.header-logo {
+  height: 50px;
+  float: left;
+}
+
+.content-right {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  margin-bottom: -7px;
+  margin-right: -30px;
+}
+
+.spacer {
+  padding-left: 20px;
 }

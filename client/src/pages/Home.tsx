@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-// CSS
-import './Home.css';
-
 // Components
-import Header from "../components/Header/Header";
-import { Rant } from "../components/Rant/Rant";
+import Header from "./components/Header";
+import { Rant } from "./components/Rant";
 
 // Axios
 import axios from 'axios';
-import { RantData } from "../../types";
+import { RantData } from "../types";
 
 export default function Home() {
     // Setting State for Rant Data
@@ -28,7 +25,7 @@ export default function Home() {
             <div className='search-bar'></div>
             {rantData.map((rant: RantData) => <Rant key={rant.rantID} data={rant} />)}
             <div className='footer'>
-                <p>A VIB<u>RANT</u> EXPERIENCE</p>
+                <p>A VIB<b>RANT</b> EXPERIENCE</p>
             </div>
         </div>
     );

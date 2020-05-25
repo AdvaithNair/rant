@@ -1,8 +1,5 @@
 import React from 'react'
-import { RantData } from '../../../types';
-
-// CSS
-import './Rant.css';
+import { RantData } from '../../types';
 
 // Material UI
 import MoreVertIcon from '@material-ui/icons/MoreVert';

@@ -1,8 +1,5 @@
 import React from 'react'
 
-// CSS
-import './Header.css';
-
 // Material Imports
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -13,10 +10,10 @@ import BlurCircularRoundedIcon from '@material-ui/icons/BlurCircularRounded';
 import IconButton from '@material-ui/core/IconButton';
 
 // Logo
-import RantLogo from '../../../assets/images/RantLogoTransparent.png';
+import RantLogo from '../../assets/images/RantLogoTransparent.png';
 
 // Header Theme
-import { headerTheme } from '../../../assets/themes/Themes'
+import { headerTheme } from '../../assets/themes/Themes'
 
 export default function Header() {
     return (

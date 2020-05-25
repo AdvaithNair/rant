@@ -3,7 +3,9 @@ import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // Pages
-import Home from './pages/Home/Home';
+import Home from './pages/Home';
+import Landing from './pages/Landing';
+import SignUp from './pages/SignUp';
 
 // Main Theme Import
 import { mainTheme } from './assets/themes/Themes'
@@ -17,7 +19,9 @@ function App() {
       <div className="App">
         <Router>
           <Switch>
-            <Route exact path='/' component={Home} />
+            <Route exact path = '/' component = {Landing} />
+            <Route exact path = '/signup' component = {SignUp} />
+            <Route exact path='/home' component={Home} />
           </Switch>
         </Router>
       </div>
