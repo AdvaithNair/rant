@@ -9,3 +9,17 @@ export type RantData = {
     createdAt: string,
     imageURL: string
 }
+
+export type SignUp = {
+    firstName: string,
+    lastName: string,
+    handle: string,
+    email: string,
+    password: string,
+    confirmPassword: string
+}
+
+export type LogIn = {
+    email: string,
+    password: string
+}

@@ -4,6 +4,10 @@ import { Link, RouteComponentProps } from "react-router-dom";
 // Axios
 import axios from "axios";
 
+// Redux
+import { connect } from 'react-redux';
+import { loginUser } from '../redux/actions/userActions'; 
+
 // Logo
 import RantLogo from "../assets/images/RantLogoTransparent.png";
 
@@ -12,32 +16,22 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
-interface SignUpErrors {
-  firstName: string;
-  handle: string;
+interface LogInErrors {
   email: string;
   password: string;
-  confirmPassword: string;
   general: string;
 }
 
 interface Props extends RouteComponentProps<any> {}
 
-export const SignUp: React.FC<Props> = ({ history }) => {
-  // Setting State for First Name, Last Name, Username, Email, Password, Confirm Password, Loading, and Errors
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [username, setUsername] = useState("");
+export const LogIn: React.FC<Props> = ({ history }) => {
+  // Setting State for Email, Password, Loading, and Errors
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<SignUpErrors>({
-    firstName: "",
-    handle: "",
+  const [errors, setErrors] = useState<LogInErrors>({
     email: "",
     password: "",
-    confirmPassword: "",
     general: ""
   });
 
@@ -45,35 +39,30 @@ export const SignUp: React.FC<Props> = ({ history }) => {
   const handleSubmit = (event: any) => {
     event.preventDefault();
     setLoading(true);
-    const signupCredentials: { [k: string]: string } = {
-      firstName: firstName,
-      lastName: lastName,
-      handle: username,
+    const loginCredentials: { [k: string]: string } = {
       email: email,
-      password: password,
-      confirmPassword: confirmPassword
+      password: password
     };
+    loginUser(loginCredentials, history);
+    /*
     axios
-      .post("/user/signup", signupCredentials)
+      .post("/user/login", loginCredentials)
       .then((res: any) => {
-        localStorage.setItem("firebaseAuthToken", `Bearer ${res.data.token}`);
+        localStorage.setItem('firebaseAuthToken', `Bearer ${res.data.token}`);
         setLoading(false);
         history.push("/home");
       })
       .catch((err: any) => {
-        const errors: SignUpErrors = {
-          firstName: "",
-          handle: "",
+        const errors: LogInErrors = {
           email: "",
           password: "",
-          confirmPassword: "",
           general: "",
           ...err.response.data.errors,
           ...err.response.data
         };
         setErrors(errors);
         setLoading(false);
-      });
+      });*/
   };
 
   return (
@@ -82,36 +71,8 @@ export const SignUp: React.FC<Props> = ({ history }) => {
       <div className="signup-content">
         <div className="signup-form-content">
           <img src={RantLogo} className="signup-logo" alt="Rant Logo"></img>
-          <h2 className="text-center">SIGN UP</h2>
+          <h2 className="text-center">LOG IN</h2>
           <form noValidate onSubmit={handleSubmit}>
-            <TextField
-              id="firstName"
-              name="firstName"
-              type="text"
-              label="First Name"
-              helperText={errors.firstName}
-              error={errors.firstName ? true : false}
-              onChange={e => setFirstName(e.target.value)}
-              fullWidth
-            />
-            <TextField
-              id="lastName"
-              name="lastName"
-              type="text"
-              label="Last Name"
-              onChange={e => setLastName(e.target.value)}
-              fullWidth
-            />
-            <TextField
-              id="username"
-              name="username"
-              type="text"
-              label="Username"
-              helperText={errors.handle}
-              error={errors.handle ? true : false}
-              onChange={e => setUsername(e.target.value)}
-              fullWidth
-            />
             <TextField
               id="email"
               name="email"
@@ -132,18 +93,11 @@ export const SignUp: React.FC<Props> = ({ history }) => {
               onChange={e => setPassword(e.target.value)}
               fullWidth
             />
-            <TextField
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              label="Confirm Password"
-              helperText={errors.confirmPassword}
-              error={errors.confirmPassword ? true : false}
-              onChange={e => setConfirmPassword(e.target.value)}
-              fullWidth
-            />
+            {errors.general && (
+              <p className="login-error-text">{errors.general}</p>
+            )}
             <p className="sign-up-text">
-              Already have an account? Log in <Link to="/signup">here</Link>.
+              Don't have an account? Sign up <Link to="/signup">here</Link>.
             </p>
             <div className="signup-button-wrapper">
               <Button
@@ -155,6 +109,7 @@ export const SignUp: React.FC<Props> = ({ history }) => {
                 }}
                 type="submit"
                 color="primary"
+                disabled={loading}
                 fullWidth
               >
                 SUBMIT

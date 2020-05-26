@@ -36,6 +36,14 @@ Execute these commands to ensure Rant can run properly.
 npm install react --save
 ```
 
+#### React Redux
+```
+npm install redux --save
+npm install redux-thunk --save
+npm install react-redux --save
+npm install @types/react-redux --save
+```
+
 #### Axios
 ```
 npm install axios --save
@@ -44,6 +52,12 @@ npm install axios --save
 #### DayJS
 ```
 npm install dayjs --save
+```
+
+#### JWT
+```
+npm install jwt-decode --save
+npm install @types/jwt-decode --save
 ```
 
 #### NodeJS
