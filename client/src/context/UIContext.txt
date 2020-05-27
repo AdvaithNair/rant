@@ -1,3 +1,6 @@
+/*
+Coming Soon:
+
 import { SET_ERRORS, CLEAR_ERRORS, LOADING_UI } from "../reduxTypes";
 
 const initialState = {
@@ -28,3 +31,4 @@ export default function(state = initialState, action: any) {
       return state;
   }
 }
+*/

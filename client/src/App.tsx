@@ -2,9 +2,8 @@ import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-// Redux
-import { Provider } from "react-redux";
-import store from "./redux/store";
+// Context
+import { UserContext, UserProvider } from "./context/UserContext";
 
 // JWT
 import jwtDecode from "jwt-decode";
@@ -29,17 +28,17 @@ const token = localStorage.firebaseAuthToken;
 if (token) {
   const decodedToken: { [k: string]: any } = jwtDecode(token);
   if (decodedToken.exp * 1000 < Date.now()) {
-    window.location.href = "/login";
+    //window.location.href = "/login";
     authenticated = false;
   } else {
     authenticated = true;
   }
 }
 
-function App() {
+const App = () => {
   return (
     <ThemeProvider theme={mainTheme}>
-      <Provider store={store}>
+      <UserProvider>
         <div className="App">
           <Router>
             <Switch>
@@ -65,9 +64,9 @@ function App() {
             </Switch>
           </Router>
         </div>
-      </Provider>
+      </UserProvider>
     </ThemeProvider>
   );
-}
+};
 
 export default App;

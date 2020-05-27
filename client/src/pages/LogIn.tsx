@@ -1,12 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
+import { ReducerContext } from "../types";
 
-// Axios
-import axios from "axios";
-
-// Redux
-import { connect } from 'react-redux';
-import { loginUser } from '../redux/actions/userActions'; 
+// Context
+import { UserContext, loginUser } from "../context/UserContext";
 
 // Logo
 import RantLogo from "../assets/images/RantLogoTransparent.png";
@@ -35,6 +32,9 @@ export const LogIn: React.FC<Props> = ({ history }) => {
     general: ""
   });
 
+  // Importing Context (Global Store)
+  const { state, dispatch } = useContext<ReducerContext>(UserContext);
+
   // Handles Submission for Sign Up Form
   const handleSubmit = (event: any) => {
     event.preventDefault();
@@ -43,26 +43,9 @@ export const LogIn: React.FC<Props> = ({ history }) => {
       email: email,
       password: password
     };
-    loginUser(loginCredentials, history);
-    /*
-    axios
-      .post("/user/login", loginCredentials)
-      .then((res: any) => {
-        localStorage.setItem('firebaseAuthToken', `Bearer ${res.data.token}`);
-        setLoading(false);
-        history.push("/home");
-      })
-      .catch((err: any) => {
-        const errors: LogInErrors = {
-          email: "",
-          password: "",
-          general: "",
-          ...err.response.data.errors,
-          ...err.response.data
-        };
-        setErrors(errors);
-        setLoading(false);
-      });*/
+
+    // Logs In User and Adds to Global Store
+    loginUser(loginCredentials, history, setLoading, setErrors, dispatch);
   };
 
   return (
