@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
 
-// Axios
-import axios from "axios";
+// Context
+import { ReducerContext } from "../types";
+import { UserContext } from "../context/UserContext";
+import { handleUser } from "../context/actions/UserActions";
 
 // Logo
 import RantLogo from "../assets/images/RantLogoTransparent.png";
@@ -12,39 +14,33 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
-interface SignUpErrors {
+// TODO: Integrate this into a single forms hook instead of seperate ones
+interface SignUpForm {
   firstName: string;
   handle: string;
   email: string;
   password: string;
   confirmPassword: string;
-  general: string;
 }
 
 interface Props extends RouteComponentProps<any> {}
 
 export const SignUp: React.FC<Props> = ({ history }) => {
-  // Setting State for First Name, Last Name, Username, Email, Password, Confirm Password, Loading, and Errors
+  // Setting State for First Name, Last Name, Username, Email, Password, and Confirm Password (for Form Input)
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<SignUpErrors>({
-    firstName: "",
-    handle: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    general: ""
-  });
+
+  // Importing Context (Global Store)
+  const { state, dispatch } = useContext<ReducerContext>(UserContext);
 
   // Handles Submission for Sign Up Form
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    setLoading(true);
+
     const signupCredentials: { [k: string]: string } = {
       firstName: firstName,
       lastName: lastName,
@@ -53,27 +49,9 @@ export const SignUp: React.FC<Props> = ({ history }) => {
       password: password,
       confirmPassword: confirmPassword
     };
-    axios
-      .post("/user/signup", signupCredentials)
-      .then((res: any) => {
-        localStorage.setItem("firebaseAuthToken", `Bearer ${res.data.token}`);
-        setLoading(false);
-        history.push("/home");
-      })
-      .catch((err: any) => {
-        const errors: SignUpErrors = {
-          firstName: "",
-          handle: "",
-          email: "",
-          password: "",
-          confirmPassword: "",
-          general: "",
-          ...err.response.data.errors,
-          ...err.response.data
-        };
-        setErrors(errors);
-        setLoading(false);
-      });
+
+    // Signs Up User
+    handleUser(signupCredentials, history, dispatch, "signup");
   };
 
   return (
@@ -89,8 +67,8 @@ export const SignUp: React.FC<Props> = ({ history }) => {
               name="firstName"
               type="text"
               label="First Name"
-              helperText={errors.firstName}
-              error={errors.firstName ? true : false}
+              helperText={state.UI.errors.firstName}
+              error={state.UI.errors.firstName ? true : false}
               onChange={e => setFirstName(e.target.value)}
               fullWidth
             />
@@ -107,8 +85,8 @@ export const SignUp: React.FC<Props> = ({ history }) => {
               name="username"
               type="text"
               label="Username"
-              helperText={errors.handle}
-              error={errors.handle ? true : false}
+              helperText={state.UI.errors.handle}
+              error={state.UI.errors.handle ? true : false}
               onChange={e => setUsername(e.target.value)}
               fullWidth
             />
@@ -117,8 +95,8 @@ export const SignUp: React.FC<Props> = ({ history }) => {
               name="email"
               type="email"
               label="Email"
-              helperText={errors.email}
-              error={errors.email ? true : false}
+              helperText={state.UI.errors.email}
+              error={state.UI.errors.email ? true : false}
               onChange={e => setEmail(e.target.value)}
               fullWidth
             />
@@ -127,8 +105,8 @@ export const SignUp: React.FC<Props> = ({ history }) => {
               name="password"
               type="password"
               label="Password"
-              helperText={errors.password}
-              error={errors.password ? true : false}
+              helperText={state.UI.errors.password}
+              error={state.UI.errors.password ? true : false}
               onChange={e => setPassword(e.target.value)}
               fullWidth
             />
@@ -137,8 +115,8 @@ export const SignUp: React.FC<Props> = ({ history }) => {
               name="confirmPassword"
               type="password"
               label="Confirm Password"
-              helperText={errors.confirmPassword}
-              error={errors.confirmPassword ? true : false}
+              helperText={state.UI.errors.confirmPassword}
+              error={state.UI.errors.confirmPassword ? true : false}
               onChange={e => setConfirmPassword(e.target.value)}
               fullWidth
             />
@@ -160,10 +138,12 @@ export const SignUp: React.FC<Props> = ({ history }) => {
                 SUBMIT
               </Button>
             </div>
-            {loading && <LinearProgress color="secondary" />}
+            {state.UI.loading && <LinearProgress color="secondary" />}
           </form>
         </div>
       </div>
     </div>
   );
 };
+
+export default SignUp;

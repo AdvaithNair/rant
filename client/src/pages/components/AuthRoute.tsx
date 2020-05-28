@@ -1,18 +1,25 @@
-import React from 'react'
-import {Route, Redirect} from 'react-router-dom';
+import React, { useContext } from "react";
+import { Route, Redirect } from "react-router-dom";
+import { ReducerContext } from "../../types";
+import { UserContext } from "../../context/UserContext";
 
 interface Props {
-    component: any;
-    authenticated: Boolean;
-    exact: Boolean;
-    path: string;
+  component: any;
+  exact: Boolean;
+  path: string;
 }
 
-export const AuthRoute: React.FC<Props> = ({ exact, path, component, authenticated}) => {
-    return (
-        //<Route {...exact} path = {path} render = {() => authenticated === true ? <Redirect to = '/home' /> : <Route {...exact} path = {path} />} />
-        <div>
-            {authenticated === true ? <Redirect to = '/home' /> : <Route {...exact} path = {path} component = {component} />}
-        </div>
-    )
-}
+export const AuthRoute: React.FC<Props> = ({ exact, path, component }) => {
+  // Importing Context (Global Store)
+  const { state } = useContext<ReducerContext>(UserContext);
+
+  return (
+    <div>
+      {state.authenticated === true ? (
+        <Redirect to="/home" />
+      ) : (
+        <Route {...exact} path={path} component={component} />
+      )}
+    </div>
+  );
+};

@@ -5,24 +5,39 @@ import { ReducerContext } from "../types";
 import {
   SET_AUTHENTICATED,
   SET_UNAUTHENTICATED,
-  SET_USER
+  SET_USER,
+  SET_ERRORS,
+  CLEAR_ERRORS,
+  SET_LOADING,
+  CLEAR_LOADING
 } from "./ReducerTypes";
-
-// Axios
-import axios from "axios";
 
 // Context Creation
 export const UserContext = createContext<ReducerContext>({
   state: null,
-  dispatch: null
+  dispatch: () => {}
 });
 
-// Initial State
+// Initial Error Object
+const initialErrors = {
+  firstName: "",
+  handle: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+  general: ""
+};
+
+// Initial State Object
 const initialState = {
   authenticated: false,
   credentials: {},
   likes: [],
-  notification: []
+  notifications: [],
+  UI: {
+    loading: false,
+    errors: initialErrors
+  }
 };
 
 // Reducer Function
@@ -37,61 +52,48 @@ function reducer(state: any, action: any) {
       return initialState;
     case SET_USER:
       return {
+        ...state,
         authenticated: true,
-        ...action.payload
+        credentials: action.payload.about,
+        likes: action.payload.likes,
+        notifications: action.payload.notifications,
+      };
+    case SET_ERRORS:
+      return {
+        ...state,
+        UI: {
+          loading: state.UI.loading,
+          errors: action.payload
+        }
+      };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        UI: {
+          loading: false,
+          errors: initialErrors
+        }
+      };
+    case SET_LOADING:
+      return {
+        ...state,
+        UI: {
+          loading: true,
+          errors: state.UI.errors
+        }
+      };
+    case CLEAR_LOADING:
+      return {
+        ...state,
+        UI: {
+          loading: false,
+          errors: state.UI.errors
+        }
       };
     default:
       return state;
   }
 }
-
-// Logs In User
-// TODO: Make setLoading and setErrors in a UI Context
-export const loginUser = (
-  loginCredentials: any,
-  history: any,
-  setLoading: any,
-  setErrors: any,
-  dispatch: any
-) => {
-  // Makes Login Request
-  axios
-    .post("/user/login", loginCredentials)
-    .then((res: any) => {
-      // Sets Auth Token
-      const firebaseAuthToken = `Bearer ${res.data.token}`;
-      localStorage.setItem("firebaseAuthToken", firebaseAuthToken);
-      axios.defaults.headers.common["Authorization"] = firebaseAuthToken;
-
-      // Creates User Info
-      axios
-        .get("/user")
-        .then((res: any) => {
-          // Stores User Info in Global State through Reducer
-          dispatch({
-            type: SET_USER,
-            payload: res.data
-          });
-        })
-        .catch((err: any) => console.log(err));
-
-      // Additional UI Fixes
-      setLoading(false);
-      history.push("/home");
-    })
-    .catch((err: any) => {
-      // Error Handling
-      const errors = {
-        email: "",
-        password: "",
-        general: "",
-        ...err.response.data.errors,
-        ...err.response.data
-      };
-      setErrors(errors);
-      setLoading(false);
-    });
-};
 
 // User Provider for Global Storage
 export const UserProvider = (props: any) => {

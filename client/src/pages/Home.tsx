@@ -8,7 +8,7 @@ import { Rant } from "./components/Rant";
 // Axios
 import axios from "axios";
 
-export default function Home() {
+export const Home: React.FC = () => {  
   // Setting State for Rant Data
   const [rantData, setRantData] = useState([]);
 
@@ -37,3 +37,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home;

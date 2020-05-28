@@ -1,9 +1,10 @@
 import React, { useState, useContext } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { ReducerContext } from "../types";
 
 // Context
-import { UserContext, loginUser } from "../context/UserContext";
+import { ReducerContext } from "../types";
+import { UserContext } from "../context/UserContext";
+import { handleUser } from "../context/actions/UserActions";
 
 // Logo
 import RantLogo from "../assets/images/RantLogoTransparent.png";
@@ -13,24 +14,12 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
-interface LogInErrors {
-  email: string;
-  password: string;
-  general: string;
-}
-
 interface Props extends RouteComponentProps<any> {}
 
 export const LogIn: React.FC<Props> = ({ history }) => {
-  // Setting State for Email, Password, Loading, and Errors
+  // Setting State for Email and Password (for Form Input)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<LogInErrors>({
-    email: "",
-    password: "",
-    general: ""
-  });
 
   // Importing Context (Global Store)
   const { state, dispatch } = useContext<ReducerContext>(UserContext);
@@ -38,14 +27,14 @@ export const LogIn: React.FC<Props> = ({ history }) => {
   // Handles Submission for Sign Up Form
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    setLoading(true);
+
     const loginCredentials: { [k: string]: string } = {
       email: email,
       password: password
     };
 
     // Logs In User and Adds to Global Store
-    loginUser(loginCredentials, history, setLoading, setErrors, dispatch);
+    handleUser(loginCredentials, history, dispatch, "login");
   };
 
   return (
@@ -61,8 +50,8 @@ export const LogIn: React.FC<Props> = ({ history }) => {
               name="email"
               type="email"
               label="Email"
-              helperText={errors.email}
-              error={errors.email ? true : false}
+              helperText={state.UI.errors.email}
+              error={state.UI.errors.email ? true : false}
               onChange={e => setEmail(e.target.value)}
               fullWidth
             />
@@ -71,13 +60,13 @@ export const LogIn: React.FC<Props> = ({ history }) => {
               name="password"
               type="password"
               label="Password"
-              helperText={errors.password}
-              error={errors.password ? true : false}
+              helperText={state.UI.errors.password}
+              error={state.UI.errors.password ? true : false}
               onChange={e => setPassword(e.target.value)}
               fullWidth
             />
-            {errors.general && (
-              <p className="login-error-text">{errors.general}</p>
+            {state.UI.errors.general && (
+              <p className="login-error-text">{state.UI.errors.general}</p>
             )}
             <p className="sign-up-text">
               Don't have an account? Sign up <Link to="/signup">here</Link>.
@@ -92,16 +81,18 @@ export const LogIn: React.FC<Props> = ({ history }) => {
                 }}
                 type="submit"
                 color="primary"
-                disabled={loading}
+                disabled={state.UI.loading}
                 fullWidth
               >
                 SUBMIT
               </Button>
             </div>
-            {loading && <LinearProgress color="secondary" />}
+            {state.UI.loading && <LinearProgress color="secondary" />}
           </form>
         </div>
       </div>
     </div>
   );
 };
+
+export default LogIn;

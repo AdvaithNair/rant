@@ -27,5 +27,5 @@ export type LogIn = {
 // Context Value Interface
 export type ReducerContext = {
   state: any;
-  dispatch: any;
+  dispatch: ({}) => void;
 };
