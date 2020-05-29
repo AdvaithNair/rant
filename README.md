@@ -5,7 +5,9 @@ RANT! is a Social Media Full Stack Web Application designed for individuals to R
 It utilizes the following technologies:
 * Client
   * ReactJS
-  * React Redux
+  * Axios
+  * DayJS
+  * JWT
 * Server
   * NodeJS
   * ExpressJS
@@ -20,9 +22,9 @@ All code is constructed using Typescript.
 
 ### Technologies Used
 * [ReactJS](https://reactjs.org/)
-* [React Redux](https://redux.js.org/)
 * [Axios](https://github.com/axios/axios)
 * [DayJS](https://github.com/iamkun/dayjs)
+* [JWT](https://jwt.io/)
 * [NodeJS](https://nodejs.org/en/)
 * [ExpressJS](https://expressjs.com/)
 * [Firebase](https://firebase.google.com/)
@@ -34,14 +36,6 @@ Execute these commands to ensure Rant can run properly.
 #### ReactJS
 ```
 npm install react --save
-```
-
-#### React Redux
-```
-npm install redux --save
-npm install redux-thunk --save
-npm install react-redux --save
-npm install @types/react-redux --save
 ```
 
 #### Axios
@@ -87,6 +81,9 @@ firebase init
 * **src** - contains main React code (tsx components)
   * **assets** - assets for the project
     * **images** - various static images for the site (such as logo)
+    * **themes** - themes for Material UI
+  * **context** - Redux-style global storage using React Context API
+    * **actions** - functions for global storage
   * **pages** - files containing components for each page
     * **components** - micro-components used for each main page
 
