@@ -58,3 +58,5 @@ export const Rant: React.FC<Props> = ({ data }) => {
     </div>
   );
 };
+
+export default Rant;

@@ -1,34 +1,58 @@
-import React, { useState, useEffect } from "react";
-import { RantData } from "../types";
+import React, { useState, useContext, useEffect } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+// Context
+import { ReducerContext } from "../types";
+import { UserContext } from "../context/UserContext";
+import { logoutUser, getUserData } from "../context/actions/UserActions";
+import { SET_LOADING, CLEAR_LOADING, SET_USER } from "../context/ReducerTypes";
 
 // Components
 import Header from "./components/Header";
-import { Rant } from "./components/Rant";
+import Rant from "./components/Rant";
+
+// Pages
+import Feed from "./Feed";
+import Profile from "./Profile";
+
+// JWT
+import jwtDecode from "jwt-decode";
 
 // Axios
 import axios from "axios";
 
-export const Home: React.FC = () => {  
-  // Setting State for Rant Data
-  const [rantData, setRantData] = useState([]);
+// Material UI
+import { CircularProgress } from "@material-ui/core";
+
+export const Home: React.FC = () => {
+  // Importing Context (Global Store)
+  const { state, dispatch } = useContext<ReducerContext>(UserContext);
 
   // On Component Mount, Request All Rants
   useEffect(() => {
-    axios
-      .get("/get/all_rants")
-      .then(res => {
-        setRantData(res.data);
-      })
-      .catch((err: Error) => console.log(err));
-  }, []);
+    // Check if Authenticated and Update Context Accordingly
+    const token = localStorage.firebaseAuthToken;
+    if (token) {
+      const decodedToken: { [k: string]: any } = jwtDecode(token);
+      if (decodedToken.exp * 1000 < Date.now()) {
+        window.location.href = "/";
+        logoutUser(dispatch);
+      } else {
+        axios.defaults.headers.common["Authorization"] = token;
+        getUserData(dispatch);
+      }
+    }
+  }, [dispatch]);
 
   return (
     <div style={{ display: "block" }}>
       <Header />
-      <div className="search-bar"></div>
-      {rantData.map((rant: RantData) => (
-        <Rant key={rant.rantID} data={rant} />
-      ))}
+      <div className="main-content">
+        <Switch>
+          <Route path="/home/profile" component={Profile} />
+          <Route path="/home" component={Feed} />
+        </Switch>
+      </div>
       <div className="footer">
         <p>
           A VIB<b>RANT</b> EXPERIENCE
@@ -36,6 +60,15 @@ export const Home: React.FC = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Home;
+
+/*
+     <Router>
+          <Switch>
+            <Route exact path="/home" component={Feed} />
+            <Route exact path="/profile" component={Profile} />
+          </Switch>
+        </Router>
+*/

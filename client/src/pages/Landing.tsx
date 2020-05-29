@@ -7,7 +7,8 @@ import RantLogo from "../assets/images/RantLogoTransparent.png";
 // Material UI
 import Button from "@material-ui/core/Button";
 
-export const Landing: React.FC = () => {  return (
+export const Landing: React.FC = () => {
+  return (
     <div style={{ display: "block" }}>
       <div className="background-image"></div>
       <div className="landing-content">
@@ -45,6 +46,6 @@ export const Landing: React.FC = () => {  return (
       </div>
     </div>
   );
-}
+};
 
 export default Landing;

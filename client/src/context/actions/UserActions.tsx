@@ -58,24 +58,58 @@ export const handleUser = (
 };
 
 // Gets User Data
+// TODO: Possibly change this due to security concerns?
 export const getUserData = (
+  dispatch: (argument: { [k: string]: string }) => void
+) => {
+  if (localStorage.userData) {
+    dispatch({
+      type: SET_USER,
+      payload: JSON.parse(localStorage.userData || "{}")
+    });
+  } else {
+    updateUserData(dispatch);
+  }
+};
+
+// Updates User Data
+export const updateUserData = (
   dispatch: (argument: { [k: string]: string }) => void
 ) => {
   axios
     .get("/user")
     .then((res: any) => {
       // Stores User Info in Global State through Reducer
-      console.log(res.data.userData);
       dispatch({
         type: SET_USER,
         payload: res.data.userData
       });
+      localStorage.setItem("userData", JSON.stringify(res.data.userData));
+    })
+    .catch((err: any) => console.log(err));
+};
+
+// Uploads Image
+export const uploadImage = (
+  dispatch: (argument: { [k: string]: string }) => void,
+  formData: any
+) => {
+  axios
+    .post("/user/image", formData)
+    .then(() => {
+      updateUserData(dispatch);
+      axios
+        .get("/get/all_rants")
+        .then(res => {
+          localStorage.setItem("rantData", JSON.stringify(res.data));
+        })
+        .catch((err: Error) => console.log(err));
     })
     .catch((err: any) => console.log(err));
 };
 
 // Logs Out User
-export const logoutUser = () => (dispatch: any) => {
+export const logoutUser = (dispatch: any) => {
   localStorage.removeItem("firebaseAuthToken");
   delete axios.defaults.headers.common["Authorization"];
   dispatch({ type: SET_UNAUTHENTICATED });

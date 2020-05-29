@@ -14,8 +14,8 @@ import {
 
 // Context Creation
 export const UserContext = createContext<ReducerContext>({
-  state: null,
-  dispatch: () => {}
+  state: {},
+  dispatch: (argument: {[k: string]: any}) => {}
 });
 
 // Initial Error Object
@@ -56,7 +56,7 @@ function reducer(state: any, action: any) {
         authenticated: true,
         credentials: action.payload.about,
         likes: action.payload.likes,
-        notifications: action.payload.notifications,
+        notifications: action.payload.notifications
       };
     case SET_ERRORS:
       return {
