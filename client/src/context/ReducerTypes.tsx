@@ -10,3 +10,7 @@ export const SET_ERRORS = 'SET_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const SET_LOADING = 'SET_LOADING';
 export const CLEAR_LOADING = 'CLEAR_LOADING';
+
+// Likes
+export const LIKE_RANT = 'LIKE_RANT';
+export const UNLIKE_RANT = 'UNLIKE_RANT';

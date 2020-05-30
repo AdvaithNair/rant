@@ -6,11 +6,16 @@ import {
   SET_ERRORS,
   CLEAR_ERRORS,
   SET_LOADING,
-  CLEAR_LOADING
+  CLEAR_LOADING,
+  LIKE_RANT,
+  UNLIKE_RANT
 } from "../ReducerTypes";
 
 // Axios
 import axios from "axios";
+
+// JWT
+import jwtDecode from "jwt-decode";
 
 // Adds Authorization Axios Header for Further Requests
 const setAuthorizationHeader = (token: string) => {
@@ -170,4 +175,46 @@ const checkCredentials = (
   dispatch({ type: SET_ERRORS, payload: errors });
   if (toTerminate) dispatch({ type: CLEAR_LOADING });
   return toTerminate;
+};
+
+// Sends Database Request to Toggle Like
+export const toggleLikeRequest = (
+  dispatch: (argument: { [k: string]: any }) => void,
+  rantID: string,
+  isLiked: boolean
+) => {
+  axios
+    .get(`/rant/like/${rantID}`)
+    .then((res: any) => {
+      if (isLiked) dispatch({ type: UNLIKE_RANT, payload: res.data });
+      else dispatch({ type: LIKE_RANT, payload: res.data });
+      //updateUserData(dispatch);
+      getRantData();
+    })
+    .catch((err: any) => console.log(err));
+};
+
+// Retreives Rant Data from Database
+export const getRantData = () => {
+  axios
+    .get("/get/all_rants")
+    .then((res: any) => {
+      localStorage.setItem("rantData", JSON.stringify(res.data));
+    })
+    .catch((err: Error) => console.log(err));
+};
+
+// Check if Authenticated and Update Context Accordingly
+export const checkAuth = (dispatch: any) => {
+  const token = localStorage.firebaseAuthToken;
+  if (token) {
+    const decodedToken: { [k: string]: any } = jwtDecode(token);
+    if (decodedToken.exp * 1000 < Date.now()) {
+      window.location.href = "/";
+      logoutUser(dispatch);
+    } else {
+      axios.defaults.headers.common["Authorization"] = token;
+      updateUserData(dispatch);
+    }
+  }
 };

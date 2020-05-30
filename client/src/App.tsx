@@ -10,7 +10,6 @@ import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
-import Profile from "./pages/Profile";
 
 // Components
 import { AuthRoute } from "./pages/components/AuthRoute";

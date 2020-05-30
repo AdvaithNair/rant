@@ -1,19 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
 
 // Context
 import { ReducerContext } from "../types";
 import { UserContext } from "../context/UserContext";
 import { updateUserData, uploadImage } from "../context/actions/UserActions";
 
-// Logo
-import RantLogo from "../assets/images/RantLogoTransparent.png";
-
 // DayJS
 import dayjs from "dayjs";
-
-// Components
-import Header from "./components/Header";
 
 // Axios
 import axios from "axios";
@@ -48,9 +41,8 @@ export const Profile: React.FC = () => {
   // On Component Mount Set Local States
   useEffect(() => {
     // WARNING: Be careful about this part, local storage is not reliable
-    const localData = JSON.parse(localStorage.getItem("userData") || "{}");
-    setBio(localData.about.bio);
-    setWebsite(localData.about.website);
+    setBio(state.credentials.bio);
+    setWebsite(state.credentials.website);
   }, [setBio, setWebsite]);
 
   // Formats Wesbite Entry

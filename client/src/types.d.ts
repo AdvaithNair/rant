@@ -4,8 +4,8 @@ export type RantData = {
   handle: string;
   title: string;
   body: string;
-  likeCount: Number;
-  commentCount: Number;
+  likeCount: number;
+  commentCount: number;
   createdAt: string;
   imageURL: string;
 };

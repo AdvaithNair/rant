@@ -29,14 +29,16 @@ export default function Header() {
         <AppBar color="primary">
           <Toolbar>
             <div className="header-content">
-              <img
-                src={RantLogo}
-                className="header-logo"
-                alt="Rant Logo"
-                onClick={() => {
-                  window.location.href = "/home";
-                }}
-              ></img>
+              <Tooltip title="Home" placement="bottom">
+                <img
+                  src={RantLogo}
+                  className="header-logo"
+                  alt="Rant Logo"
+                  onClick={() => {
+                    window.location.href = "/home";
+                  }}
+                ></img>
+              </Tooltip>
               <div className="content-right">
                 <div className="spacer">
                   <Tooltip title="Create Rant" placement="bottom">

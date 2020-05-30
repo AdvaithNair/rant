@@ -9,11 +9,9 @@ import { SET_LOADING, CLEAR_LOADING } from "../context/ReducerTypes";
 // Components
 import { Rant } from "./components/Rant";
 
-// Axios
-import axios from "axios";
-
 // Material UI
 import { CircularProgress } from "@material-ui/core";
+import { getRantData, checkAuth } from "../context/actions/UserActions";
 
 export const Feed: React.FC = () => {
   // Setting State for Rant Data
@@ -24,27 +22,15 @@ export const Feed: React.FC = () => {
 
   // On Component Mount, Request All Rants
   useEffect(() => {
-    // Gets all Rants
+    // Gets all Rants if it's not in the local storage
     // TODO: Fix Dispatch to include loading
-    if (localStorage.rantData) {
-      dispatch({ type: SET_LOADING });
-      const localRantData = JSON.parse(
-        localStorage.getItem("rantData") || "{}"
-      );
-      setRantData(localRantData);
-      dispatch({ type: CLEAR_LOADING });
-    } else {
-      dispatch({ type: SET_LOADING });
-      //console.log(state.UI.loading);
-      axios
-        .get("/get/all_rants")
-        .then(res => {
-          setRantData(res.data);
-          localStorage.setItem("rantData", JSON.stringify(res.data));
-        })
-        .catch((err: Error) => console.log(err));
-      dispatch({ type: CLEAR_LOADING });
-    }
+    // TODO: Run getRantData every time regardless, just keeping it right now for testing
+    // On Component Mount, Check User Auth State
+    //checkAuth(dispatch);
+    dispatch({ type: SET_LOADING });
+    if (!localStorage.getItem("rantData")) getRantData();
+    setRantData(JSON.parse(localStorage.getItem("rantData") || "{}"));
+    dispatch({ type: CLEAR_LOADING });
   }, [dispatch]);
 
   return (

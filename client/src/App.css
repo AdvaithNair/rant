@@ -331,9 +331,16 @@ COMPONENTS ---------------------------------------------------------------------
   font-style: normal;
 }
 
+.rant-credits-info h2 {
+}
+
 .rant-credits-info h3 {
-  margin-top: -10px;
+  margin-top: -20px;
   color: #39CCCC;
+}
+
+.rant-credits-info p {
+  margin-top: -11px;
 }
 
 .rant-credits-date {
@@ -341,6 +348,7 @@ COMPONENTS ---------------------------------------------------------------------
   right: 0;
   top: 0;
   text-align: right;
+  margin-top: 5px;
 }
 
 .rant-credits-date p {
@@ -351,6 +359,28 @@ COMPONENTS ---------------------------------------------------------------------
   margin-left: 20px;
   margin-right: 20px;
   padding-bottom: 20px;
+}
+
+.rant-info {
+  margin-top: 0px;
+  display: inline-block;
+  width: 100%;
+}
+
+.rant-info span {
+  width: 20px;
+  margin-right: 30px;
+  margin-left: 5px;
+  font-weight: 600;
+}
+
+.rant-like-icon {
+  margin-right: -40px;
+}
+
+.comment-section {
+  margin-top: 20px;
+  display: flex;
 }
 
 /* Header Component ------------------------------- */

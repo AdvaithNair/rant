@@ -9,13 +9,15 @@ import {
   SET_ERRORS,
   CLEAR_ERRORS,
   SET_LOADING,
-  CLEAR_LOADING
+  CLEAR_LOADING,
+  LIKE_RANT,
+  UNLIKE_RANT
 } from "./ReducerTypes";
 
 // Context Creation
 export const UserContext = createContext<ReducerContext>({
   state: {},
-  dispatch: (argument: {[k: string]: any}) => {}
+  dispatch: (argument: { [k: string]: any }) => {}
 });
 
 // Initial Error Object
@@ -89,6 +91,25 @@ function reducer(state: any, action: any) {
           loading: false,
           errors: state.UI.errors
         }
+      };
+    case LIKE_RANT:
+      return {
+        ...state,
+        likes: [
+            ...state.likes,
+            {
+                handle: state.credentials.handle,
+                rantID: action.payload.rantID,
+                userName: action.payload.userName
+            }
+        ]
+      };
+    case UNLIKE_RANT:
+      return {
+        ...state,
+        likes: state.likes.filter(
+          (like: any) => like.rantID !== action.payload.rantID
+        )
       };
     default:
       return state;
