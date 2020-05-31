@@ -7,6 +7,8 @@ import {
   CLEAR_ERRORS,
   SET_LOADING,
   CLEAR_LOADING,
+  SET_RANTS,
+  ADD_RANT,
   LIKE_RANT,
   UNLIKE_RANT
 } from "../ReducerTypes";
@@ -189,17 +191,22 @@ export const toggleLikeRequest = (
       if (isLiked) dispatch({ type: UNLIKE_RANT, payload: res.data });
       else dispatch({ type: LIKE_RANT, payload: res.data });
       //updateUserData(dispatch);
-      getRantData();
+      // TODO: Comment this out?
+      getRantData(dispatch);
     })
     .catch((err: any) => console.log(err));
 };
 
 // Retreives Rant Data from Database
-export const getRantData = () => {
+export const getRantData = (
+  dispatch: (argument: { [k: string]: any }) => void
+) => {
   axios
     .get("/get/all_rants")
     .then((res: any) => {
+      console.log(res.data);
       localStorage.setItem("rantData", JSON.stringify(res.data));
+      dispatch({ type: SET_RANTS, payload: res.data });
     })
     .catch((err: Error) => console.log(err));
 };
@@ -217,4 +224,34 @@ export const checkAuth = (dispatch: any) => {
       updateUserData(dispatch);
     }
   }
+};
+
+// Creates Rant
+export const postRant = (
+  rantObject: { [k: string]: any },
+  dispatch: (argument: { [k: string]: any }) => void,
+  state: { [k: string]: any }
+) => {
+  axios
+    .post("/create/rant", rantObject)
+    .then((res: any) => {
+      dispatch({ type: ADD_RANT, payload: res.data });
+      localStorage.setItem("rantData", JSON.stringify(state.rants));
+      // Update Local Storage
+    })
+    .catch((err: Error) => console.log(err));
+};
+
+// Deletes Rant
+export const deleteRant = (
+  rantID: string,
+  dispatch: (argument: { [k: string]: any }) => void
+) => {
+  axios
+    .delete(`/delete/rant/${rantID}`)
+    .then(() => {
+      // Replace this with state change
+      getRantData(dispatch);
+    })
+    .catch((err: Error) => console.log(err));
 };

@@ -42,7 +42,11 @@ export default function Header() {
               <div className="content-right">
                 <div className="spacer">
                   <Tooltip title="Create Rant" placement="bottom">
-                    <IconButton>
+                    <IconButton
+                      onClick={() => {
+                        window.location.href = "/home/create";
+                      }}
+                    >
                       <AddCircleIcon color="action" style={{ fontSize: 40 }} />
                     </IconButton>
                   </Tooltip>

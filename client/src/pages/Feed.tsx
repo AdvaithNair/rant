@@ -4,14 +4,14 @@ import { RantData } from "../types";
 // Context
 import { ReducerContext } from "../types";
 import { UserContext } from "../context/UserContext";
-import { SET_LOADING, CLEAR_LOADING } from "../context/ReducerTypes";
+import { SET_LOADING, CLEAR_LOADING, SET_RANTS } from "../context/ReducerTypes";
 
 // Components
 import { Rant } from "./components/Rant";
 
 // Material UI
 import { CircularProgress } from "@material-ui/core";
-import { getRantData, checkAuth } from "../context/actions/UserActions";
+import { getRantData, checkAuth, deleteRant } from "../context/actions/UserActions";
 
 export const Feed: React.FC = () => {
   // Setting State for Rant Data
@@ -28,10 +28,13 @@ export const Feed: React.FC = () => {
     // On Component Mount, Check User Auth State
     //checkAuth(dispatch);
     dispatch({ type: SET_LOADING });
-    if (!localStorage.getItem("rantData")) getRantData();
+    if (!localStorage.getItem("rantData")) getRantData(dispatch);
     setRantData(JSON.parse(localStorage.getItem("rantData") || "{}"));
+    dispatch({types: SET_RANTS, payload: JSON.parse(localStorage.getItem("rantData") || "{}")})
+    //setRantData(state.rants);
     dispatch({ type: CLEAR_LOADING });
-  }, [dispatch]);
+    console.log("CALLED");
+  }, []);
 
   return (
     <div style={{ display: "block" }}>

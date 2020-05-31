@@ -118,7 +118,7 @@ export const Profile: React.FC = () => {
   };
 
   return (
-    <div style={{ display: "block", width: "80%", margin: "0 auto" }}>
+    <div className = 'main-home-content'>
       <h1>PROFILE</h1>
       <div className="profile-card">
         <div className="profile-card-content">
@@ -195,7 +195,6 @@ export const Profile: React.FC = () => {
                   type="text"
                   label="Bio"
                   multiline
-                  rows="3"
                   placeholder="A Short Bio About Yourself"
                   value={bio}
                   onChange={e => setBio(e.target.value)}

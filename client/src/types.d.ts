@@ -10,6 +10,12 @@ export type RantData = {
   imageURL: string;
 };
 
+export type ManipulateRantData = {
+  pageTitle: string;
+  title: string;
+  body: string;
+};
+
 export type SignUp = {
   firstName: string;
   lastName: string;

@@ -139,6 +139,7 @@ PAGES --------------------------------------------------------------------------
 }
 
 /* Log In Page ------------------------------- */
+
 .login-error-text {
   color: red;
   text-align: center;
@@ -154,6 +155,7 @@ PAGES --------------------------------------------------------------------------
 }
 
 /* Profile Page ------------------------------- */
+
 .profile-card {
   margin: 0 auto;
   border: solid 3px transparent;
@@ -210,7 +212,7 @@ PAGES --------------------------------------------------------------------------
   border-radius: 100%;
   opacity: 0;
   transition: .2s ease;
-  background-color: rgba(255,255,255,0.5);
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .profile-card-image-container:hover .profile-card-image-overlay {
@@ -226,9 +228,11 @@ PAGES --------------------------------------------------------------------------
 .upload-profile-picture {
   color: transparent;
 }
+
 .upload-profile-picture::-webkit-file-upload-button {
   visibility: hidden;
 }
+
 .upload-profile-picture::before {
   content: 'Select Image';
   color: white;
@@ -246,9 +250,26 @@ PAGES --------------------------------------------------------------------------
 .upload-profile-picture:active {
   outline-style: none;
 }
+
 .upload-profile-picture:active::before {
-  background: #F012BE; 
+  background: #F012BE;
 }
+
+/* Manipulate Rant Page ------------------------------- */
+.manipulate-submit-section {
+  margin-top: 20px;
+  display: block;
+}
+
+.manipulate-anonymous {
+  display: inline-flex;
+}
+
+.manipulate-anonymous-switch {
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
 
 /*
 COMPONENTS ----------------------------------------------------------------------------------------------------------------------------------------------
@@ -331,8 +352,7 @@ COMPONENTS ---------------------------------------------------------------------
   font-style: normal;
 }
 
-.rant-credits-info h2 {
-}
+.rant-credits-info h2 {}
 
 .rant-credits-info h3 {
   margin-top: -20px;
@@ -381,6 +401,12 @@ COMPONENTS ---------------------------------------------------------------------
 .comment-section {
   margin-top: 20px;
   display: flex;
+}
+
+.main-home-content {
+  display: block;
+  width: 80%;
+  margin: 0 auto;
 }
 
 /* Header Component ------------------------------- */

@@ -1,10 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { RantData } from "../../types";
 
 // Context
 import { ReducerContext } from "../../types";
 import { UserContext } from "../../context/UserContext";
-import { toggleLikeRequest } from "../../context/actions/UserActions";
+import { toggleLikeRequest, deleteRant } from "../../context/actions/UserActions";
 
 // Material UI
 import MoreVertIcon from "@material-ui/icons/MoreVert";
@@ -13,9 +13,16 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ChatIcon from "@material-ui/icons/Chat";
 import TextField from "@material-ui/core/TextField";
-import InputBase from '@material-ui/core/InputBase';
 import Button from "@material-ui/core/Button";
-import Divider from '@material-ui/core/Divider';
+import Divider from "@material-ui/core/Divider";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import Popover from "@material-ui/core/Popover";
+import MenuItem from "@material-ui/core/MenuItem";
+import MenuList from "@material-ui/core/MenuList";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 // DayJS
 import dayjs from "dayjs";
@@ -26,6 +33,7 @@ interface Props {
   data: RantData;
 }
 
+// TODO: Break this up into components
 export const Rant: React.FC<Props> = ({ data }) => {
   // Importing Context (Global Store)
   const { state, dispatch } = useContext<ReducerContext>(UserContext);
@@ -39,6 +47,9 @@ export const Rant: React.FC<Props> = ({ data }) => {
       ? true
       : false
   );
+  const [menu, setMenu] = useState<boolean>(false);
+  const [anchor, setAnchor] = useState(null);
+  const [dialog, setDialog] = useState<boolean>(false);
 
   // Liked Componenets
   const isLiked: JSX.Element = (
@@ -79,6 +90,35 @@ export const Rant: React.FC<Props> = ({ data }) => {
     return dayjs(date).fromNow();
   };
 
+  // On Click of Menu
+  const handleClick = (event: any) => {
+    setMenu(true);
+    setAnchor(event.currentTarget);
+  };
+
+  // On Close of Menu (or Click Away)
+  const handleClose = () => {
+    setMenu(false);
+    setAnchor(null);
+  };
+
+  // Opens Delete Dialog
+  const handleDelete = () => {
+    setDialog(true);
+    setMenu(false);
+  };
+
+  // Closes Delete Dialog
+  const handleDeleteClose = () => {
+    setDialog(false);
+  };
+
+  // Deletes Object
+  const handleDeleteSubmit = () => {
+    deleteRant(data.rantID, dispatch);
+    handleDeleteClose();
+  };
+
   return (
     <div className="rant-body">
       <div className="rant-title">
@@ -86,9 +126,44 @@ export const Rant: React.FC<Props> = ({ data }) => {
           <h1>{data.title}</h1>
         </div>
         <div className="more-icon">
-          <IconButton>
-            <MoreVertIcon style={{ color: "white" }} />
-          </IconButton>
+          {state.credentials.handle === data.handle && (
+            <IconButton onClick={handleClick}>
+              <MoreVertIcon style={{ color: "white" }} />
+            </IconButton>
+          )}
+          <Popover
+            open={menu}
+            anchorEl={anchor}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right"
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right"
+            }}
+          >
+            <ClickAwayListener onClickAway={handleClose}>
+              <MenuList autoFocusItem={menu}>
+                <MenuItem onClick={handleClose}>Edit</MenuItem>
+                <MenuItem onClick={handleDelete}>Delete</MenuItem>
+              </MenuList>
+            </ClickAwayListener>
+          </Popover>
+          <Dialog open={dialog} onClose={handleDeleteClose}>
+            <DialogTitle>Delete Rant</DialogTitle>
+            <DialogContent>
+              Are you sure you want to delete this rant?
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleDeleteClose} color="primary">
+                Cancel
+              </Button>
+              <Button onClick={handleDeleteSubmit} style = {{color: 'red'}}>
+                Delete
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
       </div>
       <div className="rant-credits">
@@ -120,12 +195,15 @@ export const Rant: React.FC<Props> = ({ data }) => {
           <span>{data.commentCount}</span>
         </div>
         <div className="comment-section">
-          <TextField
-            placeholder="Comment..."
-            fullWidth
-          />
+          <TextField placeholder="Comment..." fullWidth />
           <Divider orientation="vertical" />
-          <Button style = {{width: '50px', color: '#39CCCC', marginLeft: '20px'}}>Add</Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            style={{ width: "50px", marginLeft: "20px" }}
+          >
+            Add
+          </Button>
         </div>
       </div>
     </div>

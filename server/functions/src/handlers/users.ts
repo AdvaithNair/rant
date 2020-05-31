@@ -49,7 +49,7 @@ exports.signUp = (req: express.Request, res: express.Response) => {
     .then((doc: any) => {
       // Checks Handle
       if (doc.exists)
-        return res.status(400).json({ handle: "This Handle is Already Taken" });
+        return res.status(400).json({ handle: "This Username is Already Taken" });
       // Initial Sign Up
       return firebase
         .auth()

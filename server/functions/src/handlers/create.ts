@@ -15,12 +15,14 @@ exports.createRant = (req: express.Request, res: express.Response) => {
     return;
   }
 
+  const blankImage = 'https://firebasestorage.googleapis.com/v0/b/rant-dd853.appspot.com/o/no-img.png?alt=media';
+
   // New Rant Object
   const newRant: { [k: string]: any } = {
-    userName: req.user.userName,
-    userID: req.user.uid,
-    handle: req.user.handle,
-    imageURL: req.user.imageURL,
+    userName: req.body.anonymous ? 'Anonymous' : req.user.userName,
+    userID: req.body.anonymous ? 'anonymous' : req.user.uid,
+    handle: req.body.anonymous ? 'anonymous' : req.user.handle,
+    imageURL: req.body.anonymous ? blankImage : req.user.imageURL,
     title: req.body.title,
     body: req.body.body,
     likeCount: 0,

@@ -10,6 +10,8 @@ import {
   CLEAR_ERRORS,
   SET_LOADING,
   CLEAR_LOADING,
+  SET_RANTS,
+  ADD_RANT,
   LIKE_RANT,
   UNLIKE_RANT
 } from "./ReducerTypes";
@@ -39,7 +41,8 @@ const initialState = {
   UI: {
     loading: false,
     errors: initialErrors
-  }
+  },
+  rants: []
 };
 
 // Reducer Function
@@ -92,16 +95,40 @@ function reducer(state: any, action: any) {
           errors: state.UI.errors
         }
       };
+    case SET_RANTS:
+      console.log("GOT HERE");
+      return {
+        ...state,
+        rants: action.payload
+      };
+    case ADD_RANT:
+      return {
+        ...state,
+        rants: [
+          ...state.rants,
+          {
+            title: action.payload.title,
+            body: action.payload.body,
+            handle: action.payload.handle,
+            userName: action.payload.userName,
+            createdAt: action.payload.createdAt,
+            imageURL: action.payload.imageURL,
+            likeCount: action.payload.likeCount,
+            commentCount: action.payload.commentCount,
+            rantID: action.payload.rantID
+          }
+        ]
+      };
     case LIKE_RANT:
       return {
         ...state,
         likes: [
-            ...state.likes,
-            {
-                handle: state.credentials.handle,
-                rantID: action.payload.rantID,
-                userName: action.payload.userName
-            }
+          ...state.likes,
+          {
+            handle: state.credentials.handle,
+            rantID: action.payload.rantID,
+            userName: action.payload.userName
+          }
         ]
       };
     case UNLIKE_RANT:
