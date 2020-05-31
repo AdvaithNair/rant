@@ -25,8 +25,7 @@ export const Feed: React.FC = () => {
     // Gets all Rants if it's not in the local storage
     // TODO: Fix Dispatch to include loading
     // TODO: Run getRantData every time regardless, just keeping it right now for testing
-    // On Component Mount, Check User Auth State
-    //checkAuth(dispatch);
+    // TODO: replace rantData.map with state.rants.map
     dispatch({ type: SET_LOADING });
     if (!localStorage.getItem("rantData")) getRantData(dispatch);
     setRantData(JSON.parse(localStorage.getItem("rantData") || "{}"));
