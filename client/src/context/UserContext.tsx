@@ -6,12 +6,15 @@ import {
   SET_AUTHENTICATED,
   SET_UNAUTHENTICATED,
   SET_USER,
+  UPDATE_USER,
+  UPDATE_USER_IMAGE,
   SET_ERRORS,
   CLEAR_ERRORS,
   SET_LOADING,
   CLEAR_LOADING,
   SET_RANTS,
   ADD_RANT,
+  DELETE_RANT,
   LIKE_RANT,
   UNLIKE_RANT
 } from "./ReducerTypes";
@@ -23,7 +26,7 @@ export const UserContext = createContext<ReducerContext>({
 });
 
 // Initial Error Object
-const initialErrors = {
+const initialErrors: { [k: string]: string } = {
   firstName: "",
   handle: "",
   email: "",
@@ -33,7 +36,7 @@ const initialErrors = {
 };
 
 // Initial State Object
-const initialState = {
+const initialState: { [k: string]: any } = {
   authenticated: false,
   credentials: {},
   likes: [],
@@ -62,6 +65,23 @@ function reducer(state: any, action: any) {
         credentials: action.payload.about,
         likes: action.payload.likes,
         notifications: action.payload.notifications
+      };
+    case UPDATE_USER:
+      return {
+        ...state,
+        credentials: {
+          ...state.credentials,
+          bio: action.payload.bio,
+          website: action.payload.website
+        }
+      };
+    case UPDATE_USER_IMAGE:
+      return {
+        ...state,
+        credentials: {
+          ...state.credentials,
+          imageURL: action.payload
+        }
       };
     case SET_ERRORS:
       return {
@@ -96,7 +116,6 @@ function reducer(state: any, action: any) {
         }
       };
     case SET_RANTS:
-      console.log("GOT HERE");
       return {
         ...state,
         rants: action.payload
@@ -105,7 +124,6 @@ function reducer(state: any, action: any) {
       return {
         ...state,
         rants: [
-          ...state.rants,
           {
             title: action.payload.title,
             body: action.payload.body,
@@ -116,8 +134,17 @@ function reducer(state: any, action: any) {
             likeCount: action.payload.likeCount,
             commentCount: action.payload.commentCount,
             rantID: action.payload.rantID
-          }
+          },
+          ...state.rants
         ]
+      };
+    case DELETE_RANT:
+      let index = state.rants.findIndex(
+        (rant: { [k: string]: any }) => rant.rantID === action.payload
+      );
+      state.rants.splice(index, 1);
+      return {
+        ...state
       };
     case LIKE_RANT:
       return {
@@ -149,9 +176,10 @@ export const UserProvider = (props: any) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   // Memo for Efficiency
-  const contextValue = useMemo(() => {
+  /*const contextValue = useMemo(() => {
     return { state, dispatch };
-  }, [state, dispatch]);
+  }, [state, dispatch]);*/
+  const contextValue = { state, dispatch };
 
   // Provider Wrapping
   return (

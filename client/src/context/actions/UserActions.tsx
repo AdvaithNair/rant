@@ -3,12 +3,15 @@ import {
   //SET_AUTHENTICATED,
   SET_UNAUTHENTICATED,
   SET_USER,
+  UPDATE_USER,
+  UPDATE_USER_IMAGE,
   SET_ERRORS,
   CLEAR_ERRORS,
   SET_LOADING,
   CLEAR_LOADING,
   SET_RANTS,
   ADD_RANT,
+  DELETE_RANT,
   LIKE_RANT,
   UNLIKE_RANT
 } from "../ReducerTypes";
@@ -101,16 +104,14 @@ export const uploadImage = (
   dispatch: (argument: { [k: string]: string }) => void,
   formData: any
 ) => {
+  dispatch({ type: SET_LOADING });
   axios
     .post("/user/image", formData)
-    .then(() => {
-      updateUserData(dispatch);
-      axios
-        .get("/get/all_rants")
-        .then(res => {
-          localStorage.setItem("rantData", JSON.stringify(res.data));
-        })
-        .catch((err: Error) => console.log(err));
+    .then((res: any) => {
+      dispatch({ type: UPDATE_USER_IMAGE, payload: res.data.imageURL });
+      getRantData(dispatch);
+      dispatch({ type: CLEAR_LOADING });
+      window.location.reload(false);
     })
     .catch((err: any) => console.log(err));
 };
@@ -201,12 +202,14 @@ export const toggleLikeRequest = (
 export const getRantData = (
   dispatch: (argument: { [k: string]: any }) => void
 ) => {
+  dispatch({ type: SET_LOADING });
   axios
     .get("/get/all_rants")
     .then((res: any) => {
-      console.log(res.data);
-      localStorage.setItem("rantData", JSON.stringify(res.data));
+      // TODO: Possibly remove local storage
+      //localStorage.setItem("rantData", JSON.stringify(res.data));
       dispatch({ type: SET_RANTS, payload: res.data });
+      dispatch({ type: CLEAR_LOADING });
     })
     .catch((err: Error) => console.log(err));
 };
@@ -232,11 +235,13 @@ export const postRant = (
   dispatch: (argument: { [k: string]: any }) => void,
   state: { [k: string]: any }
 ) => {
+  dispatch({ type: SET_LOADING });
   axios
     .post("/create/rant", rantObject)
     .then((res: any) => {
-      dispatch({ type: ADD_RANT, payload: res.data });
+      dispatch({ type: ADD_RANT, payload: res.data.newRant });
       localStorage.setItem("rantData", JSON.stringify(state.rants));
+      dispatch({ type: CLEAR_LOADING });
       // Update Local Storage
     })
     .catch((err: Error) => console.log(err));
@@ -247,11 +252,33 @@ export const deleteRant = (
   rantID: string,
   dispatch: (argument: { [k: string]: any }) => void
 ) => {
+  dispatch({ type: SET_LOADING });
   axios
     .delete(`/delete/rant/${rantID}`)
     .then(() => {
       // Replace this with state change
-      getRantData(dispatch);
+      // getRantData(dispatch);
+      dispatch({ type: DELETE_RANT, payload: rantID });
+      dispatch({ type: CLEAR_LOADING });
     })
     .catch((err: Error) => console.log(err));
+};
+
+// Edits User Details
+export const editUserDetails = (
+  dispatch: (argument: { [k: string]: any }) => void,
+  userData: { [k: string]: string }
+) => {
+  dispatch({ type: SET_LOADING });
+  axios
+    .post("/user/update", userData)
+    .then(() => {
+      dispatch({ type: UPDATE_USER, payload: userData });
+      updateUserData(dispatch);
+      dispatch({ type: CLEAR_LOADING });
+    })
+    .catch((err: any) => {
+      // Error Handling
+      console.log(err);
+    });
 };

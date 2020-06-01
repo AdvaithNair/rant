@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { RouteComponentProps, useHistory } from "react-router-dom";
 
 // Context
 import { ReducerContext } from "../../types";
@@ -19,9 +20,11 @@ import RantLogo from "../../assets/images/RantLogoTransparent.png";
 // Header Theme
 import { headerTheme } from "../../assets/themes/Themes";
 
-export default function Header() {
+export const Header: React.FC = () => {
   // Importing Context (Global Store)
   const { state } = useContext<ReducerContext>(UserContext);
+
+  const history = useHistory();
 
   return (
     <div className="header">
@@ -35,7 +38,7 @@ export default function Header() {
                   className="header-logo"
                   alt="Rant Logo"
                   onClick={() => {
-                    window.location.href = "/home";
+                    history.push('/home');
                   }}
                 ></img>
               </Tooltip>
@@ -44,7 +47,7 @@ export default function Header() {
                   <Tooltip title="Create Rant" placement="bottom">
                     <IconButton
                       onClick={() => {
-                        window.location.href = "/home/create";
+                        history.push('/home/create');
                       }}
                     >
                       <AddCircleIcon color="action" style={{ fontSize: 40 }} />
@@ -67,7 +70,7 @@ export default function Header() {
                       className="header-img"
                       src={state.credentials.imageURL}
                       onClick={() => {
-                        window.location.href = "/home/profile";
+                        history.push('/home/profile');
                       }}
                       alt={state.credentials.userName}
                     ></img>
@@ -81,3 +84,5 @@ export default function Header() {
     </div>
   );
 }
+
+export default Header;

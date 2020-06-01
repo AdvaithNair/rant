@@ -1,14 +1,10 @@
 import React, { useContext, useEffect } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, RouteComponentProps } from "react-router-dom";
 
 // Context
 import { ReducerContext } from "../types";
 import { UserContext } from "../context/UserContext";
-import {
-  logoutUser,
-  updateUserData,
-  checkAuth
-} from "../context/actions/UserActions";
+import { checkAuth, getRantData } from "../context/actions/UserActions";
 
 // Components
 import Header from "./components/Header";
@@ -17,7 +13,6 @@ import Header from "./components/Header";
 import Feed from "./Feed";
 import Profile from "./Profile";
 import CreateRant from "./CreateRant";
-import EditRant from "./EditRant";
 
 // JWT
 import jwtDecode from "jwt-decode";
@@ -25,13 +20,16 @@ import jwtDecode from "jwt-decode";
 // Axios
 import axios from "axios";
 
-export const Home: React.FC = () => {
+interface Props extends RouteComponentProps<any> {}
+
+export const Home: React.FC<Props> = ({ history }) => {
   // Importing Context (Global Store)
   const { dispatch } = useContext<ReducerContext>(UserContext);
 
   // On Component Mount, Check User Auth State
   useEffect(() => {
     checkAuth(dispatch);
+    getRantData(dispatch);
   }, []);
 
   return (
@@ -40,7 +38,9 @@ export const Home: React.FC = () => {
       <div className="main-content">
         <Switch>
           {/* USE FOR EDITRANT <Route path="/home/create" render={(data) => <CreateRant {...data} data = {{pageTitle: 'CREATE RANT', title: '', body: ''}}/>} />*/}
-          <Route path="/home/create" component={CreateRant} />
+          {/*<Route path="/home/create" component={CreateRant} />*/}
+          <Route path="/home/create" render={(data) => <CreateRant {...data} pageTitle = {'CREATE RANT'} isCreate = {true} />} />
+          <Route path="/home/edit" render={(data) => <CreateRant {...data} pageTitle = {'EDIT RANT'} isCreate = {false} />} />
           <Route path="/home/profile" component={Profile} />
           <Route path="/home" component={Feed} />
         </Switch>

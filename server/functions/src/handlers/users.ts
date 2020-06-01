@@ -3,7 +3,7 @@ import * as firebase from "firebase";
 import * as admin from "firebase-admin";
 import * as functions from "firebase-functions";
 
-const { v1: uuidv1 } = require("uuid");
+// const { v1: uuidv1 } = require("uuid");
 const { db } = require("../util/admin");
 const { firebaseConfig } = require("../util/config");
 const {
@@ -153,6 +153,7 @@ exports.uploadImage = (req: express.Request, res: express.Response) => {
   // Variables for Exporting
   let imageFileName: string;
   let imageToBeUploaded: { [k: string]: any } = {};
+  let imageURL: string;
 
   // Reads Image File
   busboy.on(
@@ -176,7 +177,8 @@ exports.uploadImage = (req: express.Request, res: express.Response) => {
       ];
 
       // Creates Unique (Timestamp-Based UUID) File Name
-      imageFileName = `${uuidv1()}.${imageExtension}`;
+      //imageFileName = `${uuidv1()}.${imageExtension}`;
+      imageFileName = `${req.user.handle}.${imageExtension}`;
 
       // Adds Image Data to Upload-Ready Object
       const filepath = path.join(os.tmpdir(), imageFileName);
@@ -201,12 +203,12 @@ exports.uploadImage = (req: express.Request, res: express.Response) => {
       })
       .then(() => {
         // Updates User Image URL in Database
-        const imageURL = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${imageFileName}?alt=media`;
+        imageURL = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${imageFileName}?alt=media`;
         return db.doc(`/users/${req.user.handle}`).update({ imageURL });
       })
       .then(() => {
         // Success Message
-        return res.json({ message: "Image Uploaded Successfully" });
+        return res.json({ message: "Image Uploaded Successfully", imageURL });
       })
       .catch(err => {
         // Returns Errors

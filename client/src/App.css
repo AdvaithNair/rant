@@ -20,6 +20,7 @@ body {
   src: local('Montserrat-Bold'), url(http://fonts.gstatic.com/s/montserrat/v6/IQHow_FEYlDC4Gzy_m8fcvEr6Hm6RMS0v1dtXsGir4g.ttf) format('truetype');
 }
 
+
 /*
 PAGES ----------------------------------------------------------------------------------------------------------------------------------------------
 */
@@ -219,10 +220,27 @@ PAGES --------------------------------------------------------------------------
   opacity: 1;
 }
 
+.loading-profile {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
 .edit-profile-button {
-  width: 150px;
+  width: 200px;
   background-color: #F012BE;
   margin: 0 auto;
+}
+
+.logout-button {
+  width: 200px;
+  background-color: red;
+  margin: 0 auto;
+  margin-top: 10px;
+  transition: 0.3s;
 }
 
 .upload-profile-picture {
@@ -262,14 +280,34 @@ PAGES --------------------------------------------------------------------------
 }
 
 .manipulate-anonymous {
-  display: inline-flex;
+  display: block;
+  margin: 0 auto;
+}
+
+.manipulate-anonymous span {
+  display: block;
+  margin: 0 auto;
+  justify-content: center;
 }
 
 .manipulate-anonymous-switch {
-  margin-top: 5px;
-  margin-left: 5px;
+  margin-top: -15px;
+  display: flex;
+  justify-content: center;
 }
 
+.manipulate-submit-section {
+  display: flex;
+  justify-content: center;
+}
+
+/* Feed Page*/
+.loading-rants {
+  display: flex;
+  margin: auto;
+  margin-top: 20px;
+  width: 80%;
+}
 
 /*
 COMPONENTS ----------------------------------------------------------------------------------------------------------------------------------------------
