@@ -13,7 +13,8 @@ import {
   ADD_RANT,
   DELETE_RANT,
   LIKE_RANT,
-  UNLIKE_RANT
+  UNLIKE_RANT,
+  GET_COMMENTS
 } from "../ReducerTypes";
 
 // Axios
@@ -275,6 +276,24 @@ export const editUserDetails = (
     .then(() => {
       dispatch({ type: UPDATE_USER, payload: userData });
       updateUserData(dispatch);
+      dispatch({ type: CLEAR_LOADING });
+    })
+    .catch((err: any) => {
+      // Error Handling
+      console.log(err);
+    });
+};
+
+export const getRantInfo = (
+  dispatch: (argument: { [k: string]: any }) => void,
+  rantID: string
+) => {
+  dispatch({ type: SET_LOADING });
+  axios
+    .get(`/rant/${rantID}`)
+    .then((res: any) => {
+      console.log(res.data);
+      //dispatch({ type: GET_COMMENTS, payload: res.data });
       dispatch({ type: CLEAR_LOADING });
     })
     .catch((err: any) => {

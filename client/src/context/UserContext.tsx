@@ -16,7 +16,8 @@ import {
   ADD_RANT,
   DELETE_RANT,
   LIKE_RANT,
-  UNLIKE_RANT
+  UNLIKE_RANT,
+  GET_COMMENTS
 } from "./ReducerTypes";
 
 // Context Creation
@@ -165,6 +166,10 @@ function reducer(state: any, action: any) {
           (like: any) => like.rantID !== action.payload.rantID
         )
       };
+    case GET_COMMENTS:
+      return {
+        
+      }
     default:
       return state;
   }

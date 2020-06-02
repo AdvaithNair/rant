@@ -1,15 +1,12 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 
 // Context
 import { ReducerContext } from "../types";
 import { UserContext } from "../context/UserContext";
 import {
-  updateUserData,
-  uploadImage,
   logoutUser
 } from "../context/actions/UserActions";
-import { CLEAR_LOADING } from "../context/ReducerTypes";
 
 // Dialogs
 import EditProfile from "./components/dialogs/EditProfile";
@@ -23,11 +20,6 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import Tooltip from "@material-ui/core/Tooltip";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 type ImageUploadData = { [k: string]: any | string | Blob };
@@ -150,7 +142,7 @@ export const Profile: React.FC = () => {
             </Button>
           </div>
           <EditProfile edit={edit} setEdit={setEdit} />
-          <UploadImage image={image} setImage={setImage} />
+          <UploadImage image={image} setImage={setImage}/>
         </div>
         <div style={{ clear: "both" }}></div>
       </div>

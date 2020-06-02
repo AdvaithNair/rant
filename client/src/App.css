@@ -343,8 +343,9 @@ COMPONENTS ---------------------------------------------------------------------
   padding-left: 20px;
   margin-top: -10px;
   color: white;
-  height: 65px;
-  margin-bottom: 8px;
+  min-height: 65px;
+  margin-bottom: -10px;
+  margin-right: 35px;
 }
 
 .rant-title-text h1 {
@@ -437,7 +438,9 @@ COMPONENTS ---------------------------------------------------------------------
 }
 
 .comment-section {
-  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-bottom: 20px;
   display: flex;
 }
 

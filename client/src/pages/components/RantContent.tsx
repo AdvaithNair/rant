@@ -1,0 +1,149 @@
+import React, { useState, useContext, useEffect } from "react";
+import { RantData } from "../../types";
+import { useHistory } from "react-router-dom";
+
+// Context
+import { ReducerContext } from "../../types";
+import { UserContext } from "../../context/UserContext";
+import { toggleLikeRequest } from "../../context/actions/UserActions";
+
+// Components
+import RantMenu from "./dialogs/RantMenu";
+
+// Material UI
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import IconButton from "@material-ui/core/IconButton";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import ChatIcon from "@material-ui/icons/Chat";
+
+// DayJS
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import { Divider } from "@material-ui/core";
+
+// Props
+interface Props {
+  data: RantData;
+}
+
+// TODO: Break this up into components
+export const RantContent: React.FC<Props> = ({ data }) => {
+  // Importing Context (Global Store)
+  const { state, dispatch } = useContext<ReducerContext>(UserContext);
+
+  // History for Page Traversal
+  const history = useHistory();
+
+  // Local States
+  // TODO: Be careful about userdata local session
+  const [liked, setLiked] = useState<boolean>(
+    JSON.parse(localStorage.userData || "{}").likes.find(
+      (e: any) => e.rantID === data.rantID
+    )
+      ? true
+      : false
+  );
+  const [menu, setMenu] = useState<boolean>(false);
+  const [anchor, setAnchor] = useState<any>(null);
+
+  // Liked Componenets
+  const isLiked: JSX.Element = (
+    <FavoriteIcon style={{ color: "#F012BE", fontSize: "30" }} />
+  );
+  const notLiked: JSX.Element = (
+    <FavoriteBorderIcon style={{ color: "#F012BE", fontSize: "30" }} />
+  );
+
+  // On Component Mount, Renders Like
+  useEffect(() => {}, []);
+
+  // Takes to Individual Rant Page
+  const expandRant = () => {
+    history.push(`/home/rant/${data.rantID}`);
+  };
+
+  // Toggles Like
+  const toggleLike = () => {
+    toggleLikeRequest(dispatch, data.rantID, liked);
+    setLiked(!liked);
+    liked ? data.likeCount-- : data.likeCount++;
+  };
+
+  // Formats Date
+  const formatDate = (date: string): string => {
+    return dayjs(date).format("MMMM D, YYYY");
+  };
+
+  // Formats Time
+  const formatTime = (date: string): string => {
+    return dayjs(date).format("h:mm A");
+  };
+
+  // Formats Relative Time
+  const formatRelative = (date: string): string => {
+    dayjs.extend(relativeTime);
+    return dayjs(date).fromNow();
+  };
+
+  // On Click of Menu
+  const handleClick = (event: any) => {
+    setMenu(true);
+    setAnchor(event.currentTarget);
+  };
+
+  return (
+    <div>
+      <div className="rant-title">
+        <div className="rant-title-text">
+          <h1>{data.title}</h1>
+        </div>
+        <div className="more-icon">
+          {state.credentials.handle === data.handle && (
+            <IconButton onClick={handleClick}>
+              <MoreVertIcon style={{ color: "white" }} />
+            </IconButton>
+          )}
+          <RantMenu
+            menu={menu}
+            setMenu={setMenu}
+            anchor={anchor}
+            setAnchor={setAnchor}
+            rantData={data}
+          />
+        </div>
+      </div>
+      <div className="rant-credits">
+        <div className="rant-credits-img">
+          <img alt={data.handle} src={data.imageURL}></img>
+        </div>
+        <div className="rant-credits-info">
+          <h2>{data.userName}</h2>
+          <h3>@{data.handle}</h3>
+          <p>
+            <u>{formatRelative(data.createdAt)}</u>
+          </p>
+        </div>
+        <div className="rant-credits-date">
+          <h3>Created</h3>
+          <p>{formatDate(data.createdAt)}</p>
+          <p>{formatTime(data.createdAt)}</p>
+          <p></p>
+        </div>
+      </div>
+      <div className="rant-content">
+        <p>{data.body}</p>
+        <div className="rant-info">
+          <span style={{ marginRight: "0px" }} onClick={toggleLike}>
+            {liked ? isLiked : notLiked}
+          </span>
+          <span>{data.likeCount}</span>
+          <ChatIcon style={{ color: "#39CCCC", fontSize: "30" }} />
+          <span>{data.commentCount}</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default RantContent;
