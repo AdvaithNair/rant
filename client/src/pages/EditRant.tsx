@@ -3,7 +3,7 @@ import { ManipulateRantData } from "../types";
 
 // Context
 import { ReducerContext } from "../types";
-import { UserContext } from "../context/UserContext";
+import { UserContext } from "../context/Context";
 import { SET_LOADING, CLEAR_LOADING } from "../context/ReducerTypes";
 
 // Components
@@ -11,7 +11,7 @@ import { Rant } from "./components/Rant";
 
 // Material UI
 import { CircularProgress } from "@material-ui/core";
-import { getRantData, checkAuth } from "../context/actions/UserActions";
+import { getRantData, checkAuth } from "../context/Actions";
 import Button from "@material-ui/core/Button";
 import Switch from "@material-ui/core/Switch";
 import TextField from "@material-ui/core/TextField";

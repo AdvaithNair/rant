@@ -3,7 +3,7 @@ import { RouteComponentProps, useHistory } from "react-router-dom";
 
 // Context
 import { ReducerContext } from "../../types";
-import { UserContext } from "../../context/UserContext";
+import { UserContext } from "../../context/Context";
 
 // Material Imports
 import AppBar from "@material-ui/core/AppBar";

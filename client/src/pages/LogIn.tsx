@@ -3,8 +3,8 @@ import { Link, RouteComponentProps } from "react-router-dom";
 
 // Context
 import { ReducerContext } from "../types";
-import { UserContext } from "../context/UserContext";
-import { handleUser } from "../context/actions/UserActions";
+import { UserContext } from "../context/Context";
+import { handleUser } from "../context/Actions";
 
 // Logo
 import RantLogo from "../assets/images/RantLogoTransparent.png";

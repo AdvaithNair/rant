@@ -17,7 +17,8 @@ import {
   DELETE_RANT,
   LIKE_RANT,
   UNLIKE_RANT,
-  GET_COMMENTS
+  ADD_COMMENT,
+  DELETE_COMMENT
 } from "./ReducerTypes";
 
 // Context Creation
@@ -140,7 +141,7 @@ function reducer(state: any, action: any) {
         ]
       };
     case DELETE_RANT:
-      let index = state.rants.findIndex(
+      const index = state.rants.findIndex(
         (rant: { [k: string]: any }) => rant.rantID === action.payload
       );
       state.rants.splice(index, 1);
@@ -166,9 +167,21 @@ function reducer(state: any, action: any) {
           (like: any) => like.rantID !== action.payload.rantID
         )
       };
-    case GET_COMMENTS:
+    case ADD_COMMENT:
+      const commentIndex = state.rants.findIndex(
+        (rant: { [k: string]: any }) => rant.rantID === action.payload
+      );
+      state.rants[commentIndex].commentCount++;
       return {
-        
+        ...state
+      }
+    case DELETE_COMMENT:
+      const commentDeleteIndex = state.rants.findIndex(
+        (rant: { [k: string]: any }) => rant.rantID === action.payload
+      );
+      state.rants[commentDeleteIndex].commentCount--;
+      return {
+        ...state
       }
     default:
       return state;

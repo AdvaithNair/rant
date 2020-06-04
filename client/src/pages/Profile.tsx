@@ -3,17 +3,17 @@ import { useHistory } from "react-router-dom";
 
 // Context
 import { ReducerContext } from "../types";
-import { UserContext } from "../context/UserContext";
+import { UserContext } from "../context/Context";
 import {
   logoutUser
-} from "../context/actions/UserActions";
+} from "../context/Actions";
 
 // Dialogs
 import EditProfile from "./components/dialogs/EditProfile";
 import UploadImage from "./components/dialogs/UploadImage";
 
-// DayJS
-import dayjs from "dayjs";
+// Time Formatting
+import {formatDate, formatDays} from '../time';
 
 // Material UI
 import Button from "@material-ui/core/Button";
@@ -22,7 +22,7 @@ import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import Tooltip from "@material-ui/core/Tooltip";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-type ImageUploadData = { [k: string]: any | string | Blob };
+// type ImageUploadData = { [k: string]: any | string | Blob };
 
 export const Profile: React.FC = () => {
   // Importing Context (Global Store)
@@ -40,16 +40,6 @@ export const Profile: React.FC = () => {
     const trimmed = input.trim();
     if (trimmed.substring(0, 4) === "http") return trimmed.substring(7);
     if (trimmed.substring(0, 5) === "https") return trimmed.substring(8);
-  };
-
-  // Formats Created At Entry
-  const formatJoined = (input: string) => {
-    return dayjs(input).format("MMMM D, YYYY");
-  };
-
-  // Formats Total Days on Rant
-  const formatDays = (input: string) => {
-    return dayjs().diff(input, "day");
   };
 
   // Logs Out User
@@ -108,7 +98,7 @@ export const Profile: React.FC = () => {
           )}
           <h3>Joined</h3>
           <p style={{ marginBottom: "-10px" }}>
-            {formatJoined(state.credentials.createdAt)}
+            {formatDate(state.credentials.createdAt)}
           </p>
           <p style={{ marginBottom: "40px" }}>
             Ranting for {formatDays(state.credentials.createdAt)} Days

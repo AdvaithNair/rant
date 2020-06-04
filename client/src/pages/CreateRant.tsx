@@ -3,14 +3,14 @@ import { useHistory } from "react-router-dom";
 
 // Context
 import { ReducerContext } from "../types";
-import { UserContext } from "../context/UserContext";
-import { postRant } from "../context/actions/UserActions";
+import { UserContext } from "../context/Context";
+import { postRant } from "../context/Actions";
 
 // Material UI
 import Button from "@material-ui/core/Button";
 import Switch from "@material-ui/core/Switch";
 import TextField from "@material-ui/core/TextField";
-import { CircularProgress } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 interface Props {
   pageTitle: string;
@@ -45,11 +45,6 @@ export const CreateRant: React.FC<Props> = ({ pageTitle, isCreate }) => {
   }, []);
 
   const handleSubmit = () => {
-    const rantData: { [k: string]: any } = {
-      title,
-      body,
-      anonymous
-    };
     // Possible Reduce This Function Down
     if (!title || !body) {
       if (title === "") setTitleError(emptyMessage);
@@ -61,6 +56,16 @@ export const CreateRant: React.FC<Props> = ({ pageTitle, isCreate }) => {
       setTitleError("");
       setBodyError("");
     }
+
+    // Rant Data Object
+    const newBody = body.replace(/\n/g, "<br />") //"\\\\n"
+    const rantData: { [k: string]: any } = {
+      title,
+      body: newBody,
+      anonymous
+    };
+
+    // Posts Rant
     postRant(rantData, dispatch, state);
     setTitle("");
     setBody("");
@@ -78,6 +83,11 @@ export const CreateRant: React.FC<Props> = ({ pageTitle, isCreate }) => {
         onChange={e => setTitle(e.target.value)}
         helperText={titleError}
         error={titleError ? true : false}
+        onKeyPress={e => {
+          if (e.key === "Enter") {
+            handleSubmit();
+          }
+        }}
         fullWidth
       />
       <TextField
@@ -88,6 +98,11 @@ export const CreateRant: React.FC<Props> = ({ pageTitle, isCreate }) => {
         onChange={e => setBody(e.target.value)}
         helperText={bodyError}
         error={bodyError ? true : false}
+        onKeyPress={e => {
+          if (e.key === "Enter") {
+            handleSubmit();
+          }
+        }}
         multiline
         fullWidth
       />

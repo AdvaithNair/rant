@@ -2,8 +2,8 @@ import React, { useState, useContext } from "react";
 
 // Context
 import { ReducerContext, RantData } from "../../../types";
-import { UserContext } from "../../../context/UserContext";
-import { deleteRant } from "../../../context/actions/UserActions";
+import { UserContext } from "../../../context/Context";
+import { deleteRant } from "../../../context/Actions";
 
 // Material UI
 
@@ -39,37 +39,44 @@ export const RantMenu: React.FC<Props> = ({
 
   // Local States
   const [dialog, setDialog] = useState<boolean>(false);
-  
+
   // History for Page Direction
   const history = useHistory();
 
   // On Close of Menu (or Click Away)
-  const handleClose = () => {
+  const handleClose = (event: any) => {
+    event.stopPropagation();
     setMenu(false);
     setAnchor(null);
+    console.log('yay');
+    history.push('/home');
   };
 
   // Redirects to Edit Page
-  const handleEdit = () => {
-      // TODO: Update this URL to include rant ID
-      //history.push(`/home/edit`);
-  }
+  const handleEdit = (event: any) => {
+    event.stopPropagation();
+    // TODO: Update this URL to include rant ID
+    //history.push(`/home/edit`);
+  };
 
   // Opens Delete Dialog
-  const handleDelete = () => {
+  const handleDelete = (event: any) => {
+    event.stopPropagation();
     setDialog(true);
     setMenu(false);
   };
 
   // Closes Delete Dialog
-  const handleDeleteClose = () => {
+  const handleDeleteClose = (event: any) => {
+    event.stopPropagation();
     setDialog(false);
   };
 
   // Deletes Object
-  const handleDeleteSubmit = () => {
+  const handleDeleteSubmit = (event: any) => {
+    event.stopPropagation();
     deleteRant(rantData.rantID, dispatch);
-    handleDeleteClose();
+    handleDeleteClose(event);
   };
 
   return (

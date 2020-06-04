@@ -13,7 +13,7 @@ const {
   updateUser,
   getUser,
   getUserDetails,
-  onImageChange
+  //onImageChange
 } = require("./handlers/users");
 const {
   deleteRant,
@@ -74,7 +74,7 @@ exports.createCommentNotification = commentNotification;
 exports.deleteCommentNotification = deleteCommentNotification;
 
 // Updates User Image Upon Update
-exports.imageUpdate = onImageChange;
+// exports.imageUpdate = onImageChange;
 
 // Deletes Comments When Rant is Deleted
 exports.deleteRantComplete = onRantDelete;

@@ -2,8 +2,8 @@ import React, { useState, useContext, useEffect } from "react";
 
 // Context
 import { ReducerContext } from "../../../types";
-import { UserContext } from "../../../context/UserContext";
-import { uploadImage } from "../../../context/actions/UserActions";
+import { UserContext } from "../../../context/Context";
+import { uploadImage } from "../../../context/Actions";
 
 // Material UI
 import Button from "@material-ui/core/Button";
@@ -15,11 +15,11 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 // type ImageUploadData = { [k: string]: any | string | Blob };
 // Prop Type
 interface Props {
-    image: boolean;
-    setImage: React.Dispatch<React.SetStateAction<boolean>>;
+  image: boolean;
+  setImage: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const Profile: React.FC<Props> = ({image, setImage}) => {
+export const Profile: React.FC<Props> = ({ image, setImage }) => {
   // Importing Context (Global Store)
   const { dispatch } = useContext<ReducerContext>(UserContext);
 
@@ -33,6 +33,12 @@ export const Profile: React.FC<Props> = ({image, setImage}) => {
   const handleImageClose = () => {
     setImage(false);
   };
+
+  // Handles Image Submission Prompt
+  const handleSelectImage = () => {
+    const fileInput = document.getElementById("imageInput");
+    return fileInput ? fileInput.click() : handleImageClose;
+  }
 
   // Handles Image Change in Dialog
   const handleImageChange = (event: any) => {
@@ -69,10 +75,25 @@ export const Profile: React.FC<Props> = ({image, setImage}) => {
             className="upload-profile-picture"
             type="file"
             id="imageInput"
+            hidden
             onChange={handleImageChange}
           />
-          <p>{imageName}</p>
-          {imageError && <p style={{ color: "red" }}>{imageError}</p>}
+          <div className="select-image-button">
+            <Button
+              style={{
+                fontSize: "15px",
+                color: "white",
+                fontFamily: "Montserrat",
+                fontWeight: 550
+              }}
+              fullWidth
+              onClick={handleSelectImage}
+            >
+              Select Image
+            </Button>
+          </div>
+          <p className = 'text-center'>{imageName}</p>
+          {imageError && <p className = 'text-center' style={{ color: "red" }}>{imageError}</p>}
         </form>
       </DialogContent>
       <DialogActions>

@@ -10,6 +10,17 @@ export type RantData = {
   imageURL: string;
 };
 
+// TODO: remove ranterID and commenterID
+export type CommentData = {
+  rantID: string;
+  userName: string;
+  handle: string;
+  body: string;
+  createdAt: string;
+  imageURL: string;
+  commentID?: string;
+};
+
 export type ManipulateRantData = {
   pageTitle: string;
   title: string;

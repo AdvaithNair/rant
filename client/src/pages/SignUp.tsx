@@ -3,8 +3,8 @@ import { Link, RouteComponentProps } from "react-router-dom";
 
 // Context
 import { ReducerContext } from "../types";
-import { UserContext } from "../context/UserContext";
-import { handleUser } from "../context/actions/UserActions";
+import { UserContext } from "../context/Context";
+import { handleUser } from "../context/Actions";
 
 // Logo
 import RantLogo from "../assets/images/RantLogoTransparent.png";
@@ -13,6 +13,8 @@ import RantLogo from "../assets/images/RantLogoTransparent.png";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import Typography from "@material-ui/core/Typography";
+import TermsAndConditionsDialog from "./components/dialogs/TermsAndConditionsDialog";
 
 // TODO: Integrate this into a single forms hook instead of seperate ones
 interface SignUpForm {
@@ -27,12 +29,14 @@ interface Props extends RouteComponentProps<any> {}
 
 export const SignUp: React.FC<Props> = ({ history }) => {
   // Setting State for First Name, Last Name, Username, Email, Password, and Confirm Password (for Form Input)
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [openedTerms, setOpenedTerms] = useState<boolean>(false);
+  const [agreed, setAgreed] = useState<boolean>(false);
 
   // Importing Context (Global Store)
   const { state, dispatch } = useContext<ReducerContext>(UserContext);
@@ -40,6 +44,10 @@ export const SignUp: React.FC<Props> = ({ history }) => {
   // Handles Submission for Sign Up Form
   const handleSubmit = (event: any) => {
     event.preventDefault();
+
+    if(!agreed) {
+      return;
+    }
 
     const signupCredentials: { [k: string]: string } = {
       firstName: firstName,
@@ -120,6 +128,15 @@ export const SignUp: React.FC<Props> = ({ history }) => {
               onChange={e => setConfirmPassword(e.target.value)}
               fullWidth
             />
+            <div className="terms">
+              <div onClick={() => setOpenedTerms(true)}>
+                <Typography>Terms and Conditions</Typography>
+              </div>
+              {!agreed && <Typography style={{ fontSize: "10px", color: "red" }}>
+                Please Agree to Terms and Conditions
+              </Typography>}
+            </div>
+            <TermsAndConditionsDialog openedTerms = {openedTerms} setOpenedTerms = {setOpenedTerms} setAgreed = {setAgreed}/>
             <p className="sign-up-text">
               Already have an account? Log in <Link to="/signup">here</Link>.
             </p>

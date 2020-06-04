@@ -3,7 +3,7 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // Context
-import { UserProvider } from "./context/UserContext";
+import { UserProvider } from "./context/Context";
 
 // Pages
 import Home from "./pages/Home";

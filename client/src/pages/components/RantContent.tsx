@@ -4,8 +4,8 @@ import { useHistory } from "react-router-dom";
 
 // Context
 import { ReducerContext } from "../../types";
-import { UserContext } from "../../context/UserContext";
-import { toggleLikeRequest } from "../../context/actions/UserActions";
+import { UserContext } from "../../context/Context";
+import { toggleLikeRequest } from "../../context/Actions";
 
 // Components
 import RantMenu from "./dialogs/RantMenu";
@@ -17,10 +17,8 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ChatIcon from "@material-ui/icons/Chat";
 
-// DayJS
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-import { Divider } from "@material-ui/core";
+// Time Formatting
+import {formatDate, formatTime, formatRelative} from '../../time';
 
 // Props
 interface Props {
@@ -64,30 +62,16 @@ export const RantContent: React.FC<Props> = ({ data }) => {
   };
 
   // Toggles Like
-  const toggleLike = () => {
+  const toggleLike = (event: any) => {
+    event.stopPropagation();
     toggleLikeRequest(dispatch, data.rantID, liked);
     setLiked(!liked);
     liked ? data.likeCount-- : data.likeCount++;
   };
 
-  // Formats Date
-  const formatDate = (date: string): string => {
-    return dayjs(date).format("MMMM D, YYYY");
-  };
-
-  // Formats Time
-  const formatTime = (date: string): string => {
-    return dayjs(date).format("h:mm A");
-  };
-
-  // Formats Relative Time
-  const formatRelative = (date: string): string => {
-    dayjs.extend(relativeTime);
-    return dayjs(date).fromNow();
-  };
-
   // On Click of Menu
   const handleClick = (event: any) => {
+    event.stopPropagation();
     setMenu(true);
     setAnchor(event.currentTarget);
   };
@@ -132,7 +116,7 @@ export const RantContent: React.FC<Props> = ({ data }) => {
         </div>
       </div>
       <div className="rant-content">
-        <p>{data.body}</p>
+        {data.body.split('<br />').map((item: string, i: any) => (<p key = {i}>{item}</p>))}
         <div className="rant-info">
           <span style={{ marginRight: "0px" }} onClick={toggleLike}>
             {liked ? isLiked : notLiked}

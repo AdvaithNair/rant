@@ -1,11 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
-import { RantData } from "../types";
+import { RantData, CommentData } from "../types";
 import { useHistory } from "react-router-dom";
 
 // Context
 import { ReducerContext } from "../types";
-import { UserContext } from "../context/UserContext";
-import { SET_LOADING, CLEAR_LOADING } from "../context/ReducerTypes";
+import { UserContext } from "../context/Context";
 
 // Components
 import CommentSection from "./components/CommentSection";
@@ -42,31 +41,35 @@ const initDataState = (state: any, rantID: string) => {
 // TODO: Break this up into components
 export const Rant: React.FC<Props> = ({ match }) => {
   // Importing Context (Global Store)
-  const { state, dispatch } = useContext<ReducerContext>(UserContext);
+  const { state } = useContext<ReducerContext>(UserContext);
 
   // Extract RantID from props
   const rantID: string = match.params.rantID;
 
   // States
   const [loading, setLoading] = useState<boolean>(state.rants[0]);
-  const [rantData, setRantData] = useState<RantData>(
-    initDataState(state, rantID)
-  );
-
-  // TODO: Possibly migrate to state
-  let commentArray: Array<{ [k: string]: any }> = [];
+  const [rantData, setRantData] = useState<RantData>({
+    userName: "",
+    handle: "",
+    createdAt: "",
+    title: "",
+    body: "",
+    likeCount: 0,
+    commentCount: 0,
+    imageURL: "",
+    rantID
+  });
+  const [commentData, setCommentData] = useState<Array<CommentData>>([]);
 
   // History for Page Traversal
   const history = useHistory();
 
   // On Component Mount, Renders Like
   useEffect(() => {
-    console.log(rantID);
     setLoading(true);
     axios
       .get(`/rant/${rantID}`)
       .then((res: any) => {
-        console.log(res.data.comments);
         setRantData({
           userName: res.data.userName,
           handle: res.data.handle,
@@ -78,7 +81,7 @@ export const Rant: React.FC<Props> = ({ match }) => {
           imageURL: res.data.imageURL,
           rantID
         });
-        commentArray = res.data.comments;
+        setCommentData(commentData => commentData.concat(res.data.comments));
         setLoading(false);
       })
       .catch((err: any) => {
@@ -97,7 +100,7 @@ export const Rant: React.FC<Props> = ({ match }) => {
       {!loading && (
         <div className="rant-body">
           <RantContent data={rantData} />
-          <CommentSection rantID={rantID} />
+          <CommentSection rantID={rantID} data = {commentData} ranterHandle = {rantData.handle} rantData = {rantData} setRantData = {setRantData}/>
         </div>
       )}
     </div>

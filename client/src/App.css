@@ -139,6 +139,15 @@ PAGES --------------------------------------------------------------------------
   margin-top: 40px;
 }
 
+.terms {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.terms:hover {
+  cursor: pointer;
+}
+
 /* Log In Page ------------------------------- */
 
 .login-error-text {
@@ -271,6 +280,10 @@ PAGES --------------------------------------------------------------------------
 
 .upload-profile-picture:active::before {
   background: #F012BE;
+}
+
+.select-image-button {
+  background-color: #39CCCC;
 }
 
 /* Manipulate Rant Page ------------------------------- */
@@ -420,6 +433,10 @@ COMPONENTS ---------------------------------------------------------------------
   padding-bottom: 20px;
 }
 
+.rant-content p {
+  word-break: break-all;
+}
+
 .rant-info {
   margin-top: 0px;
   display: inline-block;
@@ -435,13 +452,6 @@ COMPONENTS ---------------------------------------------------------------------
 
 .rant-like-icon {
   margin-right: -40px;
-}
-
-.comment-section {
-  margin-left: 20px;
-  margin-right: 20px;
-  padding-bottom: 20px;
-  display: flex;
 }
 
 .main-home-content {
@@ -488,4 +498,76 @@ COMPONENTS ---------------------------------------------------------------------
   background-image: linear-gradient(white, white), radial-gradient(circle at top left, #F012BE, #39CCCC);
   background-origin: border-box;
   background-clip: content-box, border-box;
+}
+
+/* Comment Component ------------------------------- */
+.comment-section {
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-bottom: 20px;
+}
+
+.add-comments {
+  display: flex;
+  width: 100%;
+}
+
+.display-comments {
+  display: block;
+  margin-top: 40px;
+  width: 100%;
+}
+
+.comment {
+  display: flex;
+  margin-top: 10px;
+}
+
+.comment-content {
+  display: block;
+  width: 100%;
+}
+
+.comment-credits {
+  width: 100%;
+  display: inline;
+}
+
+.comment-credit-text {
+  float: left;
+  margin-left: 10px;
+  margin-top: -7px;
+  margin-bottom: -20px;
+}
+
+.comment-credit-text h4 {
+  color: #39CCCC;
+  margin-top: -20px;
+}
+
+.commented-at {
+  float: right;
+  margin-top: 15px;
+}
+
+.comment-body {
+  margin-left: 10px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.comment-body-content {
+  margin-right: 50px;
+  margin-bottom: -16px;
+}
+
+.comment-body-content p {
+  word-break: break-all;
+}
+
+.delete-comment {
+  margin-top: -15px;
+  display: flex;
+  float: right;
+  width: 50px;
 }

@@ -13,9 +13,8 @@ import {
   ADD_RANT,
   DELETE_RANT,
   LIKE_RANT,
-  UNLIKE_RANT,
-  GET_COMMENTS
-} from "../ReducerTypes";
+  UNLIKE_RANT
+} from "./ReducerTypes";
 
 // Axios
 import axios from "axios";

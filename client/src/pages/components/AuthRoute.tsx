@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { ReducerContext } from "../../types";
-import { UserContext } from "../../context/UserContext";
+import { UserContext } from "../../context/Context";
 
 interface Props {
   component: any;

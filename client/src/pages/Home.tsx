@@ -3,8 +3,8 @@ import { Route, Switch, RouteComponentProps } from "react-router-dom";
 
 // Context
 import { ReducerContext } from "../types";
-import { UserContext } from "../context/UserContext";
-import { checkAuth, getRantData } from "../context/actions/UserActions";
+import { UserContext } from "../context/Context";
+import { checkAuth, getRantData } from "../context/Actions";
 
 // Components
 import Header from "./components/Header";

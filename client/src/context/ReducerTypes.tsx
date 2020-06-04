@@ -19,4 +19,5 @@ export const ADD_RANT = "ADD_RANT";
 export const DELETE_RANT = "DELETE_RANT";
 export const LIKE_RANT = "LIKE_RANT";
 export const UNLIKE_RANT = "UNLIKE_RANT";
-export const GET_COMMENTS = "GET_COMMENTS";
+export const ADD_COMMENT = "ADD_COMMENT";
+export const DELETE_COMMENT = "DELETE_COMMENT";

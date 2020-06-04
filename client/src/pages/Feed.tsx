@@ -3,7 +3,7 @@ import { RantData } from "../types";
 
 // Context
 import { ReducerContext } from "../types";
-import { UserContext } from "../context/UserContext";
+import { UserContext } from "../context/Context";
 import { SET_LOADING, CLEAR_LOADING } from "../context/ReducerTypes";
 
 // Components
@@ -11,7 +11,7 @@ import { Rant } from "./components/Rant";
 
 // Material UI
 import { CircularProgress } from "@material-ui/core";
-import { getRantData } from "../context/actions/UserActions";
+import { getRantData } from "../context/Actions";
 
 export const Feed: React.FC = () => {
   // Importing Context (Global Store)

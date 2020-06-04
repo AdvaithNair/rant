@@ -2,8 +2,8 @@ import React, { useState, useContext, useEffect } from "react";
 
 // Context
 import { ReducerContext } from "../../../types";
-import { UserContext } from "../../../context/UserContext";
-import { editUserDetails } from "../../../context/actions/UserActions";
+import { UserContext } from "../../../context/Context";
+import { editUserDetails } from "../../../context/Actions";
 import { CLEAR_LOADING } from "../../../context/ReducerTypes";
 
 // Material UI
