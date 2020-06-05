@@ -5,6 +5,9 @@ import { RouteComponentProps, useHistory } from "react-router-dom";
 import { ReducerContext } from "../../types";
 import { UserContext } from "../../context/Context";
 
+// Components
+import Notifications from "./Notifications";
+
 // Material Imports
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -64,11 +67,12 @@ export const Header: React.FC = () => {
                     </IconButton>
                   </Tooltip>
                 </div>
+                <Notifications />
                 <div className="spacer">
                   <Tooltip title="Profile" placement="bottom">
                     <img
                       className="header-img"
-                      src={state.credentials.imageURL}
+                      src={JSON.parse(localStorage.userData || "{}").about.imageURL || state.credentials.imageURL}
                       onClick={() => {
                         history.push('/home/profile');
                       }}

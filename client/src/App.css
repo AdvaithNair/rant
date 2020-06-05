@@ -211,6 +211,20 @@ PAGES --------------------------------------------------------------------------
   opacity: 0.5;
 }
 
+.profile-card-image-display {
+  display: block;
+  height: 250px;
+  width: 250px;
+  object-fit: cover;
+  border-radius: 100%;
+  margin: 0 auto;
+  margin-top: 20px;
+  border: solid 5px transparent;
+  background-image: linear-gradient(white, white), radial-gradient(circle at top left, #F012BE, #39CCCC);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+
 .profile-card-image-overlay {
   position: absolute;
   top: 0;
@@ -250,6 +264,7 @@ PAGES --------------------------------------------------------------------------
   margin: 0 auto;
   margin-top: 10px;
   transition: 0.3s;
+  margin-bottom: 30px;
 }
 
 .upload-profile-picture {
@@ -404,11 +419,15 @@ COMPONENTS ---------------------------------------------------------------------
   font-style: normal;
 }
 
-.rant-credits-info h2 {}
-
-.rant-credits-info h3 {
+.user-handle-hover {
   margin-top: -20px;
   color: #39CCCC;
+  transition: .2s ease;
+  cursor: pointer;
+}
+
+.user-handle-hover:hover {
+  color: #F012BE;
 }
 
 .rant-credits-info p {
@@ -570,4 +589,30 @@ COMPONENTS ---------------------------------------------------------------------
   display: flex;
   float: right;
   width: 50px;
+}
+
+/* Notification Component ------------------------------- */
+.notification-main {
+  display: block;
+  max-width:500px;
+}
+
+.notification-data {
+  display: flex;
+  word-break: break-all;
+  word-wrap: break-word;
+  white-space: normal;
+  margin-left: 20px;
+  margin-top: 17px;
+}
+
+.notification-handle {
+  font-weight: 600;
+  padding-left: 10px;
+  color: #39CCCC;
+  transition: .2s ease;
+}
+
+.notification-handle:hover {
+  color: #F012BE;
 }

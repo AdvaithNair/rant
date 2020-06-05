@@ -13,7 +13,8 @@ import {
   ADD_RANT,
   DELETE_RANT,
   LIKE_RANT,
-  UNLIKE_RANT
+  UNLIKE_RANT,
+  MARK_NOTIFICATIONS_READ
 } from "./ReducerTypes";
 
 // Axios
@@ -299,4 +300,16 @@ export const getRantInfo = (
       // Error Handling
       console.log(err);
     });
+};
+
+export const readNotifications = (
+  dispatch: (argument: { [k: string]: any }) => void,
+  notificationIDs: Array<{ [k: string]: any }>
+) => {
+  axios
+    .post("/notifications", notificationIDs)
+    .then((res: any) => {
+      dispatch({ type: MARK_NOTIFICATIONS_READ });
+    })
+    .catch((err: any) => console.log(err));
 };

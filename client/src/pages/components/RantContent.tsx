@@ -18,7 +18,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ChatIcon from "@material-ui/icons/Chat";
 
 // Time Formatting
-import {formatDate, formatTime, formatRelative} from '../../time';
+import { formatDate, formatTime, formatRelative } from "../../time";
 
 // Props
 interface Props {
@@ -30,7 +30,7 @@ export const RantContent: React.FC<Props> = ({ data }) => {
   // Importing Context (Global Store)
   const { state, dispatch } = useContext<ReducerContext>(UserContext);
 
-  // History for Page Traversal
+  // History to Push Pages
   const history = useHistory();
 
   // Local States
@@ -53,14 +53,6 @@ export const RantContent: React.FC<Props> = ({ data }) => {
     <FavoriteBorderIcon style={{ color: "#F012BE", fontSize: "30" }} />
   );
 
-  // On Component Mount, Renders Like
-  useEffect(() => {}, []);
-
-  // Takes to Individual Rant Page
-  const expandRant = () => {
-    history.push(`/home/rant/${data.rantID}`);
-  };
-
   // Toggles Like
   const toggleLike = (event: any) => {
     event.stopPropagation();
@@ -75,6 +67,12 @@ export const RantContent: React.FC<Props> = ({ data }) => {
     setMenu(true);
     setAnchor(event.currentTarget);
   };
+
+  // Takes Client To User Page
+  const toUserPage = (event: any) => {
+    event.stopPropagation();
+    history.push(`/home/users/${data.handle}`);
+  }
 
   return (
     <div>
@@ -103,7 +101,9 @@ export const RantContent: React.FC<Props> = ({ data }) => {
         </div>
         <div className="rant-credits-info">
           <h2>{data.userName}</h2>
-          <h3>@{data.handle}</h3>
+          <div onClick = {toUserPage}>
+            <h3 className = 'user-handle-hover'>@{data.handle}</h3>
+          </div>
           <p>
             <u>{formatRelative(data.createdAt)}</u>
           </p>
@@ -116,7 +116,9 @@ export const RantContent: React.FC<Props> = ({ data }) => {
         </div>
       </div>
       <div className="rant-content">
-        {data.body.split('<br />').map((item: string, i: any) => (<p key = {i}>{item}</p>))}
+        {data.body.split("<br />").map((item: string, i: any) => (
+          <p key={i}>{item}</p>
+        ))}
         <div className="rant-info">
           <span style={{ marginRight: "0px" }} onClick={toggleLike}>
             {liked ? isLiked : notLiked}

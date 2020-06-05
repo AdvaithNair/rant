@@ -75,16 +75,10 @@ exports.createComment = (req: express.Request, res: express.Response) => {
       return doc.ref.update({ commentCount: doc.data().commentCount + 1 });
     })
     .then(() => {
-      db.collection("comments")
-        .add(newComment)
-        .then((doc: any) => {
-          newComment.commentID = doc.id;
-          res.status(200).json(newComment);
-        }).catch((err: any) => {
-          // Return Errors
-          console.error(err);
-          res.status(500).json({ error: err.code });
-        });
+      return db.collection("comments").add(newComment);
+    })
+    .then(() => {
+      res.status(200).json(newComment);
     })
     .catch((err: any) => {
       // Return Errors

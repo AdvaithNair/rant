@@ -18,7 +18,8 @@ import {
   LIKE_RANT,
   UNLIKE_RANT,
   ADD_COMMENT,
-  DELETE_COMMENT
+  DELETE_COMMENT,
+  MARK_NOTIFICATIONS_READ
 } from "./ReducerTypes";
 
 // Context Creation
@@ -174,7 +175,7 @@ function reducer(state: any, action: any) {
       state.rants[commentIndex].commentCount++;
       return {
         ...state
-      }
+      };
     case DELETE_COMMENT:
       const commentDeleteIndex = state.rants.findIndex(
         (rant: { [k: string]: any }) => rant.rantID === action.payload
@@ -182,7 +183,12 @@ function reducer(state: any, action: any) {
       state.rants[commentDeleteIndex].commentCount--;
       return {
         ...state
-      }
+      };
+    case MARK_NOTIFICATIONS_READ:
+      state.notifications.forEach((not: any) => (not.read = true));
+      return {
+        ...state
+      };
     default:
       return state;
   }

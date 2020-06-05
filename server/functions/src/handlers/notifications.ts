@@ -5,7 +5,7 @@ const { db } = require("../util/admin");
 
 // Like Notification Snapshot
 exports.likeNotification = functions.firestore
-  .document("/likes/{id}")
+  .document("likes/{id}")
   .onCreate((snapshot: any) => {
     return db
       .doc(`/rants/${snapshot.data().rantID}`)
@@ -20,7 +20,6 @@ exports.likeNotification = functions.firestore
               createdAt: new Date().toISOString(),
               recipient: doc.data().handle,
               sender: snapshot.data().handle,
-              senderName: snapshot.data().userName,
               imageURL: snapshot.data().imageURL,
               type: "like",
               read: false,
@@ -29,15 +28,19 @@ exports.likeNotification = functions.firestore
           }
         }
       })
+      .then(() => {
+        return;
+      })
       .catch((err: any) => {
         // Return Errors
         console.error(err);
+        return;
       });
   });
 
 // Unlike Notification Snapshot
 exports.unlikeNotification = functions.firestore
-  .document("/likes/{id}")
+  .document("likes/{id}")
   .onDelete((snapshot: any) => {
     return db
       .doc(`/notifications/${snapshot.id}`)
@@ -50,7 +53,7 @@ exports.unlikeNotification = functions.firestore
 
 // Comment Notification Snapshot
 exports.commentNotification = functions.firestore
-  .document("/comments/{id}")
+  .document("comments/{id}")
   .onCreate((snapshot: any) => {
     return db
       .doc(`/rants/${snapshot.data().rantID}`)
@@ -65,7 +68,6 @@ exports.commentNotification = functions.firestore
               createdAt: new Date().toISOString(),
               recipient: doc.data().handle,
               sender: snapshot.data().handle,
-              senderName: snapshot.data().userName,
               imageURL: snapshot.data().imageURL,
               type: "comment",
               read: false,
@@ -74,15 +76,19 @@ exports.commentNotification = functions.firestore
           }
         }
       })
+      .then(() => {
+        return;
+      })
       .catch((err: any) => {
         // Return Errors
         console.error(err);
+        return;
       });
   });
 
 // Delete Comment Notification Snapshot
 exports.deleteCommentNotification = functions.firestore
-  .document("/comments/{id}")
+  .document("comments/{id}")
   .onDelete((snapshot: any) => {
     return db
       .doc(`/notifications/${snapshot.id}`)

@@ -19,8 +19,7 @@ export const Feed: React.FC = () => {
 
   // On Component Mount, Request All Rants
   useEffect(() => {
-    // Gets all Rants if it's not in the local storage
-    // TODO: Fix Dispatch to include loading
+  
   }, []);
 
   return (

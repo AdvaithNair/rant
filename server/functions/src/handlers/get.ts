@@ -65,7 +65,8 @@ exports.getRant = (req: express.Request, res: express.Response) => {
 
       // Pushes Comment Documents from Database to Comment Data Array
       data.forEach((doc: any) => {
-        rantData.comments.push(doc.data());
+        const commentData = {...doc.data(), commentID: doc.id}
+        rantData.comments.push(commentData);
       });
 
       // Returns Rant Data Object

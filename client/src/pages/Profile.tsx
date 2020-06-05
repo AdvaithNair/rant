@@ -8,19 +8,15 @@ import {
   logoutUser
 } from "../context/Actions";
 
+// Components
+import UserContent from './components/UserContent';
+
 // Dialogs
 import EditProfile from "./components/dialogs/EditProfile";
 import UploadImage from "./components/dialogs/UploadImage";
 
-// Time Formatting
-import {formatDate, formatDays} from '../time';
-
 // Material UI
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
-import Tooltip from "@material-ui/core/Tooltip";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 // type ImageUploadData = { [k: string]: any | string | Blob };
 
@@ -52,57 +48,7 @@ export const Profile: React.FC = () => {
     <div className="main-home-content">
       <h1>PROFILE</h1>
       <div className="profile-card">
-        <div className="profile-card-content">
-          <Tooltip title="Update Profile Picture" placement="bottom">
-            <div
-              className="profile-card-image-container"
-              onClick={() => setImage(true)}
-            >
-              <img
-                className="profile-card-image"
-                src={state.credentials.imageURL}
-                alt={state.credentials.userName}
-              ></img>
-              {state.UI.loading && (
-                <div className="loading-profile">
-                  <CircularProgress style={{ top: "50%" }} color="primary" />
-                </div>
-              )}
-              <div className="profile-card-image-overlay">
-                <IconButton
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)"
-                  }}
-                >
-                  <PhotoCameraIcon fontSize="large" />
-                </IconButton>
-              </div>
-            </div>
-          </Tooltip>
-
-          <h1 style={{ paddingTop: "10px" }}>{state.credentials.userName}</h1>
-          <h2 className="profile-handle">@{state.credentials.handle}</h2>
-
-          {state.credentials.bio && <h3>Bio</h3>}
-          {state.credentials.bio && <p>{state.credentials.bio}</p>}
-          {state.credentials.website && <h3>Website</h3>}
-          {state.credentials.website && (
-            <p>
-              <a href={state.credentials.website} style={{ color: "#39CCCC" }}>
-                {formatWebsite(state.credentials.website)}
-              </a>
-            </p>
-          )}
-          <h3>Joined</h3>
-          <p style={{ marginBottom: "-10px" }}>
-            {formatDate(state.credentials.createdAt)}
-          </p>
-          <p style={{ marginBottom: "40px" }}>
-            Ranting for {formatDays(state.credentials.createdAt)} Days
-          </p>
+          <UserContent setImage = {setImage} isAuth = {true} data={state.credentials}/>
           <div className="edit-profile-button">
             <Button
               style={{
@@ -136,7 +82,6 @@ export const Profile: React.FC = () => {
         </div>
         <div style={{ clear: "both" }}></div>
       </div>
-    </div>
   );
 };
 

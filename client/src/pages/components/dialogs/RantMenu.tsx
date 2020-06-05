@@ -48,7 +48,6 @@ export const RantMenu: React.FC<Props> = ({
     event.stopPropagation();
     setMenu(false);
     setAnchor(null);
-    console.log('yay');
     history.push('/home');
   };
 

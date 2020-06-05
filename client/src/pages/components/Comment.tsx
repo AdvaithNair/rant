@@ -47,10 +47,12 @@ export const Comment: React.FC<Props> = ({
 
   // Deletes Rant
   const handleDelete = () => {
+    console.log(data);
     axios
       .delete(`/delete/comment/${data.commentID}`)
       .then(() => {
         // Filter Comments
+        console.log("HERE");
         setComments(
           comments =>
             comments.filter(element => element.commentID !== data.commentID) ||

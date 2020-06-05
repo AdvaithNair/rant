@@ -13,8 +13,8 @@ import Header from "./components/Header";
 import Feed from "./Feed";
 import Profile from "./Profile";
 import CreateRant from "./CreateRant";
-import Rant from './components/Rant';
 import RantPage from "./RantPage";
+import UserPage from "./UserPage";
 
 interface Props extends RouteComponentProps<any> {}
 
@@ -35,6 +35,7 @@ export const Home: React.FC<Props> = ({ history }) => {
         <Switch>
           {/* USE FOR EDITRANT <Route path="/home/create" render={(data) => <CreateRant {...data} data = {{pageTitle: 'CREATE RANT', title: '', body: ''}}/>} />*/}
           {/*<Route path="/home/create" component={CreateRant} />*/}
+          <Route path="/home/users/:handle" component={UserPage} />
           <Route path="/home/rant/:rantID" component={RantPage} />
           <Route path="/home/create" render={(data) => <CreateRant {...data} pageTitle = {'CREATE RANT'} isCreate = {true} />} />
           <Route path="/home/edit" render={(data) => <CreateRant {...data} pageTitle = {'EDIT RANT'} isCreate = {false} />} />

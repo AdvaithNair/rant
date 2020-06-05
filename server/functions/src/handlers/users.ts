@@ -49,7 +49,9 @@ exports.signUp = (req: express.Request, res: express.Response) => {
     .then((doc: any) => {
       // Checks Handle
       if (doc.exists)
-        return res.status(400).json({ handle: "This Username is Already Taken" });
+        return res
+          .status(400)
+          .json({ handle: "This Username is Already Taken" });
       // Initial Sign Up
       return firebase
         .auth()
@@ -253,7 +255,7 @@ exports.getUser = (req: express.Request, res: express.Response) => {
         // Gets User Comments
         return db
           .collection("likes")
-          .where("userID", "==", req.user.uid)
+          .where("handle", "==", req.user.handle)
           .get();
       }
     })
@@ -270,7 +272,7 @@ exports.getUser = (req: express.Request, res: express.Response) => {
       // TODO: Possibly Change This Limit
       return db
         .collection("notifications")
-        .where("recipient", "==", req.user.uid)
+        .where("recipient", "==", req.user.handle)
         .orderBy("createdAt", "desc")
         .limit(25)
         .get();
@@ -284,11 +286,11 @@ exports.getUser = (req: express.Request, res: express.Response) => {
         userData.notifications.push({
           recipient: doc.data().recipient,
           sender: doc.data().sender,
-          senderName: doc.data().senderName,
           createdAt: doc.data().createdAt,
           rantID: doc.data().rantID,
           type: doc.data().type,
           read: doc.data().read,
+          imageURL: doc.data().imageURL,
           notificationID: doc.id
         });
       });
@@ -331,12 +333,17 @@ exports.getUserDetails = (req: express.Request, res: express.Response) => {
           userImage: doc.data().userImage,
           likeCount: doc.data().likeCount,
           commentCount: doc.data().commentCount,
+          imageURL: doc.data().imageURL,
           rantID: doc.id
         });
       });
 
       // Returns User Data
       return res.json({ userData });
+    })
+    .catch((err: any) => {
+      console.error(err);
+      return res.status(500).json({ error: err });
     });
 };
 
