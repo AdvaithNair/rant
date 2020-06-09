@@ -17,7 +17,7 @@ export type CommentData = {
   body: string;
   createdAt: string;
   imageURL: string;
-  commentID?: string;
+  commentID: string;
 };
 
 export type NotificationData = {

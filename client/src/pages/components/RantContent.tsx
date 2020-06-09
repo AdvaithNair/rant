@@ -72,7 +72,7 @@ export const RantContent: React.FC<Props> = ({ data }) => {
   const toUserPage = (event: any) => {
     event.stopPropagation();
     history.push(`/home/users/${data.handle}`);
-  }
+  };
 
   return (
     <div>
@@ -95,37 +95,41 @@ export const RantContent: React.FC<Props> = ({ data }) => {
           />
         </div>
       </div>
-      <div className="rant-credits">
-        <div className="rant-credits-img">
-          <img alt={data.handle} src={data.imageURL}></img>
-        </div>
-        <div className="rant-credits-info">
-          <h2>{data.userName}</h2>
-          <div onClick = {toUserPage}>
-            <h3 className = 'user-handle-hover'>@{data.handle}</h3>
+      <div className="rant-content-body">
+        <div className="rant-credits">
+          <div className="rant-credits-main">
+            <div className="rant-credits-img">
+              <img alt={data.handle} src={data.imageURL}></img>
+            </div>
+            <div className="rant-credits-info">
+              <h2>{data.userName}</h2>
+              <div onClick={toUserPage}>
+                <h3 className="user-handle-hover">@{data.handle}</h3>
+              </div>
+              <p>
+                <u>{formatRelative(data.createdAt)}</u>
+              </p>
+            </div>
           </div>
-          <p>
-            <u>{formatRelative(data.createdAt)}</u>
-          </p>
+          <div className="rant-credits-date">
+            <h3>Created</h3>
+            <p>{formatDate(data.createdAt)}</p>
+            <p>{formatTime(data.createdAt)}</p>
+            <p></p>
+          </div>
         </div>
-        <div className="rant-credits-date">
-          <h3>Created</h3>
-          <p>{formatDate(data.createdAt)}</p>
-          <p>{formatTime(data.createdAt)}</p>
-          <p></p>
-        </div>
-      </div>
-      <div className="rant-content">
-        {data.body.split("<br />").map((item: string, i: any) => (
-          <p key={i}>{item}</p>
-        ))}
-        <div className="rant-info">
-          <span style={{ marginRight: "0px" }} onClick={toggleLike}>
-            {liked ? isLiked : notLiked}
-          </span>
-          <span>{data.likeCount}</span>
-          <ChatIcon style={{ color: "#39CCCC", fontSize: "30" }} />
-          <span>{data.commentCount}</span>
+        <div className="rant-content">
+          {data.body.split("<br />").map((item: string, i: any) => (
+            <p key={i}>{item}</p>
+          ))}
+          <div className="rant-info">
+            <span style={{ marginRight: "0px" }} onClick={toggleLike}>
+              {liked ? isLiked : notLiked}
+            </span>
+            <span>{data.likeCount}</span>
+            <ChatIcon style={{ color: "#39CCCC", fontSize: "30" }} />
+            <span>{data.commentCount}</span>
+          </div>
         </div>
       </div>
     </div>

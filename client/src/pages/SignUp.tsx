@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps, useHistory } from "react-router-dom";
 
 // Context
 import { ReducerContext } from "../types";
@@ -15,6 +15,7 @@ import TextField from "@material-ui/core/TextField";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
 import TermsAndConditionsDialog from "./components/dialogs/TermsAndConditionsDialog";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 // TODO: Integrate this into a single forms hook instead of seperate ones
 interface SignUpForm {
@@ -25,9 +26,7 @@ interface SignUpForm {
   confirmPassword: string;
 }
 
-interface Props extends RouteComponentProps<any> {}
-
-export const SignUp: React.FC<Props> = ({ history }) => {
+export const SignUp: React.FC = () => {
   // Setting State for First Name, Last Name, Username, Email, Password, and Confirm Password (for Form Input)
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -40,6 +39,9 @@ export const SignUp: React.FC<Props> = ({ history }) => {
 
   // Importing Context (Global Store)
   const { state, dispatch } = useContext<ReducerContext>(UserContext);
+
+  // History to Push Pages
+  const history = useHistory();
 
   // Handles Submission for Sign Up Form
   const handleSubmit = (event: any) => {
@@ -156,6 +158,12 @@ export const SignUp: React.FC<Props> = ({ history }) => {
               </Button>
             </div>
             {state.UI.loading && <LinearProgress color="secondary" />}
+            <div style={{ display: "flex", margin: "0 auto" }}>
+              <div className="signup-back" onClick = {() => history.push('/')}>
+                <ArrowBackIcon style={{ paddingTop: "10px" }} />
+                <p style={{ marginLeft: "30px", marginTop: "-25px" }}>Go Back</p>
+              </div>
+            </div>
           </form>
         </div>
       </div>

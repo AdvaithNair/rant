@@ -18,7 +18,7 @@ exports.deleteRant = (req: express.Request, res: express.Response) => {
         return;
       }
       // Checks if User is Authorized
-      if (doc.data().userID !== req.user.uid)
+      if (doc.data().handle !== req.user.handle)
         return res.status(403).json({ error: "Unauthorized" });
       //Deletes Document
       else return rantDocument.delete();
@@ -49,8 +49,9 @@ exports.deleteComment = (req: express.Request, res: express.Response) => {
       }
       //return res.json({ info: doc.data() });
       // Checks if User is Authorized
+      // TODO: migrate this from ranterID to ranterHandle
       if (
-        doc.data().commenterID !== req.user.uid &&
+        doc.data().handle !== req.user.handle &&
         doc.data().ranterID !== req.user.uid
       )
         return res.status(403).json({ error: "Unauthorized" });

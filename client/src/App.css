@@ -102,10 +102,16 @@ PAGES --------------------------------------------------------------------------
   margin-top: 40px;
 }
 
+@media screen and (max-width: 600px) {
+  .landing-content {
+    width: 80%;
+  }
+}
+
 /* Sign Up Page ------------------------------- */
 
 .signup-content {
-  width: 30%;
+  width: 40%;
   margin: 0 auto;
   background-color: white;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -144,8 +150,20 @@ PAGES --------------------------------------------------------------------------
   margin-top: 30px;
 }
 
-.terms:hover {
+.terms:hover, .signup-back:hover {
   cursor: pointer;
+}
+
+.signup-back {
+  display: inline-block;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+@media screen and (max-width: 600px) {
+  .signup-content {
+    width: 80%;
+  }
 }
 
 /* Log In Page ------------------------------- */
@@ -453,7 +471,7 @@ COMPONENTS ---------------------------------------------------------------------
 }
 
 .rant-content p {
-  word-break: break-all;
+  overflow-wrap: break-word;
 }
 
 .rant-info {
@@ -477,6 +495,51 @@ COMPONENTS ---------------------------------------------------------------------
   display: block;
   width: 80%;
   margin: 0 auto;
+}
+
+@media screen and (max-width: 600px) {
+  .rant-credits-img img {
+    width: 100px;
+    height: 100px;
+    border: solid 3px transparent;
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    float: none;
+  }
+  .rant-content-body {
+    width: 100%;
+  }
+  .rant-credits-info {
+    width: 100%;
+    margin: 0 auto;
+    margin-top: -20px;
+    text-align: center;
+  }
+  .rant-credits {
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+    display: block;
+  }
+  .rant-credits-main {
+    display: block;
+  }
+  .rant-credits-date {
+    width: 100%;
+    text-align: center;
+    float: left;
+    position: relative;
+    margin-top: -10px;
+    margin-bottom: 20px;
+  }
+  .rant-title-text {
+    padding-left: 10px;
+  }
+  .more-icon {
+    right: -5px;
+  }
 }
 
 /* Header Component ------------------------------- */
@@ -503,7 +566,7 @@ COMPONENTS ---------------------------------------------------------------------
 }
 
 .spacer {
-  padding-left: 20px;
+  padding-left: 5px;
 }
 
 .header-img {
@@ -517,6 +580,12 @@ COMPONENTS ---------------------------------------------------------------------
   background-image: linear-gradient(white, white), radial-gradient(circle at top left, #F012BE, #39CCCC);
   background-origin: border-box;
   background-clip: content-box, border-box;
+}
+
+@media screen and (max-width: 600px) {
+  .header-logo {
+    margin-left: -10px;
+  }
 }
 
 /* Comment Component ------------------------------- */
@@ -548,13 +617,12 @@ COMPONENTS ---------------------------------------------------------------------
 }
 
 .comment-credits {
-  width: 100%;
   display: inline;
 }
 
 .comment-credit-text {
   float: left;
-  margin-left: 10px;
+  padding-left: 10px;
   margin-top: -7px;
   margin-bottom: -20px;
 }
@@ -570,8 +638,7 @@ COMPONENTS ---------------------------------------------------------------------
 }
 
 .comment-body {
-  margin-left: 10px;
-  position: relative;
+  padding-left: 10px;
   margin-bottom: 20px;
 }
 
@@ -581,7 +648,7 @@ COMPONENTS ---------------------------------------------------------------------
 }
 
 .comment-body-content p {
-  word-break: break-all;
+  overflow-wrap: break-word;
 }
 
 .delete-comment {
@@ -589,6 +656,33 @@ COMPONENTS ---------------------------------------------------------------------
   display: flex;
   float: right;
   width: 50px;
+  height: 50px;
+}
+
+@media screen and (max-width: 600px) {
+  .comment-content {
+    display: block;
+  }
+  .comment-credit-text {
+    display: block;
+    width: 100%;
+    float: left;
+  }
+  .commented-at {
+    float: left;
+    padding-left: 10px;
+    margin-top: 5px;
+  }
+  .comment-body-content p {
+    width: 85%;
+    word-wrap: break-all;
+    overflow-wrap: anywhere;
+  }
+  .delete-comment {
+    position: relative;
+    right: 0;
+    float: right;
+  }
 }
 
 /* Notification Component ------------------------------- */
@@ -616,3 +710,5 @@ COMPONENTS ---------------------------------------------------------------------
 .notification-handle:hover {
   color: #F012BE;
 }
+
+/* Media Queries */

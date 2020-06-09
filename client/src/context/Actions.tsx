@@ -176,6 +176,21 @@ const checkCredentials = (
   if (credentials.password !== credentials.confirmPassword)
     errors.confirmPassword = "Passwords Must Match";
 
+  if (credentials.handle) {
+    if (
+      credentials.handle.includes("<") ||
+      credentials.handle.includes(">") ||
+      credentials.handle.includes(":") ||
+      credentials.handle.includes('"') ||
+      credentials.handle.includes("/") ||
+      credentials.handle.includes("\\") ||
+      credentials.handle.includes("|") ||
+      credentials.handle.includes("?") ||
+      credentials.handle.includes("*")
+    )
+      errors.handle = "Invalid Username";
+  }
+
   dispatch({ type: SET_ERRORS, payload: errors });
   if (toTerminate) dispatch({ type: CLEAR_LOADING });
   return toTerminate;

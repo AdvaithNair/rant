@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps, useHistory } from "react-router-dom";
 
 // Context
 import { ReducerContext } from "../types";
@@ -13,13 +13,15 @@ import RantLogo from "../assets/images/RantLogoTransparent.png";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
-interface Props extends RouteComponentProps<any> {}
-
-export const LogIn: React.FC<Props> = ({ history }) => {
+export const LogIn: React.FC = () => {
   // Setting State for Email and Password (for Form Input)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  // History to Push Pages
+  const history = useHistory();
 
   // Importing Context (Global Store)
   const { state, dispatch } = useContext<ReducerContext>(UserContext);
@@ -88,6 +90,12 @@ export const LogIn: React.FC<Props> = ({ history }) => {
               </Button>
             </div>
             {state.UI.loading && <LinearProgress color="secondary" />}
+            <div style={{ display: "flex", margin: "0 auto" }}>
+              <div className="signup-back" onClick = {() => history.push('/')}>
+                <ArrowBackIcon style={{ paddingTop: "10px" }} />
+                <p style={{ marginLeft: "30px", marginTop: "-25px" }}>Go Back</p>
+              </div>
+            </div>
           </form>
         </div>
       </div>
