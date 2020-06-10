@@ -48,6 +48,7 @@ export const handleUser = (
       setAuthorizationHeader(res.data.token);
 
       // Creates User Info
+      // Creates User Info
       getUserData(dispatch);
 
       // Additional UI Fixes

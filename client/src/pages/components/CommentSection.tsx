@@ -57,7 +57,7 @@ export const CommentSection: React.FC<Props> = ({
     axios
       .post(`/rant/comment/${rantID}`, { body: commentText })
       .then((res: any) => {
-        setComments(comments => comments.concat(res.data));
+        setComments(comments => comments.concat(res.data.returnComment));
         // Increment Comment Count
         dispatch({ type: ADD_COMMENT, payload: rantID });
         rantData.commentCount++;
