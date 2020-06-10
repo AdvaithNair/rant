@@ -1,7 +1,6 @@
 import * as express from "express";
 import * as firebase from "firebase";
 import * as admin from "firebase-admin";
-import * as functions from "firebase-functions";
 
 // const { v1: uuidv1 } = require("uuid");
 const { db } = require("../util/admin");
@@ -41,7 +40,6 @@ exports.signUp = (req: express.Request, res: express.Response) => {
 
   // Variables for Authorization
   let authToken: string;
-  let userID: string;
 
   // Signs Up User in Database
   db.doc(`users/${newUser.handle}`)
@@ -59,7 +57,6 @@ exports.signUp = (req: express.Request, res: express.Response) => {
     })
     .then((data: any) => {
       // Provides Authentication Token
-      userID = data.user.uid;
       return data.user.getIdToken();
     })
     .then((token: any) => {
@@ -73,7 +70,6 @@ exports.signUp = (req: express.Request, res: express.Response) => {
         lastName: newUser.lastName,
         userName: userName,
         email: newUser.email,
-        userID,
         imageURL: `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${noImg}?alt=media`,
         createdAt: new Date().toISOString()
       };
@@ -305,7 +301,7 @@ exports.getUser = (req: express.Request, res: express.Response) => {
     });
 };
 
-// Retrieves User Information
+// Retrieves User Information of Any User
 // TODO: FIX THIS
 exports.getUserDetails = (req: express.Request, res: express.Response) => {
   const userData: { [k: string]: any } = {};
@@ -330,7 +326,6 @@ exports.getUserDetails = (req: express.Request, res: express.Response) => {
           createdAt: doc.data().createdAt,
           userName: doc.data().userName,
           handle: doc.data().handle,
-          userImage: doc.data().userImage,
           likeCount: doc.data().likeCount,
           commentCount: doc.data().commentCount,
           imageURL: doc.data().imageURL,
@@ -348,8 +343,9 @@ exports.getUserDetails = (req: express.Request, res: express.Response) => {
 };
 
 // Updates Images
+/*
 exports.onImageChange = functions.firestore
-  .document("/users/{userID}")
+  .document("/users/{handle}")
   .onUpdate((change: any) => {
     // If the Image URL has changed
     if (change.before.data().imageURL !== change.after.data().imageURL) {
@@ -387,3 +383,4 @@ exports.onImageChange = functions.firestore
         });
     } else return true;
   });
+*/

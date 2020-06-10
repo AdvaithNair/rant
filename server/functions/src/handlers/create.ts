@@ -58,7 +58,6 @@ exports.createComment = (req: express.Request, res: express.Response) => {
     body: req.body.body,
     createdAt: new Date().toISOString(),
     rantID: req.params.rantID,
-    commenterID: req.user.uid,
     userName: req.user.userName,
     handle: req.user.handle,
     imageURL: req.user.imageURL
@@ -72,7 +71,7 @@ exports.createComment = (req: express.Request, res: express.Response) => {
       if (!doc.exists) {
         res.status(404).json({ error: "Rant Not Found" });
         return;
-      } else newComment.ranterID = doc.data().userID;
+      } else newComment.ranterHandle = doc.data().handle;
       return doc.ref.update({ commentCount: doc.data().commentCount + 1 });
     })
     .then(() => {
@@ -87,55 +86,13 @@ exports.createComment = (req: express.Request, res: express.Response) => {
       res.status(500).json({ error: err.code });
     });
 };
-/*
-exports.createComment = (req: express.Request, res: express.Response) => {
-  // Validates Comment (Quickly)
-  if (req.body.body.trim() === "") {
-    res.status(400).json({ error: "Must Not Be Empty" });
-    return;
-  }
-
-  // New Comment Object
-  const newComment: { [k: string]: any } = {
-    body: req.body.body,
-    createdAt: new Date().toISOString(),
-    rantID: req.params.rantID,
-    userName: req.user.userName,
-    handle: req.user.handle,
-    imageURL: req.user.imageURL
-  };
-
-  // Adds New Comment
-  db.doc(`/rants/${req.params.rantID}`)
-    .get()
-    .then((doc: any) => {
-      // Returns Error if the Rant Does Not Exist
-      if (!doc.exists) {
-        res.status(404).json({ error: "Rant Not Found" });
-        return;
-      } else newComment.ranterID = doc.data().userID;
-      return doc.ref.update({ commentCount: doc.data().commentCount + 1 });
-    })
-    .then(() => {
-      return db.collection("comments").add(newComment);
-    })
-    .then(() => {
-      res.status(200).json(newComment);
-    })
-    .catch((err: any) => {
-      // Return Errors
-      console.error(err);
-      res.status(500).json({ error: err.code });
-    });
-};
-*/
 
 // Toggles Like/Unlike of Rant
 exports.toggleLike = (req: express.Request, res: express.Response) => {
   // Gets Like Document (if it exists)
   const likeDocument = db
     .collection("likes")
-    .where("userID", "==", req.user.uid)
+    .where("handle", "==", req.user.handle)
     .where("rantID", "==", req.params.rantID)
     .limit(1);
 
@@ -164,7 +121,7 @@ exports.toggleLike = (req: express.Request, res: express.Response) => {
           .collection("likes")
           .add({
             rantID: req.params.rantID,
-            userID: req.user.uid,
+            imageURL: req.user.imageURL,
             userName: req.user.userName,
             handle: req.user.handle
           })

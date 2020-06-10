@@ -55,6 +55,7 @@ export const handleUser = (
       history.push("/home");
     })
     .catch((err: any) => {
+      console.log(err)
       // Error Handling
       const errors = {
         email: "",
@@ -120,6 +121,7 @@ export const uploadImage = (
 // Logs Out User
 export const logoutUser = (dispatch: any) => {
   localStorage.removeItem("firebaseAuthToken");
+  localStorage.removeItem("userData");
   delete axios.defaults.headers.common["Authorization"];
   dispatch({ type: SET_UNAUTHENTICATED });
 };
@@ -205,8 +207,9 @@ export const toggleLikeRequest = (
   axios
     .get(`/rant/like/${rantID}`)
     .then((res: any) => {
-      if (isLiked) dispatch({ type: UNLIKE_RANT, payload: res.data });
-      else dispatch({ type: LIKE_RANT, payload: res.data });
+      console.log(res.data);
+      if (isLiked) dispatch({ type: UNLIKE_RANT, payload: res.data.rantData });
+      else dispatch({ type: LIKE_RANT, payload: res.data.rantData });
       //updateUserData(dispatch);
       // TODO: Comment this out?
       getRantData(dispatch);

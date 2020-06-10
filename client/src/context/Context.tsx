@@ -185,9 +185,9 @@ function reducer(state: any, action: any) {
         ...state
       };
     case MARK_NOTIFICATIONS_READ:
-      state.notifications.forEach((not: any) => (not.read = true));
       return {
-        ...state
+        ...state,
+        notifications: []
       };
     default:
       return state;

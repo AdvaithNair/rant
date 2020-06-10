@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 // Logo
@@ -18,7 +18,7 @@ export const Landing: React.FC = () => {
             component={Link}
             to="/signup"
             style={{
-              fontSize: "25px",
+              fontSize: window.innerWidth > 300 ? "25px" : "15px",
               color: "white",
               fontFamily: "Montserrat",
               fontWeight: 550
@@ -33,7 +33,7 @@ export const Landing: React.FC = () => {
             component={Link}
             to="/login"
             style={{
-              fontSize: "25px",
+              fontSize: window.innerWidth > 300 ? "25px" : "15px",
               color: "white",
               fontFamily: "Montserrat",
               fontWeight: 550

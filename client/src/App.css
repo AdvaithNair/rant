@@ -20,7 +20,6 @@ body {
   src: local('Montserrat-Bold'), url(http://fonts.gstatic.com/s/montserrat/v6/IQHow_FEYlDC4Gzy_m8fcvEr6Hm6RMS0v1dtXsGir4g.ttf) format('truetype');
 }
 
-
 /*
 PAGES ----------------------------------------------------------------------------------------------------------------------------------------------
 */
@@ -36,10 +35,10 @@ PAGES --------------------------------------------------------------------------
 }
 
 .search-bar {
+  display: flex;
   margin: 0 auto;
-  height: 50px;
-  background-color: grey;
   width: 80%;
+  box-shadow: 0px 2px 10px 3px rgba(0, 0, 0, 0.25);
 }
 
 .footer {
@@ -60,6 +59,12 @@ PAGES --------------------------------------------------------------------------
 
 .footer p b {
   font-size: 14pt;
+}
+
+@media screen and (max-width: 300px) {
+  .footer p, .footer p b {
+    font-size: 10pt;
+  }
 }
 
 /* Landing Page ------------------------------- */
@@ -319,7 +324,40 @@ PAGES --------------------------------------------------------------------------
   background-color: #39CCCC;
 }
 
+@media screen and (max-width: 300px) {
+  .edit-profile-button, .logout-button {
+    width: 150px;
+  }
+  .main-home-content h1 {
+    font-size: 25px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .profile-card-image, .profile-card-image-display, .profile-card-image-container {
+    height: 175px;
+    width: 175px;
+  }
+  .profile-card-image-overlay {
+    height: 185px;
+    width: 185px;
+  }
+  .profile-card-content h1 {
+    font-size: 20pt;
+  }
+  .profile-handle {
+    font-size: 14pt;
+  }
+  .profile-card-content p {
+    font-size: 11pt;
+  }
+  .profile-card-content h3 {
+    font-size: 12pt;
+  }
+}
+
 /* Manipulate Rant Page ------------------------------- */
+
 .manipulate-submit-section {
   margin-top: 20px;
   display: block;
@@ -348,6 +386,7 @@ PAGES --------------------------------------------------------------------------
 }
 
 /* Feed Page*/
+
 .loading-rants {
   display: flex;
   margin: auto;
@@ -582,13 +621,34 @@ COMPONENTS ---------------------------------------------------------------------
   background-clip: content-box, border-box;
 }
 
+.mobile-menu {
+  display: none;
+}
+
 @media screen and (max-width: 600px) {
   .header-logo {
     margin-left: -10px;
+    margin-top: 10px;
+    height: 40px;
+  }
+  .spacer img {
+    margin-top: 40px;
+    width: 45px;
+    height: 45px;
+  }
+  .mobile-menu {
+    display: flex;
+    float: right;
+    margin-top: 0px;
+    margin-right: -30px;
+  }
+  .content-right {
+    display: none;
   }
 }
 
 /* Comment Component ------------------------------- */
+
 .comment-section {
   margin-left: 20px;
   margin-right: 20px;
@@ -686,9 +746,10 @@ COMPONENTS ---------------------------------------------------------------------
 }
 
 /* Notification Component ------------------------------- */
+
 .notification-main {
   display: block;
-  max-width:500px;
+  max-width: 500px;
 }
 
 .notification-data {

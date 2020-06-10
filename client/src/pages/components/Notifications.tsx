@@ -39,11 +39,19 @@ export const Notifications: React.FC = () => {
           <IconButton onClick={handleClick}>
             {state.notifications.length > 0 && (
               <Badge badgeContent={state.notifications.length} color="error">
-                <NotificationsIcon color="action" style={{ fontSize: 40 }} />
+                <NotificationsIcon
+                  color="action"
+                  style={{
+                    fontSize: window.innerWidth > 375 ? "40px" : "30px"
+                  }}
+                />
               </Badge>
             )}
             {state.notifications.length === 0 && (
-              <NotificationsIcon color="action" style={{ fontSize: 40 }} />
+              <NotificationsIcon
+                color="action"
+                style={{ fontSize: window.innerWidth > 375 ? "40px" : "30px" }}
+              />
             )}
           </IconButton>
         </div>

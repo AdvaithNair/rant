@@ -100,12 +100,14 @@ exports.deleteCommentNotification = functions.firestore
   });
 
 // Marks Notifications as Read
+// TODO: Delete Read Notifications
 exports.readNotifications = (req: express.Request, res: express.Response) => {
   const batch = db.batch();
 
   // Update Each Notification
-  req.body.forEach((notificationID: any) => {
-    batch.update(db.doc(`/notifications/${notificationID}`), { read: true });
+  req.body.forEach((notificationDoc: any) => {
+    const notification = db.collection('notifications').doc(notificationDoc.notificationID)
+    batch.delete(notification);
   });
 
   // Commit Batch
