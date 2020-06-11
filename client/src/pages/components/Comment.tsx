@@ -4,12 +4,6 @@ import { CommentData, RantData } from "../../types";
 // Context
 import { ReducerContext } from "../../types";
 import { UserContext } from "../../context/Context";
-import {
-  toggleLikeRequest,
-  deleteRant,
-  getRantInfo
-} from "../../context/Actions";
-import { DELETE_COMMENT } from "../../context/ReducerTypes";
 
 // Time Formatting
 import { formatRelative } from "../../time";
@@ -19,12 +13,11 @@ import Divider from "@material-ui/core/Divider";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
-import axios from "axios";
+import DeleteCommentDialog from "./dialogs/DeleteCommentDialog";
 
 // Props
 interface Props {
   data: CommentData;
-  ranterHandle: string;
   comments: CommentData[];
   setComments: React.Dispatch<React.SetStateAction<CommentData[]>>;
   rantData: RantData;
@@ -34,35 +27,24 @@ interface Props {
 // TODO: Break this up into components
 export const Comment: React.FC<Props> = ({
   data,
-  ranterHandle,
   setComments,
   rantData,
   setRantData
 }) => {
   // Importing Context (Global Store)
-  const { state, dispatch } = useContext<ReducerContext>(UserContext);
+  const { state } = useContext<ReducerContext>(UserContext);
+
+  // Local States
+  const [dialog, setDialog] = useState<boolean>(false);
 
   // On Component Mount, Renders Like
   useEffect(() => {}, []);
 
-  // Deletes Rant
-  const handleDelete = () => {
-    axios
-      .delete(`/delete/comment/${data.commentID}`)
-      .then(() => {
-        // Filter Comments
-        setComments(
-          comments =>
-            comments.filter(element => element.commentID !== data.commentID) ||
-            []
-        );
-        dispatch({ type: DELETE_COMMENT, payload: data.rantID });
-        rantData.commentCount--;
-        setRantData({
-          ...rantData
-        });
-      })
-      .catch((err: Error) => console.log(err));
+  // Opens Delete Dialog
+  const handleOpen = (event: any) => {
+    event.stopPropagation();
+    setDialog(true);
+    console.log(dialog);
   };
 
   // TODO: Add comment component and
@@ -87,13 +69,23 @@ export const Comment: React.FC<Props> = ({
           <div className="comment-body">
             <div className="delete-comment">
               {(state.credentials.handle === data.handle ||
-                state.credentials.handle === ranterHandle) && (
+                state.credentials.handle === rantData.handle ||
+                state.credentials.userID === data.userID ||
+                state.credentials.userID === rantData.userID) && (
                 <Tooltip title="Delete Comment" placement="bottom">
-                  <IconButton onClick={handleDelete}>
+                  <IconButton onClick={handleOpen}>
                     <DeleteIcon color="action" style={{ color: "red" }} />
                   </IconButton>
                 </Tooltip>
               )}
+              <DeleteCommentDialog
+                dialog={dialog}
+                setDialog={setDialog}
+                setComments={setComments}
+                setRantData = {setRantData}
+                rantData = {rantData}
+                commentData = {data}
+              />
             </div>
             <div className="comment-body-content">
               <p>{data.body}</p>

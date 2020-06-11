@@ -16,6 +16,7 @@ export const CLEAR_LOADING = "CLEAR_LOADING";
 // Rant Data
 export const SET_RANTS = "SET_RANTS";
 export const ADD_RANT = "ADD_RANT";
+export const UPDATE_RANT = "UPDATE_RANT";
 export const DELETE_RANT = "DELETE_RANT";
 export const LIKE_RANT = "LIKE_RANT";
 export const UNLIKE_RANT = "UNLIKE_RANT";

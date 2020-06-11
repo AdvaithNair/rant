@@ -14,6 +14,7 @@ import {
   CLEAR_LOADING,
   SET_RANTS,
   ADD_RANT,
+  UPDATE_RANT,
   DELETE_RANT,
   LIKE_RANT,
   UNLIKE_RANT,
@@ -140,6 +141,18 @@ function reducer(state: any, action: any) {
           },
           ...state.rants
         ]
+      };
+    case UPDATE_RANT:
+      const updatedRant = state.rants.findIndex(
+        (rant: { [k: string]: any }) => rant.rantID === action.payload.rantID
+      );
+      state.rants[updatedRant] = {
+        ...state.rants[updatedRant],
+        title: action.payload.title,
+        body: action.payload.body
+      };
+      return {
+        ...state
       };
     case DELETE_RANT:
       const index = state.rants.findIndex(

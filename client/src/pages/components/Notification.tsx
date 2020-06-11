@@ -45,7 +45,7 @@ export const Notification: React.FC<Props> = ({ data }) => {
           @{data.sender}{" "}
         </span>
         <span>
-          {data.type === "like" ? "liked " : "commented on "}your post{" - "}
+          {data.type === "like" ? "liked " : "commented on "}your rant{" - "}
         </span>
         <span style={{ color: "#F012BE" }}>
           {formatRelative(data.createdAt)}

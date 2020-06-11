@@ -38,7 +38,7 @@ export const Home: React.FC<Props> = ({ history }) => {
           <Route path="/home/users/:handle" component={UserPage} />
           <Route path="/home/rant/:rantID" component={RantPage} />
           <Route path="/home/create" render={(data) => <CreateRant {...data} pageTitle = {'CREATE RANT'} isCreate = {true} />} />
-          <Route path="/home/edit" render={(data) => <CreateRant {...data} pageTitle = {'EDIT RANT'} isCreate = {false} />} />
+          <Route path="/home/edit/:rantID" render={(data) => <CreateRant {...data} pageTitle = {'EDIT RANT'} isCreate = {false} />} />
           <Route path="/home/profile" component={Profile} />
           <Route path="/home" component={Feed} />
         </Switch>

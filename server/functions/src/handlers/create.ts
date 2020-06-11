@@ -3,6 +3,9 @@ import * as express from "express";
 const { db } = require("../util/admin");
 const { validateRant } = require("../util/validation");
 
+const blankImage =
+    "https://firebasestorage.googleapis.com/v0/b/rant-dd853.appspot.com/o/no-img.png?alt=media";
+
 // Creates a Rant (Post)
 // MAKE SURE THIS WORKS - RUN TESTS
 exports.createRant = (req: express.Request, res: express.Response) => {
@@ -15,14 +18,12 @@ exports.createRant = (req: express.Request, res: express.Response) => {
     return;
   }
 
-  const blankImage =
-    "https://firebasestorage.googleapis.com/v0/b/rant-dd853.appspot.com/o/no-img.png?alt=media";
-
   // New Rant Object
   const newRant: { [k: string]: any } = {
     userName: req.body.anonymous ? "Anonymous" : req.user.userName,
     handle: req.body.anonymous ? "anonymous" : req.user.handle,
     imageURL: req.body.anonymous ? blankImage : req.user.imageURL,
+    userID: req.user.uid,
     title: req.body.title,
     body: req.body.body,
     likeCount: 0,
@@ -58,9 +59,10 @@ exports.createComment = (req: express.Request, res: express.Response) => {
     body: req.body.body,
     createdAt: new Date().toISOString(),
     rantID: req.params.rantID,
-    userName: req.user.userName,
-    handle: req.user.handle,
-    imageURL: req.user.imageURL
+    userName: req.body.anonymous ? "Anonymous" : req.user.userName,
+    handle: req.body.anonymous ? "anonymous" : req.user.handle,
+    imageURL: req.body.anonymous ? blankImage : req.user.imageURL,
+    userID: req.user.uid
   };
 
   // Adds New Comment

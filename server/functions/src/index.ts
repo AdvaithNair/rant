@@ -6,13 +6,14 @@ const { firebaseAuth } = require("./util/firebaseAuth");
 
 const { getAllRants, getRant } = require("./handlers/get");
 const { createRant, createComment, toggleLike } = require("./handlers/create");
+const { updateRant } = require("./handlers/update");
 const {
   signUp,
   logIn,
   uploadImage,
   updateUser,
   getUser,
-  getUserDetails,
+  getUserDetails
   //onImageChange
 } = require("./handlers/users");
 const {
@@ -37,6 +38,9 @@ app.get("/get/all_rants", getAllRants); // Gets Rant Data for All Rants
 
 // Create
 app.post("/create/rant", firebaseAuth, createRant); // Creates Rant
+
+//Update
+app.put("/update/rant/:rantID", firebaseAuth, updateRant);
 
 // Rant Operations
 app.get("/rant/:rantID", getRant); // Gets Rant Data for Specific Rant

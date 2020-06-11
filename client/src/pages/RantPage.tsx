@@ -57,6 +57,7 @@ export const Rant: React.FC<Props> = ({ match }) => {
     likeCount: 0,
     commentCount: 0,
     imageURL: "",
+    userID: '',
     rantID
   });
   const [commentData, setCommentData] = useState<Array<CommentData>>([]);
@@ -78,6 +79,7 @@ export const Rant: React.FC<Props> = ({ match }) => {
           body: res.data.body,
           likeCount: res.data.likeCount,
           commentCount: res.data.commentCount,
+          userID: res.data.userID,
           imageURL: res.data.imageURL,
           rantID
         });
@@ -100,7 +102,7 @@ export const Rant: React.FC<Props> = ({ match }) => {
       {!loading && (
         <div className="rant-body">
           <RantContent data={rantData} />
-          <CommentSection rantID={rantID} data = {commentData} ranterHandle = {rantData.handle} rantData = {rantData} setRantData = {setRantData}/>
+          <CommentSection rantID={rantID} data = {commentData} rantData = {rantData} setRantData = {setRantData}/>
         </div>
       )}
     </div>

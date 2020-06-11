@@ -266,6 +266,7 @@ exports.getUser = (req: express.Request, res: express.Response) => {
 
       // Gets Newest 25 Notifications
       // TODO: Possibly Change This Limit
+      // TODO: change this to userID instead of handle
       return db
         .collection("notifications")
         .where("recipient", "==", req.user.handle)

@@ -55,7 +55,7 @@ export const RantMenu: React.FC<Props> = ({
   const handleEdit = (event: any) => {
     event.stopPropagation();
     // TODO: Update this URL to include rant ID
-    //history.push(`/home/edit`);
+    history.push(`/home/edit/${rantData.rantID}`);
   };
 
   // Opens Delete Dialog

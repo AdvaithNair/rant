@@ -81,7 +81,7 @@ export const RantContent: React.FC<Props> = ({ data }) => {
           <h1>{data.title}</h1>
         </div>
         <div className="more-icon">
-          {state.credentials.handle === data.handle && (
+          {state.credentials.userID === data.userID && (
             <IconButton onClick={handleClick}>
               <MoreVertIcon style={{ color: "white" }} />
             </IconButton>
@@ -119,7 +119,7 @@ export const RantContent: React.FC<Props> = ({ data }) => {
           </div>
         </div>
         <div className="rant-content">
-          {data.body.split("<br />").map((item: string, i: any) => (
+          {data.body.split("\\\\n").map((item: string, i: any) => (
             <p key={i}>{item}</p>
           ))}
           <div className="rant-info">

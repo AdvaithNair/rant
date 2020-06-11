@@ -11,9 +11,6 @@ import Landing from "./pages/Landing";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
 
-// Components
-import { AuthRoute } from "./pages/components/AuthRoute";
-
 // Main Theme Import
 import { mainTheme } from "./assets/themes/Themes";
 

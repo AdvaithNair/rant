@@ -4,11 +4,6 @@ import { RantData, CommentData } from "../../types";
 // Context
 import { ReducerContext } from "../../types";
 import { UserContext } from "../../context/Context";
-import {
-  toggleLikeRequest,
-  deleteRant,
-  getRantInfo
-} from "../../context/Actions";
 
 // Components
 import Comment from "./Comment";
@@ -20,14 +15,13 @@ import axios from "axios";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
-import { LinearProgress } from "@material-ui/core";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import { ADD_COMMENT } from "../../context/ReducerTypes";
 
 // Props
 interface Props {
   rantID: string;
   data: Array<CommentData>;
-  ranterHandle: string;
   rantData: RantData;
   setRantData: React.Dispatch<React.SetStateAction<RantData>>;
 }
@@ -36,7 +30,6 @@ interface Props {
 export const CommentSection: React.FC<Props> = ({
   rantID,
   data,
-  ranterHandle,
   rantData,
   setRantData
 }) => {
@@ -53,9 +46,11 @@ export const CommentSection: React.FC<Props> = ({
     event.preventDefault();
     setLoading(true);
 
+    const anonymous: boolean = rantData.handle === 'anonymous';
+
     // Posts Comment
     axios
-      .post(`/rant/comment/${rantID}`, { body: commentText })
+      .post(`/rant/comment/${rantID}`, { body: commentText, anonymous })
       .then((res: any) => {
         setComments(comments => comments.concat(res.data.returnComment));
         // Increment Comment Count
@@ -111,7 +106,6 @@ export const CommentSection: React.FC<Props> = ({
             <Comment
               key={comment.createdAt}
               data={comment}
-              ranterHandle={ranterHandle}
               comments={comments}
               setComments={setComments}
               rantData={rantData}

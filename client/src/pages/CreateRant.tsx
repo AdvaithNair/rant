@@ -2,9 +2,9 @@ import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 // Context
-import { ReducerContext } from "../types";
+import { ReducerContext, RantData } from "../types";
 import { UserContext } from "../context/Context";
-import { postRant } from "../context/Actions";
+import { postRant, updateRant } from "../context/Actions";
 
 // Material UI
 import Button from "@material-ui/core/Button";
@@ -15,21 +15,16 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 interface Props {
   pageTitle: string;
   isCreate: boolean;
+  match?: any;
 }
 
-export const CreateRant: React.FC<Props> = ({ pageTitle, isCreate }) => {
+export const CreateRant: React.FC<Props> = ({ pageTitle, isCreate, match }) => {
   // Setting State for Rant Data
   const [title, setTitle] = useState<string>("");
   const [body, setBody] = useState<string>("");
   const [titleError, setTitleError] = useState<string>("");
   const [bodyError, setBodyError] = useState<string>("");
   const [anonymous, setAnonymous] = useState<boolean>(false);
-
-  // Errors Object
-  const errors: { [k: string]: string } = {
-    title: "",
-    body: ""
-  };
 
   const emptyMessage = "Must Not Be Empty";
 
@@ -39,13 +34,19 @@ export const CreateRant: React.FC<Props> = ({ pageTitle, isCreate }) => {
   // History for Page Movement
   const history = useHistory();
 
-  // On Component Mount, Request All Rants
+  // On Component Mount, Update Title and Body (If Edit)
   useEffect(() => {
-    //console.log(errors)
+    if (!isCreate) {
+      const rantData: RantData = state.rants.find(
+        (element: RantData) => element.rantID === match.params.rantID
+      ) || {};
+      setTitle(rantData.title || '');
+      setBody(rantData.body || '');
+    }
   }, []);
 
   const handleSubmit = () => {
-    // Possible Reduce This Function Down
+    // TODO: Possible Reduce This Function Down
     if (!title || !body) {
       if (title === "") setTitleError(emptyMessage);
       else setTitleError("");
@@ -58,15 +59,18 @@ export const CreateRant: React.FC<Props> = ({ pageTitle, isCreate }) => {
     }
 
     // Rant Data Object
-    const newBody = body.replace(/\n/g, "<br />") //"\\\\n"
+    const newBody = body.replace(/\n/g, "\\\\n"); //"\\\\n"
     const rantData: { [k: string]: any } = {
       title,
       body: newBody,
       anonymous
     };
 
+    console.log(rantData);
+
     // Posts Rant
-    postRant(rantData, dispatch, state);
+    if (isCreate) postRant(rantData, dispatch);
+    else updateRant(rantData, match.params.rantID, dispatch);
     setTitle("");
     setBody("");
     setAnonymous(false);
@@ -83,26 +87,16 @@ export const CreateRant: React.FC<Props> = ({ pageTitle, isCreate }) => {
         onChange={e => setTitle(e.target.value)}
         helperText={titleError}
         error={titleError ? true : false}
-        onKeyPress={e => {
-          if (e.key === "Enter") {
-            handleSubmit();
-          }
-        }}
         fullWidth
       />
       <TextField
         style={{ marginTop: "20px" }}
         label="Body"
         placeholder="Body"
-        value={body}
+        value={body.replace(/\\\\n/g, "\n")}
         onChange={e => setBody(e.target.value)}
         helperText={bodyError}
         error={bodyError ? true : false}
-        onKeyPress={e => {
-          if (e.key === "Enter") {
-            handleSubmit();
-          }
-        }}
         multiline
         fullWidth
       />

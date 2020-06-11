@@ -1,9 +1,5 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
-
-// Context
-import { ReducerContext } from "../../types";
-import { UserContext } from "../../context/Context";
 
 // Components
 import MainHeader from "./MainHeader";
@@ -22,9 +18,6 @@ import RantLogo from "../../assets/images/RantLogoTransparent.png";
 import { headerTheme } from "../../assets/themes/Themes";
 
 export const Header: React.FC = () => {
-  // Importing Context (Global Store)
-  const { state } = useContext<ReducerContext>(UserContext);
-
   const history = useHistory();
 
   return (

@@ -1,6 +1,7 @@
 export type RantData = {
   rantID: string;
   userName: string;
+  userID: string;
   handle: string;
   title: string;
   body: string;
@@ -13,11 +14,20 @@ export type RantData = {
 export type CommentData = {
   rantID: string;
   userName: string;
+  userID: string;
   handle: string;
   body: string;
   createdAt: string;
   imageURL: string;
   commentID: string;
+};
+
+export type LikeData = {
+  rantID: string;
+  userID: string;
+  handle: string;
+  imageURL: string;
+  recipient: string;
 };
 
 export type NotificationData = {

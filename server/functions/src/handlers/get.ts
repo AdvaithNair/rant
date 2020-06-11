@@ -16,6 +16,7 @@ exports.getAllRants = (req: express.Request, res: express.Response) => {
         rants.push({
           rantID: doc.id,
           userName: doc.data().userName,
+          userID: doc.data().userID,
           handle: doc.data().handle,
           title: doc.data().title,
           body: doc.data().body,
