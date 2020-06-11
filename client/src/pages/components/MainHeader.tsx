@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 // Context
@@ -45,10 +45,7 @@ export const MainHeader: React.FC = () => {
         <Tooltip title="Profile" placement="bottom">
           <img
             className="header-img"
-            src={
-              JSON.parse(localStorage.userData || "{}").about.imageURL || //TODO: Be Careful about Local Storage
-              state.credentials.imageURL
-            }
+            src={state.credentials.imageURL}
             onClick={() => {
               history.push("/home/profile");
             }}

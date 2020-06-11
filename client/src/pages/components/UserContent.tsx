@@ -12,6 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import Tooltip from "@material-ui/core/Tooltip";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import SettingsIcon from "@material-ui/icons/Settings";
 
 interface Props {
   setImage: any;

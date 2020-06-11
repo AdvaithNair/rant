@@ -4,12 +4,10 @@ import { useHistory } from "react-router-dom";
 // Context
 import { ReducerContext } from "../types";
 import { UserContext } from "../context/Context";
-import {
-  logoutUser
-} from "../context/Actions";
+import { logoutUser } from "../context/Actions";
 
 // Components
-import UserContent from './components/UserContent';
+import UserContent from "./components/UserContent";
 
 // Dialogs
 import EditProfile from "./components/dialogs/EditProfile";
@@ -17,6 +15,10 @@ import UploadImage from "./components/dialogs/UploadImage";
 
 // Material UI
 import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import SettingsIcon from "@material-ui/icons/Settings";
+import Tooltip from "@material-ui/core/Tooltip";
+import UserSettingsMenu from "./components/dialogs/UserSettingsMenu";
 
 // type ImageUploadData = { [k: string]: any | string | Blob };
 
@@ -27,15 +29,17 @@ export const Profile: React.FC = () => {
   // Local States for Dialog Triggers
   const [edit, setEdit] = useState<boolean>(false);
   const [image, setImage] = useState<boolean>(false);
+  const [menu, setMenu] = useState<boolean>(false);
+  const [anchor, setAnchor] = useState<any>(null);
 
   // History to Push Page
   const history = useHistory();
 
-  // Formats Wesbite Entry
-  const formatWebsite = (input: string) => {
-    const trimmed = input.trim();
-    if (trimmed.substring(0, 4) === "http") return trimmed.substring(7);
-    if (trimmed.substring(0, 5) === "https") return trimmed.substring(8);
+  // On Click of Menu
+  const handleClick = (event: any) => {
+    event.stopPropagation();
+    setMenu(true);
+    setAnchor(event.currentTarget);
   };
 
   // Logs Out User
@@ -48,40 +52,57 @@ export const Profile: React.FC = () => {
     <div className="main-home-content">
       <h1>PROFILE</h1>
       <div className="profile-card">
-          <UserContent setImage = {setImage} isAuth = {true} data={state.credentials}/>
-          <div className="edit-profile-button">
-            <Button
-              style={{
-                fontSize: "15px",
-                color: "white",
-                fontFamily: "Montserrat",
-                fontWeight: 550
-              }}
-              onClick={() => setEdit(true)}
-              fullWidth
-            >
-              Edit Profile
-            </Button>
-          </div>
-          <div className="logout-button">
-            <Button
-              style={{
-                fontSize: "15px",
-                color: "white",
-                fontFamily: "Montserrat",
-                fontWeight: 550
-              }}
-              onClick={handleLogout}
-              fullWidth
-            >
-              Log Out
-            </Button>
-          </div>
-          <EditProfile edit={edit} setEdit={setEdit} />
-          <UploadImage image={image} setImage={setImage}/>
+        <div className="profile-settings">
+          <Tooltip title="Settings" placement="bottom">
+            <IconButton onClick = {handleClick}>
+              <SettingsIcon style={{ fontSize: "40px" }} />
+            </IconButton>
+          </Tooltip>
+          <UserSettingsMenu
+            menu={menu}
+            setMenu={setMenu}
+            anchor={anchor}
+            setAnchor={setAnchor}
+          />
         </div>
-        <div style={{ clear: "both" }}></div>
+        <UserContent
+          setImage={setImage}
+          isAuth={true}
+          data={state.credentials}
+        />
+        <div className="edit-profile-button">
+          <Button
+            style={{
+              fontSize: "15px",
+              color: "white",
+              fontFamily: "Montserrat",
+              fontWeight: 550
+            }}
+            onClick={() => setEdit(true)}
+            fullWidth
+          >
+            Edit Profile
+          </Button>
+        </div>
+        <div className="logout-button">
+          <Button
+            style={{
+              fontSize: "15px",
+              color: "white",
+              fontFamily: "Montserrat",
+              fontWeight: 550
+            }}
+            onClick={handleLogout}
+            fullWidth
+          >
+            Log Out
+          </Button>
+        </div>
+        <EditProfile edit={edit} setEdit={setEdit} />
+        <UploadImage image={image} setImage={setImage} />
       </div>
+      <div style={{ clear: "both" }}></div>
+    </div>
   );
 };
 

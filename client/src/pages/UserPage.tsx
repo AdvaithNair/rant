@@ -12,6 +12,7 @@ import Rant from "./components/Rant";
 // Axios
 import axios from "axios";
 import { SET_LOADING, CLEAR_LOADING } from "../context/ReducerTypes";
+import UserRant from "./components/UserRant";
 
 // type ImageUploadData = { [k: string]: any | string | Blob };
 
@@ -49,12 +50,10 @@ export const Profile: React.FC<Props> = ({ match }) => {
         <UserContent setImage={false} isAuth={false} data={user} />
       </div>
       <h1>RANTS</h1>
-      <div className="profile-card">
-        {rants &&
-          rants.map((rant: RantData) => <Rant key={rant.rantID} data={rant} />)}
-        {rants.length === 0 && <h4 className="text-center">No Rants</h4>}
-        <div style={{ marginBottom: "20px" }}></div>
-      </div>
+      {rants &&
+        rants.map((rant: RantData) => <UserRant key={rant.rantID} data={rant} />)}
+      {rants.length === 0 && <h4 className="text-center">No Rants</h4>}
+      <div style={{ marginBottom: "20px" }}></div>
     </div>
   );
 };

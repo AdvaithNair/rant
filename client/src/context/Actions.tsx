@@ -49,12 +49,10 @@ export const handleUser = (
       setAuthorizationHeader(res.data.token);
 
       // Creates User Info
-      // Creates User Info
-      getUserData(dispatch);
+      getUserData(dispatch, history);
 
       // Additional UI Fixes
       dispatch({ type: CLEAR_ERRORS });
-      history.push("/home");
     })
     .catch((err: any) => {
       console.log(err);
@@ -74,7 +72,8 @@ export const handleUser = (
 // Gets User Data
 // TODO: Possibly change this due to security concerns?
 export const getUserData = (
-  dispatch: (argument: { [k: string]: string }) => void
+  dispatch: (argument: { [k: string]: string }) => void,
+  history?: any
 ) => {
   if (localStorage.userData) {
     dispatch({
@@ -82,23 +81,29 @@ export const getUserData = (
       payload: JSON.parse(localStorage.userData || "{}")
     });
   } else {
-    updateUserData(dispatch);
+    updateUserData(dispatch, history);
   }
 };
 
 // Updates User Data
 export const updateUserData = (
-  dispatch: (argument: { [k: string]: string }) => void
+  dispatch: (argument: { [k: string]: string }) => void,
+  history?: any
 ) => {
   axios
     .get("/user")
     .then((res: any) => {
+      // Sets to LocalStorage
+      localStorage.setItem("userData", JSON.stringify(res.data.userData));
+
       // Stores User Info in Global State through Reducer
       dispatch({
         type: SET_USER,
         payload: res.data.userData
       });
-      localStorage.setItem("userData", JSON.stringify(res.data.userData));
+
+      // Push to Home
+      if (history) history.push("/home");
     })
     .catch((err: any) => console.log(err));
 };
@@ -234,7 +239,7 @@ export const getRantData = (
 };
 
 // Check if Authenticated and Update Context Accordingly
-export const checkAuth = (dispatch: any) => {
+export const checkAuth = (dispatch: (argument: { [k: string]: string }) => void) => {
   const token = localStorage.firebaseAuthToken;
   if (token) {
     const decodedToken: { [k: string]: any } = jwtDecode(token);
@@ -243,7 +248,7 @@ export const checkAuth = (dispatch: any) => {
       logoutUser(dispatch);
     } else {
       axios.defaults.headers.common["Authorization"] = token;
-      updateUserData(dispatch);
+      getUserData(dispatch);
     }
   }
 };

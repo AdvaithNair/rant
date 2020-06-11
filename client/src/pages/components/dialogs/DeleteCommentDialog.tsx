@@ -3,18 +3,17 @@ import React, { useContext } from "react";
 // Context
 import { ReducerContext, RantData, CommentData } from "../../../types";
 import { UserContext } from "../../../context/Context";
+import { DELETE_COMMENT } from "../../../context/ReducerTypes";
 
 // Axios
 import axios from "axios";
 
 // Material UI
-
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { DELETE_COMMENT } from "../../../context/ReducerTypes";
 
 interface Props {
   dialog: boolean;

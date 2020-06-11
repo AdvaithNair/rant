@@ -23,22 +23,21 @@ interface Props {
   setMenu: React.Dispatch<React.SetStateAction<boolean>>;
   anchor: any;
   setAnchor: React.Dispatch<React.SetStateAction<any>>;
-  rantData: RantData;
 }
 
 // TODO: Break this up into components
-export const RantMenu: React.FC<Props> = ({
+export const UserSettingsMenu: React.FC<Props> = ({
   menu,
   setMenu,
   anchor,
-  setAnchor,
-  rantData
+  setAnchor
 }) => {
   // Importing Context (Global Store)
   const { dispatch } = useContext<ReducerContext>(UserContext);
 
   // Local States
-  const [dialog, setDialog] = useState<boolean>(false);
+  const [emailDialog, setEmailDialog] = useState<boolean>(false);
+  const [passwordDialog, setPasswordDialog] = useState<boolean>(false);
 
   // History for Page Direction
   const history = useHistory();
@@ -48,34 +47,48 @@ export const RantMenu: React.FC<Props> = ({
     event.stopPropagation();
     setMenu(false);
     setAnchor(null);
-    // TODO: Watch this
-    //history.push('/home');
   };
 
-  // Redirects to Edit Page
-  const handleEdit = (event: any) => {
+  // Opens Email Dialog
+  const handleEmail = (event: any) => {
     event.stopPropagation();
-    history.push(`/home/edit/${rantData.rantID}`);
-  };
-
-  // Opens Delete Dialog
-  const handleDelete = (event: any) => {
-    event.stopPropagation();
-    setDialog(true);
+    setEmailDialog(true);
     setMenu(false);
   };
 
-  // Closes Delete Dialog
-  const handleDeleteClose = (event: any) => {
+  // Closes Email Dialog
+  const handleEmailClose = (event: any) => {
     event.stopPropagation();
-    setDialog(false);
+    setEmailDialog(false);
   };
 
-  // Deletes Object
-  const handleDeleteSubmit = (event: any) => {
+  // Submits Email Change
+  const handleEmailSubmit = (event: any) => {
     event.stopPropagation();
-    deleteRant(rantData.rantID, dispatch);
-    handleDeleteClose(event);
+    // Email Change Code
+    console.log('changed email');
+    handleEmailClose(event);
+  };
+
+  // Opens Password Dialog
+  const handlePassword = (event: any) => {
+    event.stopPropagation();
+    setPasswordDialog(true);
+    setMenu(false);
+  };
+
+  // Closes Password Dialog
+  const handlePasswordClose = (event: any) => {
+    event.stopPropagation();
+    setPasswordDialog(false);
+  };
+
+  // Submits Password Change
+  const handlePasswordSubmit = (event: any) => {
+    event.stopPropagation();
+    // Password Change Code
+    console.log('changed password');
+    handlePasswordClose(event);
   };
 
   return (
@@ -94,22 +107,36 @@ export const RantMenu: React.FC<Props> = ({
       >
         <ClickAwayListener onClickAway={handleClose}>
           <MenuList autoFocusItem={menu}>
-            <MenuItem onClick={handleEdit}>Edit</MenuItem>
-            <MenuItem onClick={handleDelete}>Delete</MenuItem>
+            <MenuItem onClick={handleEmail}>Update Email</MenuItem>
+            <MenuItem onClick={handlePassword}>Update Password</MenuItem>
           </MenuList>
         </ClickAwayListener>
       </Popover>
-      <Dialog open={dialog} onClose={handleDeleteClose}>
-        <DialogTitle>Delete Rant</DialogTitle>
+      <Dialog open={emailDialog} onClose={handleEmailClose}>
+        <DialogTitle>Update Email</DialogTitle>
         <DialogContent>
-          Are you sure you want to delete this rant?
+          Fix Change Email UI Here Later TODO
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDeleteClose} color="primary">
+          <Button onClick={handleEmailClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleDeleteSubmit} style={{ color: "red" }}>
-            Delete
+          <Button onClick={handleEmailSubmit} style={{ color: "#F012BE" }}>
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={passwordDialog} onClose={handlePasswordClose}>
+        <DialogTitle>Update Password</DialogTitle>
+        <DialogContent>
+          Fix Change Password UI Here Later TODO
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handlePasswordClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handlePasswordSubmit} style={{ color: "#F012BE" }}>
+            Submit
           </Button>
         </DialogActions>
       </Dialog>
@@ -117,4 +144,4 @@ export const RantMenu: React.FC<Props> = ({
   );
 };
 
-export default RantMenu;
+export default UserSettingsMenu;
