@@ -4,7 +4,7 @@ import * as functions from "firebase-functions";
 // Authentication Middleware
 const { firebaseAuth } = require("./util/firebaseAuth");
 
-const { getAllRants, getRant } = require("./handlers/get");
+const { getAllRants, getRant, searchUsers } = require("./handlers/get");
 const { createRant, createComment, toggleLike } = require("./handlers/create");
 const { updateRant } = require("./handlers/update");
 const {
@@ -61,6 +61,9 @@ app.post("/user/update", firebaseAuth, updateUser); // Updates User Info (Bio/We
 
 // Notifications
 app.post("/notifications", firebaseAuth, readNotifications); // Marks Notifications as Read
+
+// Search Parameter
+app.get('/search/users/:handle', searchUsers); // Searches through User Database for Similar Handles
 
 // Exports To Cloud Functions
 exports.api = functions.https.onRequest(app);

@@ -16,6 +16,8 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
 import TermsAndConditionsDialog from "./components/dialogs/TermsAndConditionsDialog";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 
 // TODO: Integrate this into a single forms hook instead of seperate ones
 interface SignUpForm {
@@ -47,7 +49,7 @@ export const SignUp: React.FC = () => {
   const handleSubmit = (event: any) => {
     event.preventDefault();
 
-    if(!agreed) {
+    if (!agreed) {
       return;
     }
 
@@ -63,6 +65,12 @@ export const SignUp: React.FC = () => {
     // Signs Up User
     handleUser(signupCredentials, history, dispatch, "signup");
   };
+
+  // Opens Terms and Conditions
+  const openTerms = (event: any) => {
+    event.preventDefault();
+    setOpenedTerms(true);
+  }
 
   return (
     <div style={{ display: "block" }}>
@@ -131,14 +139,27 @@ export const SignUp: React.FC = () => {
               fullWidth
             />
             <div className="terms">
-              <div onClick={() => setOpenedTerms(true)}>
-                <Typography>Terms and Conditions</Typography>
-              </div>
-              {!agreed && <Typography style={{ fontSize: "10px", color: "red" }}>
-                Please Agree to Terms and Conditions
-              </Typography>}
+              <FormControlLabel
+                control={<Checkbox checked={agreed} onChange = {() => setAgreed(!agreed)}/>}
+                label={
+                  <div className = 'terms-text' >
+                    <Typography onClick={openTerms}>
+                      <u>Terms and Conditions</u>
+                    </Typography>
+                  </div>
+                }
+              />
+              {!agreed && (
+                <Typography style={{ fontSize: "10px", color: "red" }}>
+                  Please Agree to Terms and Conditions
+                </Typography>
+              )}
             </div>
-            <TermsAndConditionsDialog openedTerms = {openedTerms} setOpenedTerms = {setOpenedTerms} setAgreed = {setAgreed}/>
+            <TermsAndConditionsDialog
+              openedTerms={openedTerms}
+              setOpenedTerms={setOpenedTerms}
+              setAgreed={setAgreed}
+            />
             <p className="sign-up-text">
               Already have an account? Log in <Link to="/signup">here</Link>.
             </p>
@@ -159,9 +180,11 @@ export const SignUp: React.FC = () => {
             </div>
             {state.UI.loading && <LinearProgress color="secondary" />}
             <div style={{ display: "flex", margin: "0 auto" }}>
-              <div className="signup-back" onClick = {() => history.push('/')}>
+              <div className="signup-back" onClick={() => history.push("/")}>
                 <ArrowBackIcon style={{ paddingTop: "10px" }} />
-                <p style={{ marginLeft: "30px", marginTop: "-25px" }}>Go Back</p>
+                <p style={{ marginLeft: "30px", marginTop: "-25px" }}>
+                  Go Back
+                </p>
               </div>
             </div>
           </form>

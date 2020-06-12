@@ -66,12 +66,43 @@ exports.getRant = (req: express.Request, res: express.Response) => {
 
       // Pushes Comment Documents from Database to Comment Data Array
       data.forEach((doc: any) => {
-        const commentData = {...doc.data(), commentID: doc.id}
+        const commentData = { ...doc.data(), commentID: doc.id };
         rantData.comments.push(commentData);
       });
 
       // Returns Rant Data Object
       return res.status(200).json(rantData);
+    })
+    .catch((err: any) => {
+      // Returns Errors
+      console.error(err);
+      res.status(500).json({ error: err.code });
+    });
+};
+
+// Retreives Specific Rant
+exports.searchUsers = (req: express.Request, res: express.Response) => {
+  // Gets User Data from Database
+  db.collection("users")
+    .orderBy("handle")
+    .startAt(req.params.handle)
+    .endAt(req.params.handle + "\uf8ff")
+    .get()
+    .then((data: any) => {
+      // Initial Results Data Array
+      const results: Array<{ [k: string]: string }> = [];
+
+      // Pushes Handles into Array
+      data.forEach((doc: any) => {
+        const userData: {[k: string]: string} = {
+          handle: doc.data().handle,
+          userName: doc.data().userName,
+          imageURL: doc.data().imageURL
+        };
+        results.push(userData);
+      });
+
+      return res.status(200).json({ results });
     })
     .catch((err: any) => {
       // Returns Errors

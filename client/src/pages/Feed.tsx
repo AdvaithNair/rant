@@ -1,9 +1,13 @@
 import React, { useState, useContext, useEffect } from "react";
-import { RantData } from "../types";
+import { RantData, SearchUserData } from "../types";
+import { useHistory } from "react-router-dom";
 
 // Context
 import { ReducerContext } from "../types";
 import { UserContext } from "../context/Context";
+
+// Axios
+import axios from "axios";
 
 // Components
 import { Rant } from "./components/Rant";
@@ -14,25 +18,49 @@ import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import Divider from "@material-ui/core/Divider";
+import SearchUser from "./components/SearchUser";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 export const Feed: React.FC = () => {
   // Importing Context (Global Store)
-  const { state, dispatch } = useContext<ReducerContext>(UserContext);
+  const { state } = useContext<ReducerContext>(UserContext);
+
+  // History to Push Pages
+  const history = useHistory();
 
   // Local States
-  const [rantData, setRantData] = useState<RantData>(state.rants);
+  //const [rantData, setRantData] = useState<RantData>(state.rants);
   const [query, setQuery] = useState<string>("");
+  const [results, setResults] = useState<Array<SearchUserData>>([]);
+  const [search, setSearch] = useState<boolean>(false);
 
   // Handles Search
+  // TODO: in the future, add autocomplete based on friends
   const handleSubmit = (event: any) => {
     // TODO: Create this endpoint
-    console.log("submitted " + query);
+    if (query) {
+      axios
+        .get(`/search/users/${query}`)
+        .then((res: any) => {
+          setResults(res.data.results);
+          setSearch(true);
+        })
+        .catch((err: Error) => console.log(err));
+    } else {
+      setSearch(false);
+    }
+    //setQuery("");
+  };
+
+  const handleBack = (event: any) => {
+    event.stopPropagation();
+    setSearch(false);
     setQuery("");
   };
 
   // On Component Mount, Request All Rants
   useEffect(() => {
-    setRantData(state.rantData);
+    //setRantData(state.rantData);
   }, []);
 
   return (
@@ -61,9 +89,32 @@ export const Feed: React.FC = () => {
           <CircularProgress style={{ marginLeft: "50%" }} color="primary" />
         </div>
       )}
-      {state.rants.map((rant: RantData) => (
-        <Rant key={rant.rantID} data={rant} />
-      ))}
+      {!search &&
+        state.rants.map((rant: RantData) => (
+          <Rant key={rant.rantID} data={rant} />
+        ))}
+      {search && (
+        <div className="main-container">
+          <h1>SEARCH RESULTS</h1>
+        </div>
+      )}
+      {search && results.length === 0 ? (
+        <p className="text-center" style={{ color: "red", paddingTop: "30px", fontWeight: 600 }}>
+          No Results
+        </p>
+      ) : (
+        results.map((result: SearchUserData) => (
+          <SearchUser key={result.handle} data={result} />
+        ))
+      )}
+      {search && (
+        <div style={{ display: "flex" }}>
+          <div className="signup-back" onClick={handleBack}>
+            <ArrowBackIcon style={{ paddingTop: "10px" }} />
+            <p style={{ marginLeft: "30px", marginTop: "-25px" }}>Go Back</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

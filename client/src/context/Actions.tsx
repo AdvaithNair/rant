@@ -49,7 +49,7 @@ export const handleUser = (
       setAuthorizationHeader(res.data.token);
 
       // Creates User Info
-      getUserData(dispatch, history);
+      updateUserData(dispatch, history);
 
       // Additional UI Fixes
       dispatch({ type: CLEAR_ERRORS });
@@ -195,7 +195,8 @@ const checkCredentials = (
       credentials.handle.includes("\\") ||
       credentials.handle.includes("|") ||
       credentials.handle.includes("?") ||
-      credentials.handle.includes("*")
+      credentials.handle.includes("*") ||
+      credentials.handle.includes(" ")
     )
       errors.handle = "Invalid Username";
   }
@@ -239,7 +240,9 @@ export const getRantData = (
 };
 
 // Check if Authenticated and Update Context Accordingly
-export const checkAuth = (dispatch: (argument: { [k: string]: string }) => void) => {
+export const checkAuth = (
+  dispatch: (argument: { [k: string]: string }) => void
+) => {
   const token = localStorage.firebaseAuthToken;
   if (token) {
     const decodedToken: { [k: string]: any } = jwtDecode(token);

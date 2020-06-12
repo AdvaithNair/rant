@@ -155,7 +155,7 @@ PAGES --------------------------------------------------------------------------
   margin-top: 30px;
 }
 
-.terms:hover, .signup-back:hover {
+.terms:hover, .signup-back:hover, .terms-text:hover, .footer:hover {
   cursor: pointer;
 }
 
@@ -163,6 +163,10 @@ PAGES --------------------------------------------------------------------------
   display: inline-block;
   margin: 0 auto;
   margin-top: 20px;
+}
+
+.terms-text {
+  color: #39CCCC;
 }
 
 @media screen and (max-width: 600px) {
@@ -783,4 +787,13 @@ COMPONENTS ---------------------------------------------------------------------
   color: #F012BE;
 }
 
-/* Media Queries */
+/* Search User */
+.search-user-element {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.main-container {
+  width: 80%;
+  margin: 0 auto;
+}

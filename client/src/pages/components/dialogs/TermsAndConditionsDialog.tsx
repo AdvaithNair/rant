@@ -26,6 +26,7 @@ interface Props {
 export const TermsAndConditionsDialog: React.FC<Props> = ({openedTerms, setOpenedTerms, setAgreed}) => {
   // Handles Terms Dialog Close
   const handleTermsClose = () => {
+    setAgreed(false);
     setOpenedTerms(false);
   };
 
@@ -37,7 +38,7 @@ export const TermsAndConditionsDialog: React.FC<Props> = ({openedTerms, setOpene
     setAgreed(true);
 
     // Closes
-    handleTermsClose();
+    setOpenedTerms(false);
   };
 
   return (

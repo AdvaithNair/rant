@@ -50,8 +50,8 @@ exports.deleteComment = (req: express.Request, res: express.Response) => {
       //return res.json({ info: doc.data() });
       // Checks if User is Authorized
       if (
-        doc.data().handle !== req.user.handle &&
-        doc.data().ranterHandle !== req.user.handle
+        doc.data().commenterID !== req.user.uid &&
+        doc.data().ranterID !== req.user.uid
       )
         return res.status(403).json({ error: "Unauthorized" });
       // Gets Rant Document

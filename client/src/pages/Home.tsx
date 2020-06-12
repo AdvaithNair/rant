@@ -16,9 +16,7 @@ import CreateRant from "./CreateRant";
 import RantPage from "./RantPage";
 import UserPage from "./UserPage";
 
-interface Props extends RouteComponentProps<any> {}
-
-export const Home: React.FC<Props> = ({ history }) => {
+export const Home: React.FC = () => {
   // Importing Context (Global Store)
   const { dispatch } = useContext<ReducerContext>(UserContext);
 
@@ -44,7 +42,7 @@ export const Home: React.FC<Props> = ({ history }) => {
         </Switch>
       </div>
       <div className="footer">
-        <p>
+        <p onClick = {() => window.open('https://advaithnair.com')}>
           A VIB<b>RANT</b> EXPERIENCE
         </p>
       </div>

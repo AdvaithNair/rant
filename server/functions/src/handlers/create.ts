@@ -130,6 +130,7 @@ exports.toggleLike = (req: express.Request, res: express.Response) => {
             rantID: req.params.rantID,
             imageURL: req.user.imageURL,
             userName: req.user.userName,
+            userID: req.user.uid,
             handle: req.user.handle
           })
           .then(() => {

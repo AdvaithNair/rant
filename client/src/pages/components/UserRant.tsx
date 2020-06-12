@@ -65,7 +65,7 @@ export const UserRant: React.FC<Props> = ({ data }) => {
       onClick={() => history.push(`/home/rant/${data.rantID}`)}
       style={{ width: "100%" }}
     >
-      <div className="rant-title" style = {{backgroundColor: 'black'}}>
+      <div className="rant-title" style = {{backgroundColor: '#956FC5'}}>
         <div className="rant-title-text">
           <h1>{data.title}</h1>
         </div>

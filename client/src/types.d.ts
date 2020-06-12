@@ -1,3 +1,5 @@
+import { StringifyOptions } from "querystring";
+
 export type RantData = {
   rantID: string;
   userName: string;
@@ -40,6 +42,12 @@ export type NotificationData = {
   notificationID: string; 
   imageURL: string;
   body?: string;
+}
+
+export type SearchUserData = {
+  handle: string;
+  userName: string;
+  imageURL: string;
 }
 
 export type ManipulateRantData = {
