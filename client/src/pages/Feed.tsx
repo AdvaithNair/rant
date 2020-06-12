@@ -108,8 +108,8 @@ export const Feed: React.FC = () => {
         ))
       )}
       {search && (
-        <div style={{ display: "flex" }}>
-          <div className="signup-back" onClick={handleBack}>
+        <div className = 'search-back'>
+          <div className="search-back-button" onClick={handleBack}>
             <ArrowBackIcon style={{ paddingTop: "10px" }} />
             <p style={{ marginLeft: "30px", marginTop: "-25px" }}>Go Back</p>
           </div>
