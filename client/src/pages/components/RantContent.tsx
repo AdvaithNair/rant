@@ -76,7 +76,7 @@ export const RantContent: React.FC<Props> = ({ data }) => {
   };
 
   return (
-    <div>
+    <div style = {{maxWidth: '1200px'}}>
       <div className="rant-title">
         <div className="rant-title-text">
           <h1>{data.title}</h1>
