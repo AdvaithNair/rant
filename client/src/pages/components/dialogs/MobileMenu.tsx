@@ -1,9 +1,5 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
-
-// Context
-import { ReducerContext, NotificationData } from "../../../types";
-import { UserContext } from "../../../context/Context";
 
 // Material UI
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
@@ -25,9 +21,6 @@ export const MobileMenu: React.FC<Props> = ({
   anchor,
   setAnchor
 }) => {
-  // Importing Context (Global Store)
-  const { dispatch } = useContext<ReducerContext>(UserContext);
-
   // History for Page Direction
   const history = useHistory();
 

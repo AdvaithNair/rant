@@ -2,9 +2,11 @@
 
 RANT! is a Social Media Full Stack Web Application designed for individuals to Rant.
 
+## Technology Overview
 It utilizes the following technologies:
 * Client
   * ReactJS
+  * Material UI
   * Axios
   * DayJS
   * JWT
@@ -22,6 +24,7 @@ All code is constructed using Typescript.
 
 ### Technologies Used
 * [ReactJS](https://reactjs.org/)
+* [Material UI](https://material-ui.com/)
 * [Axios](https://github.com/axios/axios)
 * [DayJS](https://github.com/iamkun/dayjs)
 * [JWT](https://jwt.io/)
@@ -36,6 +39,13 @@ Execute these commands to ensure Rant can run properly.
 #### ReactJS
 ```
 npm install react --save
+```
+
+#### Material UI
+```
+npm install @material-ui/core --save
+npm install @material-ui/icons --save
+npm install @material-ui/lab --save
 ```
 
 #### Axios
@@ -101,9 +111,6 @@ firebase init
     * *Project Manager*
     * *Full Stack Developer*
     * [Website](https://advaithnair.com)
-* **Miles Gregg**
-    * *Full Stack Developer*
-    * [GitHub](https://github.com/MilesGregg)
 
 ## Contact
-For questions, feel free to contact us at either [advaithnair2@gmail.com](mailto:advaithnair2@gmail.com) or [milesgregg3@gmail.com](mailto:milesgregg3@gmail.com)
+For questions, feel free to contact me at [advaithnair2@gmail.com](mailto:advaithnair2@gmail.com)

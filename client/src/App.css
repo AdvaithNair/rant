@@ -53,6 +53,7 @@ PAGES --------------------------------------------------------------------------
   padding-top: 10px;
   margin-bottom: 10px;
   background: linear-gradient(to right, #F012BE 40%, #39CCCC 60%);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

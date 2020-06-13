@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Link, RouteComponentProps, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 // Context
 import { ReducerContext } from "../types";

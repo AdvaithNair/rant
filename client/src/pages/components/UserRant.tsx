@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { RantData } from "../../types";
 import { useHistory } from "react-router-dom";
 
@@ -7,18 +7,13 @@ import { ReducerContext } from "../../types";
 import { UserContext } from "../../context/Context";
 import { toggleLikeRequest } from "../../context/Actions";
 
-// Components
-import RantMenu from "./dialogs/RantMenu";
-
 // Material UI
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import IconButton from "@material-ui/core/IconButton";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ChatIcon from "@material-ui/icons/Chat";
 
 // Time Formatting
-import { formatDate, formatTime, formatRelative } from "../../time";
+import { formatRelative } from "../../time";
 
 // Props
 interface Props {

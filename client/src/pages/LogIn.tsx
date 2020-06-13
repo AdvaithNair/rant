@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Link, RouteComponentProps, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 // Context
 import { ReducerContext } from "../types";
@@ -17,8 +17,8 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 export const LogIn: React.FC = () => {
   // Setting State for Email and Password (for Form Input)
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   // History to Push Pages
   const history = useHistory();

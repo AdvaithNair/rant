@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Route, Switch, RouteComponentProps } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 // Context
 import { ReducerContext } from "../types";

@@ -1,5 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useContext } from "react";
 
 // Context
 import { ReducerContext } from "../../types";
@@ -20,17 +19,12 @@ export const Notifications: React.FC = () => {
   const [menu, setMenu] = useState<boolean>(false);
   const [anchor, setAnchor] = useState<any>(null);
 
-  // History to Push Pages
-  const history = useHistory();
-
   // On Click of Menu
   const handleClick = (event: any) => {
     event.stopPropagation();
     setMenu(true);
     setAnchor(event.currentTarget);
   };
-
-  useEffect(() => {}, []);
 
   return (
     <div className="spacer">

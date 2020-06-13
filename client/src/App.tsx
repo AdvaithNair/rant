@@ -5,6 +5,9 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // Context
 import { UserProvider } from "./context/Context";
 
+// Components
+import AuthRoute from "./pages/components/AuthRoute";
+
 // Pages
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
@@ -24,9 +27,9 @@ const App: React.FC = () => {
         <div className="App">
           <Router>
             <Switch>
-              <Route exact path="/" component={Landing} />
-              <Route path="/signup" component={SignUp} />
-              <Route path="/login" component={LogIn} />
+              <AuthRoute exact={true} path="/" component={Landing} />
+              <AuthRoute exact={false} path="/signup" component={SignUp} />
+              <AuthRoute exact={false} path="/login" component={LogIn} />
               <Route path="/home" component={Home} />
             </Switch>
           </Router>

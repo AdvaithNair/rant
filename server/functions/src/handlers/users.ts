@@ -40,6 +40,7 @@ exports.signUp = (req: express.Request, res: express.Response) => {
 
   // Variables for Authorization
   let authToken: string;
+  let userID: string;
 
   // Signs Up User in Database
   db.doc(`users/${newUser.handle}`)
@@ -57,6 +58,7 @@ exports.signUp = (req: express.Request, res: express.Response) => {
     })
     .then((data: any) => {
       // Provides Authentication Token
+      userID = data.user.uid;
       return data.user.getIdToken();
     })
     .then((token: any) => {
@@ -70,6 +72,7 @@ exports.signUp = (req: express.Request, res: express.Response) => {
         lastName: newUser.lastName,
         userName: userName,
         email: newUser.email,
+        userID,
         imageURL: `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${noImg}?alt=media`,
         createdAt: new Date().toISOString()
       };
@@ -124,12 +127,47 @@ exports.logIn = (req: express.Request, res: express.Response) => {
       // Provides Authentication Token
       return data.user.getIdToken();
     })
-    .then(token => {
+    .then((token: string) => {
       // Returns Authentication Token
       return res.json({ token });
     })
     .catch(err => {
       // Returns Errors
+      console.error(err);
+
+      // Returns Default Error
+      return res.status(403).json({ general: "Incorrect Credentials" });
+    });
+};
+
+// Updates User's Email Address in Firebase Authentication
+exports.updateEmail = (req: express.Request, res: express.Response) => {
+  firebase
+    .auth()
+    .currentUser!.updateEmail(req.body.email)
+    .then(() => {
+      return db.doc(`users/${req.user.handle}`).update({ email: req.body.email })
+    })
+    .then(() => {
+      return res.json({ message: "Success" });
+    })
+    .catch((err: any) => {
+      console.error(err);
+
+      // Returns Default Error
+      return res.status(403).json({ general: "Incorrect Credentials" });
+    });
+};
+
+// Updates User's Password in Firebase Authentication
+exports.updatePassword = (req: express.Request, res: express.Response) => {
+  firebase
+    .auth()
+    .currentUser!.updatePassword(req.body.password)
+    .then(() => {
+      return res.json({ message: "Success" });
+    })
+    .catch((err: any) => {
       console.error(err);
 
       // Returns Default Error

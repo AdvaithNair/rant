@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
 import { RantData, SearchUserData } from "../types";
-import { useHistory } from "react-router-dom";
 
 // Context
 import { ReducerContext } from "../types";
@@ -24,9 +23,6 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 export const Feed: React.FC = () => {
   // Importing Context (Global Store)
   const { state } = useContext<ReducerContext>(UserContext);
-
-  // History to Push Pages
-  const history = useHistory();
 
   // Local States
   //const [rantData, setRantData] = useState<RantData>(state.rants);

@@ -54,7 +54,7 @@ export const CreateRant: React.FC<Props> = ({ pageTitle, isCreate, match }) => {
       setTitle(rantData.title || "");
       setBody(rantData.body || "");
     }
-  }, []);
+  }, [isCreate]);
 
   const handleSubmit = () => {
     // TODO: Possible Reduce This Function Down

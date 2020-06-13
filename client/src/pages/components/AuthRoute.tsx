@@ -23,3 +23,5 @@ export const AuthRoute: React.FC<Props> = ({ exact, path, component }) => {
     </div>
   );
 };
+
+export default AuthRoute;

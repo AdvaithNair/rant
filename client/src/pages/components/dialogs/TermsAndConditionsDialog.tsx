@@ -1,10 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
-
-// Context
-import { ReducerContext } from "../../../types";
-import { UserContext } from "../../../context/Context";
-import { editUserDetails } from "../../../context/Actions";
-import { CLEAR_LOADING } from "../../../context/ReducerTypes";
+import React from "react";
 
 // Terms and Conditions Text
 import TermsAndConditions from "../../../TermsAndConditions";

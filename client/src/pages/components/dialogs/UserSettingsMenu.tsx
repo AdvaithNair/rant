@@ -1,12 +1,14 @@
 import React, { useState, useContext } from "react";
 
 // Context
-import { ReducerContext, RantData } from "../../../types";
+import { ReducerContext } from "../../../types";
 import { UserContext } from "../../../context/Context";
-import { deleteRant } from "../../../context/Actions";
+import { UPDATE_USER_EMAIL } from "../../../context/ReducerTypes";
+
+// Axios
+import axios from "axios";
 
 // Material UI
-
 import Button from "@material-ui/core/Button";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Popover from "@material-ui/core/Popover";
@@ -16,7 +18,9 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { useHistory } from "react-router-dom";
+import TextField from "@material-ui/core/TextField";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
 interface Props {
   menu: boolean;
@@ -38,9 +42,16 @@ export const UserSettingsMenu: React.FC<Props> = ({
   // Local States
   const [emailDialog, setEmailDialog] = useState<boolean>(false);
   const [passwordDialog, setPasswordDialog] = useState<boolean>(false);
-
-  // History for Page Direction
-  const history = useHistory();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [emailError, setEmailError] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<string>("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState<string>("");
+  const [openEmail, setOpenEmail] = useState<boolean>(false);
+  const [openPassword, setOpenPassword] = useState<boolean>(false);
+  const [openEmailError, setOpenEmailError] = useState<boolean>(false);
+  const [openPasswordError, setOpenPasswordError] = useState<boolean>(false);
 
   // On Close of Menu (or Click Away)
   const handleClose = (event: any) => {
@@ -62,11 +73,40 @@ export const UserSettingsMenu: React.FC<Props> = ({
     setEmailDialog(false);
   };
 
+  // Closes Email Snackbar
+  const handleEmailSnackClose = (
+    event?: React.SyntheticEvent,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenEmail(false);
+    setOpenEmailError(false);
+  };
+
   // Submits Email Change
   const handleEmailSubmit = (event: any) => {
     event.stopPropagation();
     // Email Change Code
-    console.log('changed email');
+    const regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!email.match(regEx)) {
+      setEmailError("Must Be A Valid Email Address");
+      return;
+    }
+    axios
+      .put("/user/update/email", { email })
+      .then(() => {
+        dispatch({ type: UPDATE_USER_EMAIL, payload: email });
+        setOpenEmail(true);
+      })
+      .catch((err: Error) => {
+        console.log(err);
+        setOpenEmailError(true);
+        return;
+      });
+    setEmail("");
     handleEmailClose(event);
   };
 
@@ -83,11 +123,46 @@ export const UserSettingsMenu: React.FC<Props> = ({
     setPasswordDialog(false);
   };
 
+  // Closes Password Snackbar
+  const handlePasswordSnackClose = (
+    event?: React.SyntheticEvent,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenPassword(false);
+    setOpenPasswordError(false);
+  };
+
   // Submits Password Change
   const handlePasswordSubmit = (event: any) => {
     event.stopPropagation();
-    // Password Change Code
-    console.log('changed password');
+    setPasswordError("");
+    setConfirmPasswordError("");
+    if (password.length < 6) {
+      setPasswordError("Weak Password");
+      if (password !== confirmPassword)
+        setConfirmPasswordError("Passwords Must Match");
+
+      return;
+    }
+    if (password !== confirmPassword) {
+      setConfirmPasswordError("Passwords Must Match");
+      return;
+    }
+    axios
+      .put("/user/update/password", { password })
+      .then(() => {})
+      .catch((err: Error) => {
+        console.log(err);
+        setOpenPasswordError(true);
+        return;
+      });
+    setPassword("");
+    setConfirmPassword("");
+    setOpenPassword(true);
     handlePasswordClose(event);
   };
 
@@ -115,7 +190,16 @@ export const UserSettingsMenu: React.FC<Props> = ({
       <Dialog open={emailDialog} onClose={handleEmailClose}>
         <DialogTitle>Update Email</DialogTitle>
         <DialogContent>
-          Fix Change Email UI Here Later TODO
+          <TextField
+            id="email"
+            name="email"
+            type="email"
+            label="Email"
+            helperText={emailError}
+            error={emailError ? true : false}
+            onChange={e => setEmail(e.target.value)}
+            fullWidth
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleEmailClose} color="primary">
@@ -129,7 +213,26 @@ export const UserSettingsMenu: React.FC<Props> = ({
       <Dialog open={passwordDialog} onClose={handlePasswordClose}>
         <DialogTitle>Update Password</DialogTitle>
         <DialogContent>
-          Fix Change Password UI Here Later TODO
+          <TextField
+            id="password"
+            name="password"
+            type="password"
+            label="Password"
+            helperText={passwordError}
+            error={passwordError ? true : false}
+            onChange={e => setPassword(e.target.value)}
+            fullWidth
+          />
+          <TextField
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            label="Confirm Password"
+            helperText={confirmPasswordError}
+            error={confirmPasswordError ? true : false}
+            onChange={e => setConfirmPassword(e.target.value)}
+            fullWidth
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handlePasswordClose} color="primary">
@@ -140,6 +243,62 @@ export const UserSettingsMenu: React.FC<Props> = ({
           </Button>
         </DialogActions>
       </Dialog>
+      <Snackbar
+        open={openEmail}
+        autoHideDuration={6000}
+        onClose={handleEmailSnackClose}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={handleEmailSnackClose}
+          severity="success"
+        >
+          Successfully Updated Email
+        </MuiAlert>
+      </Snackbar>
+      <Snackbar
+        open={openEmailError}
+        autoHideDuration={6000}
+        onClose={handleEmailSnackClose}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={handleEmailSnackClose}
+          severity="error"
+        >
+          Error Updating Email
+        </MuiAlert>
+      </Snackbar>
+      <Snackbar
+        open={openPassword}
+        autoHideDuration={6000}
+        onClose={handlePasswordSnackClose}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={handlePasswordSnackClose}
+          severity="success"
+        >
+          Successfully Updated Password
+        </MuiAlert>
+      </Snackbar>
+      <Snackbar
+        open={openPasswordError}
+        autoHideDuration={6000}
+        onClose={handlePasswordClose}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={handlePasswordClose}
+          severity="error"
+        >
+          Error Updating Password
+        </MuiAlert>
+      </Snackbar>
     </div>
   );
 };

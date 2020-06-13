@@ -8,6 +8,7 @@ import {
   SET_USER,
   UPDATE_USER,
   UPDATE_USER_IMAGE,
+  UPDATE_USER_EMAIL,
   SET_ERRORS,
   CLEAR_ERRORS,
   SET_LOADING,
@@ -59,7 +60,6 @@ export const UserContext = createContext<ReducerContext>({
   dispatch: (argument: { [k: string]: any }) => {}
 });
 
-
 // Reducer Function
 function reducer(state: any, action: any) {
   switch (action.type) {
@@ -93,6 +93,14 @@ function reducer(state: any, action: any) {
         credentials: {
           ...state.credentials,
           imageURL: action.payload
+        }
+      };
+    case UPDATE_USER_EMAIL:
+      return {
+        ...state,
+        credentials: {
+          ...state.credentials,
+          email: action.payload
         }
       };
     case SET_ERRORS:

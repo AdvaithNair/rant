@@ -1,18 +1,16 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 
 // Context
 import { ReducerContext, RantData } from "../types";
 import { UserContext } from "../context/Context";
+import { SET_LOADING, CLEAR_LOADING } from "../context/ReducerTypes";
 
 // Components
 import UserContent from "./components/UserContent";
-import Rant from "./components/Rant";
+import UserRant from "./components/UserRant";
 
 // Axios
 import axios from "axios";
-import { SET_LOADING, CLEAR_LOADING } from "../context/ReducerTypes";
-import UserRant from "./components/UserRant";
 
 // type ImageUploadData = { [k: string]: any | string | Blob };
 
@@ -39,9 +37,6 @@ export const Profile: React.FC<Props> = ({ match }) => {
       })
       .catch((error: Error) => console.log(error));
   }, []);
-
-  // History to Push Page
-  const history = useHistory();
 
   return (
     <div className="main-home-content">

@@ -10,6 +10,8 @@ const { updateRant } = require("./handlers/update");
 const {
   signUp,
   logIn,
+  updateEmail,
+  updatePassword,
   uploadImage,
   updateUser,
   getUser,
@@ -56,6 +58,8 @@ app.get("/user", firebaseAuth, getUser); // Gets Own User Details
 app.get("/user/:handle", getUserDetails); // Gets Any User Details
 app.post("/user/signup", signUp); // Signs Up User
 app.post("/user/login", logIn); // Logs In User
+app.put("/user/update/email", firebaseAuth, updateEmail); // Updates User Email Address
+app.put("/user/update/password", firebaseAuth, updatePassword); // Updates User Password
 app.post("/user/image", firebaseAuth, uploadImage); // Uploads Image for User
 app.post("/user/update", firebaseAuth, updateUser); // Updates User Info (Bio/Website)
 

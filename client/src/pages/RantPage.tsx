@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
 import { RantData, CommentData } from "../types";
-import { useHistory } from "react-router-dom";
 
 // Context
 import { ReducerContext } from "../types";
@@ -20,23 +19,6 @@ import axios from "axios";
 interface Props {
   match: any;
 }
-
-// Initializes State for Rant Data
-const initDataState = (state: any, rantID: string) => {
-  return state.rants[0]
-    ? state.rants.find((element: any) => element.rantID === rantID)
-    : {
-        userName: "",
-        handle: "",
-        createdAt: "",
-        title: "",
-        body: "",
-        likeCount: 0,
-        commentCount: 0,
-        imageURL: "",
-        rantID
-      };
-};
 
 // TODO: Break this up into components
 export const Rant: React.FC<Props> = ({ match }) => {
@@ -61,9 +43,6 @@ export const Rant: React.FC<Props> = ({ match }) => {
     rantID
   });
   const [commentData, setCommentData] = useState<Array<CommentData>>([]);
-
-  // History for Page Traversal
-  const history = useHistory();
 
   // On Component Mount, Renders Like
   useEffect(() => {
