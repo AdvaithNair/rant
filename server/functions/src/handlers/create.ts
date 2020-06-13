@@ -4,7 +4,7 @@ const { db } = require("../util/admin");
 const { validateRant } = require("../util/validation");
 
 const blankImage =
-    "https://firebasestorage.googleapis.com/v0/b/rant-dd853.appspot.com/o/no-img.png?alt=media";
+  "https://firebasestorage.googleapis.com/v0/b/rant-dd853.appspot.com/o/no-img.png?alt=media";
 
 // Creates a Rant (Post)
 // MAKE SURE THIS WORKS - RUN TESTS
@@ -62,7 +62,7 @@ exports.createComment = (req: express.Request, res: express.Response) => {
     userName: req.body.anonymous ? "Anonymous" : req.user.userName,
     handle: req.body.anonymous ? "anonymous" : req.user.handle,
     imageURL: req.body.anonymous ? blankImage : req.user.imageURL,
-    userID: req.user.uid
+    commenterID: req.user.uid
   };
 
   // Adds New Comment
@@ -73,7 +73,10 @@ exports.createComment = (req: express.Request, res: express.Response) => {
       if (!doc.exists) {
         res.status(404).json({ error: "Rant Not Found" });
         return;
-      } else newComment.ranterHandle = doc.data().handle;
+      } else {
+        newComment.ranterHandle = doc.data().handle;
+        newComment.ranterID = doc.data().userID;
+      }
       return doc.ref.update({ commentCount: doc.data().commentCount + 1 });
     })
     .then(() => {
@@ -83,7 +86,7 @@ exports.createComment = (req: express.Request, res: express.Response) => {
           const returnComment = {
             ...newComment,
             commentID: doc.id
-          }
+          };
           return res.status(200).json({ returnComment });
         });
     })

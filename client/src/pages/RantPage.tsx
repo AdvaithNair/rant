@@ -47,7 +47,7 @@ export const Rant: React.FC<Props> = ({ match }) => {
   const rantID: string = match.params.rantID;
 
   // States
-  const [loading, setLoading] = useState<boolean>(state.rants[0]);
+  const [loading, setLoading] = useState<boolean>(state.rants[0] ? true : false);
   const [rantData, setRantData] = useState<RantData>({
     userName: "",
     handle: "",

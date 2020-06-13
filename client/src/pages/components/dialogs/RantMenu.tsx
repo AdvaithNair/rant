@@ -76,6 +76,7 @@ export const RantMenu: React.FC<Props> = ({
     event.stopPropagation();
     deleteRant(rantData.rantID, dispatch);
     handleDeleteClose(event);
+    history.push("/home");
   };
 
   return (

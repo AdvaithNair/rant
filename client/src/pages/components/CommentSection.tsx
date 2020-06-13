@@ -46,11 +46,12 @@ export const CommentSection: React.FC<Props> = ({
     event.preventDefault();
     setLoading(true);
 
-    const anonymous: boolean = rantData.handle === 'anonymous';
+    const anonymous: boolean = rantData.handle === "anonymous";
+    const newComment = commentText.replace(/\n/g, "\\\\n"); //"\\\\n"
 
     // Posts Comment
     axios
-      .post(`/rant/comment/${rantID}`, { body: commentText, anonymous })
+      .post(`/rant/comment/${rantID}`, { body: newComment, anonymous })
       .then((res: any) => {
         setComments(comments => comments.concat(res.data.returnComment));
         // Increment Comment Count
@@ -76,24 +77,21 @@ export const CommentSection: React.FC<Props> = ({
           placeholder="Comment..."
           value={commentText}
           onChange={(e: any) => setCommentText(e.target.value)}
-          onKeyPress={e => {
-            if (e.key === "Enter") {
-              handleSubmit(e);
-            }
-          }}
           multiline
           fullWidth
         />
         <Divider orientation="vertical" />
-        <Button
-          variant="contained"
-          color="secondary"
-          disabled={!commentText}
-          style={{ width: "50px", marginLeft: "20px" }}
-          onClick={handleSubmit}
-        >
-          Add
-        </Button>
+        <div className="comment-button">
+          <Button
+            variant="contained"
+            color="secondary"
+            disabled={!commentText}
+            style={{ width: "50px", marginLeft: "20px", height: '40px', position: 'absolute', bottom: 0 }}
+            onClick={handleSubmit}
+          >
+            Add
+          </Button>
+        </div>
       </div>
       <div className="display-comments">
         {loading && (

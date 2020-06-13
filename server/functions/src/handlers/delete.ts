@@ -18,7 +18,7 @@ exports.deleteRant = (req: express.Request, res: express.Response) => {
         return;
       }
       // Checks if User is Authorized
-      if (doc.data().handle !== req.user.handle)
+      if (doc.data().userID !== req.user.uid)
         return res.status(403).json({ error: "Unauthorized" });
       //Deletes Document
       else return rantDocument.delete();

@@ -39,9 +39,20 @@ export const CreateRant: React.FC<Props> = ({ pageTitle, isCreate, match }) => {
     if (!isCreate) {
       const rantData: RantData = state.rants.find(
         (element: RantData) => element.rantID === match.params.rantID
-      ) || {};
-      setTitle(rantData.title || '');
-      setBody(rantData.body || '');
+      ) || {
+        rantID: "",
+        userName: "",
+        userID: "",
+        handle: "",
+        title: "",
+        body: "",
+        likeCount: 0,
+        commentCount: 0,
+        createdAt: '',
+        imageURL: ''
+      };
+      setTitle(rantData.title || "");
+      setBody(rantData.body || "");
     }
   }, []);
 

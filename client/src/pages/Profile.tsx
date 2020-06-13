@@ -2,12 +2,13 @@ import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 
 // Context
-import { ReducerContext } from "../types";
+import { ReducerContext, RantData } from "../types";
 import { UserContext } from "../context/Context";
 import { logoutUser } from "../context/Actions";
 
 // Components
 import UserContent from "./components/UserContent";
+import UserRant from "./components/UserRant";
 
 // Dialogs
 import EditProfile from "./components/dialogs/EditProfile";
@@ -54,7 +55,7 @@ export const Profile: React.FC = () => {
       <div className="profile-card">
         <div className="profile-settings">
           <Tooltip title="Settings" placement="bottom">
-            <IconButton onClick = {handleClick}>
+            <IconButton onClick={handleClick}>
               <SettingsIcon style={{ fontSize: "40px" }} />
             </IconButton>
           </Tooltip>
@@ -102,6 +103,17 @@ export const Profile: React.FC = () => {
         <UploadImage image={image} setImage={setImage} />
       </div>
       <div style={{ clear: "both" }}></div>
+      <h1>RANTS</h1>
+      {state.rants.filter(
+        (rant: RantData) => rant.handle === state.credentials.handle
+      ) &&
+        state.rants
+          .filter((rant: RantData) => rant.handle === state.credentials.handle)
+          .map((rant: RantData) => <UserRant key={rant.rantID} data={rant} />)}
+      {state.rants.filter(
+        (rant: RantData) => rant.handle === state.credentials.handle
+      ).length === 0 && <h4 className="text-center">No Rants</h4>}
+      <div style={{ marginBottom: "20px" }}></div>
     </div>
   );
 };

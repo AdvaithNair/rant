@@ -56,6 +56,33 @@ export type ManipulateRantData = {
   body: string;
 };
 
+export type UserCredentials = {
+  bio?: string;
+  imageURL: string;
+  firstName?: string;
+  lastName?: string;
+  userName: string;
+  handle: string;
+  email: string;
+  userID: string;
+  createdAt: string;
+  website?: string;
+}
+
+export type UI = {
+  loading: boolean;
+  errors: {[k: string]: string}
+}
+
+export type GlobalState = {
+  authenticated: boolean;
+  credentials: UserCredentials;
+  likes: Array<LikeData>;
+  notifications: Array<NotificationData>;
+  UI: UI;
+  rants: Array<RantData>
+}
+
 export type SignUp = {
   firstName: string;
   lastName: string;
@@ -72,6 +99,6 @@ export type LogIn = {
 
 // Context Value Interface
 export type ReducerContext = {
-  state: {[k: string]: any};
+  state: GlobalState;
   dispatch: ({}) => void;
 };

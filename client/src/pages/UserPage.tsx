@@ -50,9 +50,10 @@ export const Profile: React.FC<Props> = ({ match }) => {
         <UserContent setImage={false} isAuth={false} data={user} />
       </div>
       <h1>RANTS</h1>
-      {rants &&
+      {(rants && user.handle !== 'anonymous') &&
         rants.map((rant: RantData) => <UserRant key={rant.rantID} data={rant} />)}
-      {rants.length === 0 && <h4 className="text-center">No Rants</h4>}
+      {(rants.length === 0 && user.handle !== 'anonymous') && <h4 className="text-center">No Rants</h4>}
+      {(user.handle === 'anonymous') && <h4 className="text-center">Cannot View Anonymous Rants</h4>}
       <div style={{ marginBottom: "20px" }}></div>
     </div>
   );

@@ -63,7 +63,7 @@ export const Comment: React.FC<Props> = ({
               <h3>{data.userName}</h3>
               <h4>@{data.handle}</h4>
             </div>
-            <div className="commented-at">{formatRelative(data.createdAt)}</div>
+            <div className="commented-at"><u>{formatRelative(data.createdAt)}</u></div>
             <div className="clear"></div>
           </div>
           <div className="comment-body">
@@ -82,13 +82,17 @@ export const Comment: React.FC<Props> = ({
                 dialog={dialog}
                 setDialog={setDialog}
                 setComments={setComments}
-                setRantData = {setRantData}
-                rantData = {rantData}
-                commentData = {data}
+                setRantData={setRantData}
+                rantData={rantData}
+                commentData={data}
               />
             </div>
             <div className="comment-body-content">
-              <p>{data.body}</p>
+              <p>
+                {data.body.split("\\\\n").map((item: string, i: any) => (
+                  <p key={i}>{item}</p>
+                ))}
+              </p>
             </div>
             <div className="clear"></div>
           </div>

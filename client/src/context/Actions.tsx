@@ -102,6 +102,9 @@ export const updateUserData = (
         payload: res.data.userData
       });
 
+      // Clears Loading
+      dispatch({ type: CLEAR_LOADING });
+
       // Push to Home
       if (history) history.push("/home");
     })

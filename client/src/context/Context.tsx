@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useMemo } from "react";
-import { ReducerContext } from "../types";
+import { ReducerContext, GlobalState } from "../types";
 
 // Reducer Types
 import {
@@ -23,12 +23,6 @@ import {
   MARK_NOTIFICATIONS_READ
 } from "./ReducerTypes";
 
-// Context Creation
-export const UserContext = createContext<ReducerContext>({
-  state: {},
-  dispatch: (argument: { [k: string]: any }) => {}
-});
-
 // Initial Error Object
 const initialErrors: { [k: string]: string } = {
   firstName: "",
@@ -40,9 +34,16 @@ const initialErrors: { [k: string]: string } = {
 };
 
 // Initial State Object
-const initialState: { [k: string]: any } = {
+const initialState: GlobalState = {
   authenticated: false,
-  credentials: {},
+  credentials: {
+    imageURL: "",
+    userName: "",
+    handle: "",
+    email: "",
+    userID: "",
+    createdAt: ""
+  },
   likes: [],
   notifications: [],
   UI: {
@@ -51,6 +52,13 @@ const initialState: { [k: string]: any } = {
   },
   rants: []
 };
+
+// Context Creation
+export const UserContext = createContext<ReducerContext>({
+  state: initialState,
+  dispatch: (argument: { [k: string]: any }) => {}
+});
+
 
 // Reducer Function
 function reducer(state: any, action: any) {

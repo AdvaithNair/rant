@@ -30,7 +30,7 @@ export const SearchUser: React.FC<Props> = ({ data }) => {
   return (
     <div className="search-user-element">
       <Divider />
-      <div className="rant-credits">
+      <div className="rant-credits" style = {{paddingBottom: '20px'}} onClick = {toUserPage}>
         <div className="rant-credits-main">
           <div className="rant-credits-img">
             <img alt={data.handle} src={data.imageURL}></img>

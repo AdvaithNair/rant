@@ -155,7 +155,7 @@ PAGES --------------------------------------------------------------------------
   margin-top: 30px;
 }
 
-.terms:hover, .signup-back:hover, .terms-text:hover, .footer:hover {
+.terms:hover, .signup-back:hover, .terms-text:hover, .footer:hover, .search-back-button:hover {
   cursor: pointer;
 }
 
@@ -755,6 +755,11 @@ COMPONENTS ---------------------------------------------------------------------
   height: 50px;
 }
 
+.comment-button {
+  position: relative;
+  width: 90px;
+}
+
 @media screen and (max-width: 600px) {
   .comment-content {
     display: block;
@@ -778,6 +783,9 @@ COMPONENTS ---------------------------------------------------------------------
     position: relative;
     right: 0;
     float: right;
+  }
+  .comment-button {
+    width: 120px;
   }
 }
 
@@ -813,6 +821,12 @@ COMPONENTS ---------------------------------------------------------------------
 .search-user-element {
   width: 80%;
   margin: 0 auto;
+  transition: .3s ease;
+}
+
+.search-user-element:hover {
+  background-color: #CCCCCC;
+  cursor: pointer;
 }
 
 .main-container {
