@@ -158,7 +158,7 @@ PAGES --------------------------------------------------------------------------
   margin-top: 30px;
 }
 
-.terms:hover, .signup-back:hover, .terms-text:hover, .footer:hover, .search-back-button:hover {
+.terms:hover, .signup-back:hover, .terms-text:hover, .footer:hover, .search-back-button:hover, .user-network:hover {
   cursor: pointer;
 }
 

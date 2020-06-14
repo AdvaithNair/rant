@@ -1,8 +1,11 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 
 // Context
 import { ReducerContext, UserCredentials } from "../../types";
 import { UserContext } from "../../context/Context";
+
+// Components
+import NetworkDialog from "./dialogs/NetworkDialog";
 
 // Time Formatting
 import { formatDate, formatDays } from "../../time";
@@ -22,6 +25,11 @@ interface Props {
 export const UserContent: React.FC<Props> = ({ setImage, isAuth, data }) => {
   // Importing Context (Global Store)
   const { state } = useContext<ReducerContext>(UserContext);
+
+  // Local States
+  const [followers, setFollowers] = useState<boolean>(false);
+  const [following, setFollowing] = useState<boolean>(false);
+  const [friends, setFriends] = useState<boolean>(false);
 
   // Formats Wesbite Entry
   const formatWebsite = (input: string) => {
@@ -80,12 +88,19 @@ export const UserContent: React.FC<Props> = ({ setImage, isAuth, data }) => {
 
       <h1 style={{ paddingTop: "10px" }}>{data.userName}</h1>
       <h2 className="profile-handle">@{data.handle}</h2>
-      <h3 className = 'user-network'>Followers</h3>
+
+      <h3 className = 'user-network' onClick = {() => setFollowers(true)}>Followers</h3>
       <p>{data.followerCount ? data.followerCount : 0}</p>
-      <h3 className = 'user-network'>Following</h3>
+      <NetworkDialog title = {'Followers'} data={data.followers || []} dialog={followers} setDialog={setFollowers} />
+
+      <h3 className = 'user-network' onClick = {() => setFollowing(true)}>Following</h3>
       <p>{data.followingCount ? data.followingCount : 0}</p>
-      <h3 className = 'user-network'>Friends</h3>
+      <NetworkDialog title = {'Following'} data={data.following || []} dialog={following} setDialog={setFollowing} />
+
+      <h3 className = 'user-network' onClick = {() => setFriends(true)}>Friends</h3>
       <p>{data.friendCount ? data.friendCount : 0}</p>
+      <NetworkDialog title = {'Friends'} data={data.friends || []} dialog={friends} setDialog={setFriends} /> 
+
       {data.bio && <h3>Bio</h3>}
       {data.bio && <p>{data.bio}</p>}
       {data.website && <h3>Website</h3>}
