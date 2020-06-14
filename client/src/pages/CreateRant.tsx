@@ -122,11 +122,6 @@ export const CreateRant: React.FC<Props> = ({ pageTitle, isCreate, match }) => {
                 color="primary"
               />
             </div>
-            {anonymous && (
-              <span className="text-center" style={{ color: "red" }}>
-                Warning: You Cannot Edit Anonymous Posts
-              </span>
-            )}
           </div>
         </div>
       )}
