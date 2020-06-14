@@ -43,7 +43,15 @@ const initialState: GlobalState = {
     handle: "",
     email: "",
     userID: "",
-    createdAt: ""
+    createdAt: "",
+    bio: "",
+    website: "",
+    followerCount: 0,
+    followingCount: 0,
+    friendCount: 0,
+    followers: [],
+    following: [],
+    friends: []
   },
   likes: [],
   notifications: [],

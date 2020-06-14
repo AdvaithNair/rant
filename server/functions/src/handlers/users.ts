@@ -379,10 +379,6 @@ exports.getUserDetails = (req: express.Request, res: express.Response) => {
           handle: doc.data().handle,
           likeCount: doc.data().likeCount,
           commentCount: doc.data().commentCount,
-          friends: doc.data().friends,
-          followers: doc.data().followers,
-          friendCount: doc.data().friendCount,
-          followerCount: doc.data().followerCount,
           imageURL: doc.data().imageURL,
           rantID: doc.id
         });

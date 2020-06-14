@@ -519,7 +519,7 @@ COMPONENTS ---------------------------------------------------------------------
   cursor: pointer;
 }
 
-.user-handle-hover:hover {
+.user-handle-hover:hover, .user-network {
   color: #F012BE;
 }
 

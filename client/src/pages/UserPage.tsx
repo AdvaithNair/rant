@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 
 // Context
-import { ReducerContext, RantData } from "../types";
+import { ReducerContext, RantData, UserCredentials } from "../types";
 import { UserContext } from "../context/Context";
 import { SET_LOADING, CLEAR_LOADING } from "../context/ReducerTypes";
 
@@ -23,7 +23,22 @@ export const Profile: React.FC<Props> = ({ match }) => {
   const { dispatch } = useContext<ReducerContext>(UserContext);
 
   // Local States
-  const [user, setUser] = useState<{ [k: string]: any }>({});
+  const [user, setUser] = useState<UserCredentials>({
+    imageURL: "",
+    userName: "",
+    handle: "",
+    email: "",
+    userID: "",
+    createdAt: "",
+    bio: "",
+    website: "",
+    followerCount: 0,
+    followingCount: 0,
+    friendCount: 0,
+    followers: [],
+    following: [],
+    friends: []
+  });
   const [rants, setRants] = useState<Array<RantData>>([]);
 
   useEffect(() => {

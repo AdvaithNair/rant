@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 // Context
-import { ReducerContext } from "../../types";
+import { ReducerContext, UserCredentials } from "../../types";
 import { UserContext } from "../../context/Context";
 
 // Time Formatting
@@ -16,7 +16,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 interface Props {
   setImage: any;
   isAuth: boolean;
-  data: { [k: string]: any };
+  data: UserCredentials;
 }
 
 export const UserContent: React.FC<Props> = ({ setImage, isAuth, data }) => {
@@ -80,7 +80,12 @@ export const UserContent: React.FC<Props> = ({ setImage, isAuth, data }) => {
 
       <h1 style={{ paddingTop: "10px" }}>{data.userName}</h1>
       <h2 className="profile-handle">@{data.handle}</h2>
-
+      <h3 className = 'user-network'>Followers</h3>
+      <p>{data.followerCount ? data.followerCount : 0}</p>
+      <h3 className = 'user-network'>Following</h3>
+      <p>{data.followingCount ? data.followingCount : 0}</p>
+      <h3 className = 'user-network'>Friends</h3>
+      <p>{data.friendCount ? data.friendCount : 0}</p>
       {data.bio && <h3>Bio</h3>}
       {data.bio && <p>{data.bio}</p>}
       {data.website && <h3>Website</h3>}
