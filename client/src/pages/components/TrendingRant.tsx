@@ -76,6 +76,12 @@ export const TrendingRant: React.FC<Props> = ({ index, data }) => {
     }
   }, []);
 
+  // Takes Client To Rant Page
+  const toRantPage = (event: any) => {
+    event.stopPropagation();
+    history.push(`/home/rant/${data.rantID}`);
+  }
+
   // Takes Client To User Page
   const toUserPage = (event: any) => {
     event.stopPropagation();
@@ -84,9 +90,9 @@ export const TrendingRant: React.FC<Props> = ({ index, data }) => {
   };
 
   return (
-    <div className="trending-card" style={{ backgroundColor: color }}>
+    <div className="trending-card" style={{ backgroundColor: color }} onClick = {toRantPage}>
       <div className="trending-rank">
-        <h1>{index}</h1>
+        <h1 style = {{color: 'white'}}>{index}</h1>
       </div>
       <div className="trending-rant">
         <div className="trending-rant-title">
@@ -110,7 +116,9 @@ export const TrendingRant: React.FC<Props> = ({ index, data }) => {
                 <u>{formatRelative(data.createdAt)}</u>
               </p>
             </div>
-            <div className="rant-info" style = {{marginTop: '10px'}}>
+            
+          </div>
+          <div className="rant-info" style = {{marginTop: '10px', paddingBottom: '30px'}}>
               <span style={{ marginRight: "0px" }}>
                 <FavoriteIcon style={{ color: "white", fontSize: "30" }} />
               </span>
@@ -118,7 +126,6 @@ export const TrendingRant: React.FC<Props> = ({ index, data }) => {
               <ChatIcon style={{ color: 'white', fontSize: "30" }} />
               <span>{data.commentCount}</span>
             </div>
-          </div>
         </div>
       </div>
     </div>

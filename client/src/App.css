@@ -888,3 +888,15 @@ COMPONENTS ---------------------------------------------------------------------
 .trending-rant {
   margin-left: 30px;
 }
+
+@media screen and (max-width: 600px) {
+  .trending-card {
+    height: 380px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .trending-card {
+    height: 420px;
+  }
+}

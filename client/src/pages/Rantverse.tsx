@@ -1,22 +1,19 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { RantData } from "../types";
-
-// Context
-import { ReducerContext } from "../types";
-import { UserContext } from "../context/Context";
 
 // Axios
 import axios from "axios";
 
 // Components
-import TrendingRant from './components/TrendingRant'
+import TrendingRant from "./components/TrendingRant";
+
+// Material UI
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 export const Rantverse: React.FC = () => {
-  // Importing Context (Global Store)
-  const { state } = useContext<ReducerContext>(UserContext);
-
   // Local States
-  const [rantData, setRantData] = useState<Array<RantData>>(state.rants);
+  const [rantData, setRantData] = useState<Array<RantData>>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     axios
@@ -24,6 +21,7 @@ export const Rantverse: React.FC = () => {
       .then((res: any) => {
         console.log(res.data);
         setRantData(res.data);
+        setLoading(false);
       })
       .catch((err: Error) => console.log(err));
   }, []);
@@ -31,8 +29,14 @@ export const Rantverse: React.FC = () => {
   return (
     <div className="main-container">
       <h1>RANTVERSE</h1>
-      {rantData.map((rant: RantData, index: number) => (
-          <TrendingRant key={rant.rantID} index = {index + 1} data={rant} />
+      {loading && (
+          <div className="loading-rants">
+          <CircularProgress style={{ marginLeft: "50%" }} color="primary" />
+        </div>
+      )}
+      {!loading &&
+        rantData.map((rant: RantData, index: number) => (
+          <TrendingRant key={rant.rantID} index={index + 1} data={rant} />
         ))}
     </div>
   );
