@@ -38,6 +38,58 @@ exports.getAllRants = (req: express.Request, res: express.Response) => {
     });
 };
 
+// Gets Feed of Rants
+exports.getFeed = (req: express.Request, res: express.Response) => {
+  const followingArray: Array<string> = [];
+  // Returns User Information from Database
+  db.doc(`/users/${req.user.handle}`)
+    .get()
+    .then((doc: any) => {
+      // Gets Information
+      if (doc.exists) {
+        // Stores About Information to User Information Object
+        const followingArrayFull = doc.data().following;
+        followingArrayFull.forEach((e: any) => followingArray.push(e.handle))
+
+        // Gets Rants Of Following Users
+        return db.collection("rants")
+        .where('handle', 'in', followingArray)
+        .orderBy("createdAt", "desc")
+        .limit(50)
+        .get()
+      }
+    })
+    .then((data: any) => {
+      // Array of Documents
+      const rants: FirebaseFirestore.DocumentData[] = [];
+
+      // Add Documents to Array
+      data.forEach((doc: any) => {
+        rants.push({
+          rantID: doc.id,
+          userName: doc.data().userName,
+          userID: doc.data().userID,
+          handle: doc.data().handle,
+          title: doc.data().title,
+          body: doc.data().body,
+          rantverseScore: doc.data().rantverseScore,
+          likeCount: doc.data().likeCount,
+          commentCount: doc.data().commentCount,
+          createdAt: doc.data().createdAt,
+          imageURL: doc.data().imageURL
+        });
+      });
+
+      // Return Array
+      return res.json(rants);
+    })
+    .catch((err: any) => {
+      // Returns Errors
+      console.error(err);
+      res.status(500).json({ error: err.code });
+    });
+};
+
 // Retreives Top 10 Trending Rants
 exports.getTrending = (req: express.Request, res: express.Response) => {
   db.collection("rants")

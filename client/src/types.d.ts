@@ -45,6 +45,11 @@ export type NotificationData = {
   body?: string;
 }
 
+export type NetworkData = {
+  handle: string;
+  imageURL: string;
+}
+
 export type SearchUserData = {
   handle: string;
   userName: string;
@@ -68,6 +73,12 @@ export type UserCredentials = {
   userID: string;
   createdAt: string;
   website?: string;
+  friendCount?: number;
+  followerCount?: number;
+  followingCount?: number;
+  friends?: Array<NetworkData>;
+  followers?: Array<NetworkData>;
+  following?: Array<NetworkData>;
 }
 
 export type UI = {

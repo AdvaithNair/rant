@@ -14,6 +14,12 @@ const {
 // Initialize Firebase App
 firebase.initializeApp(firebaseConfig);
 
+// Firebase Operands
+const arrayUnion = admin.firestore.FieldValue.arrayUnion;
+const arrayRemove = admin.firestore.FieldValue.arrayRemove;
+const increment = admin.firestore.FieldValue.increment(1);
+const decrement = admin.firestore.FieldValue.increment(-1);
+
 // Signs Up User to Firebase Authentication and Database
 exports.signUp = (req: express.Request, res: express.Response) => {
   // New User Object
@@ -72,6 +78,10 @@ exports.signUp = (req: express.Request, res: express.Response) => {
         lastName: newUser.lastName,
         userName: userName,
         email: newUser.email,
+        friends: [],
+        followers: [],
+        friendCount: 0,
+        followerCount: 0,
         userID,
         imageURL: `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${noImg}?alt=media`,
         createdAt: new Date().toISOString()
@@ -146,7 +156,9 @@ exports.updateEmail = (req: express.Request, res: express.Response) => {
     .auth()
     .currentUser!.updateEmail(req.body.email)
     .then(() => {
-      return db.doc(`users/${req.user.handle}`).update({ email: req.body.email })
+      return db
+        .doc(`users/${req.user.handle}`)
+        .update({ email: req.body.email });
     })
     .then(() => {
       return res.json({ message: "Success" });
@@ -367,6 +379,10 @@ exports.getUserDetails = (req: express.Request, res: express.Response) => {
           handle: doc.data().handle,
           likeCount: doc.data().likeCount,
           commentCount: doc.data().commentCount,
+          friends: doc.data().friends,
+          followers: doc.data().followers,
+          friendCount: doc.data().friendCount,
+          followerCount: doc.data().followerCount,
           imageURL: doc.data().imageURL,
           rantID: doc.id
         });
@@ -378,6 +394,102 @@ exports.getUserDetails = (req: express.Request, res: express.Response) => {
     .catch((err: any) => {
       console.error(err);
       return res.status(500).json({ error: err });
+    });
+};
+
+// Follows User
+exports.followUser = (req: express.Request, res: express.Response) => {
+  db.doc(`/users/${req.user.handle}`)
+    .update({
+      following: arrayUnion({
+        handle: req.body.handle,
+        imageURL: req.body.imageURL
+      }),
+      followingCount: increment
+    })
+    .then(() => {
+      return db.doc(`/users/${req.body.handle}`)
+      .update({
+        followers: arrayUnion({
+          handle: req.user.handle,
+          imageURL: req.user.imageURL
+        }),
+        followerCount: increment
+      })
+    })
+    .then(() => {
+      return res.status(200).json({ message: "Followed User" });
+    })
+    .catch((err: any) => {
+      console.error(err);
+      return res.status(503).json({ error: err.code });
+    });
+};
+
+// Unfollows User
+exports.unfollowUser = (req: express.Request, res: express.Response) => {
+  db.doc(`/users/${req.user.handle}`)
+    .update({
+      following: arrayRemove({
+        handle: req.body.handle,
+        imageURL: req.body.imageURL
+      }),
+      followingCount: decrement
+    })
+    .then(() => {
+      return db.doc(`/users/${req.body.handle}`)
+      .update({
+        followers: arrayRemove({
+          handle: req.user.handle,
+          imageURL: req.user.imageURL
+        }),
+        followerCount: decrement
+      })
+    })
+    .then(() => {
+      return res.status(200).json({ message: "Unfollowed User" });
+    })
+    .catch((err: any) => {
+      console.error(err);
+      return res.status(500).json({ error: err.code });
+    });
+};
+
+// Adds User as Friend
+exports.addFriend = (req: express.Request, res: express.Response) => {
+  db.doc(`/users/${req.user.handle}`)
+    .update({
+      friends: arrayUnion({
+        handle: req.body.handle,
+        imageURL: req.body.imageURL
+      }),
+      friendCount: increment
+    })
+    .then(() => {
+      return res.status(200).json({ message: "Friened User" });
+    })
+    .catch((err: any) => {
+      console.error(err);
+      return res.status(503).json({ error: err.code });
+    });
+};
+
+// Removes User as Friend
+exports.removeFriend = (req: express.Request, res: express.Response) => {
+  db.doc(`/users/${req.user.handle}`)
+    .update({
+      friends: arrayRemove({
+        handle: req.body.handle,
+        imageURL: req.body.imageURL
+      }),
+      friendCount: decrement
+    })
+    .then(() => {
+      return res.status(200).json({ message: "Unfriended User" });
+    })
+    .catch((err: any) => {
+      console.error(err);
+      return res.status(500).json({ error: err.code });
     });
 };
 
