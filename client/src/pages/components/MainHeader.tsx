@@ -35,7 +35,11 @@ export const MainHeader: React.FC = () => {
       </div>
       <div className="spacer">
         <Tooltip title="Rantverse" placement="bottom">
-          <IconButton>
+          <IconButton
+            onClick={() => {
+              history.push("/home/rantverse");
+            }}
+          >
             <BlurCircularRoundedIcon color="action" style={{ fontSize: 40 }} />
           </IconButton>
         </Tooltip>

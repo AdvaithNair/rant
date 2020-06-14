@@ -28,6 +28,7 @@ exports.createRant = (req: express.Request, res: express.Response) => {
     body: req.body.body,
     likeCount: 0,
     commentCount: 0,
+    rantverseScore: 0,
     createdAt: new Date().toISOString()
   };
 
@@ -77,7 +78,13 @@ exports.createComment = (req: express.Request, res: express.Response) => {
         newComment.ranterHandle = doc.data().handle;
         newComment.ranterID = doc.data().userID;
       }
-      return doc.ref.update({ commentCount: doc.data().commentCount + 1 });
+      let rantverseUpdate: number;
+      if (newComment.body.length < 250) rantverseUpdate = 2;
+      else rantverseUpdate = 3;
+      return doc.ref.update({
+        commentCount: doc.data().commentCount + 1,
+        rantverseScore: doc.data().rantverseScore + rantverseUpdate
+      });
     })
     .then(() => {
       db.collection("comments")
@@ -132,14 +139,20 @@ exports.toggleLike = (req: express.Request, res: express.Response) => {
           .add({
             rantID: req.params.rantID,
             imageURL: req.user.imageURL,
-            userName: rantData.handle === 'anonymous' ? 'Anonymous': req.user.userName,
+            userName:
+              rantData.handle === "anonymous" ? "Anonymous" : req.user.userName,
             userID: req.user.uid,
-            handle: rantData.handle === 'anonymous' ? 'anonymous': req.user.handle
+            handle:
+              rantData.handle === "anonymous" ? "anonymous" : req.user.handle
           })
           .then(() => {
             // Increment Like Count and Update in Database
             rantData.likeCount++;
-            return rantDocument.update({ likeCount: rantData.likeCount });
+            rantData.rantverseScore++;
+            return rantDocument.update({
+              likeCount: rantData.likeCount,
+              rantverseScore: rantData.rantverseScore
+            });
           })
           .then(() => {
             return res.status(200).json({ rantData });
@@ -152,7 +165,11 @@ exports.toggleLike = (req: express.Request, res: express.Response) => {
           .then(() => {
             // Decrement Like Count and Update in Database
             rantData.likeCount--;
-            return rantDocument.update({ likeCount: rantData.likeCount });
+            rantData.rantverseScore--;
+            return rantDocument.update({
+              likeCount: rantData.likeCount,
+              rantverseScore: rantData.rantverseScore
+            });
           })
           .then(() => {
             res.status(200).json({ rantData });

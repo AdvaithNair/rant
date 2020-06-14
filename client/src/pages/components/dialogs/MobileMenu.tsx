@@ -37,6 +37,12 @@ export const MobileMenu: React.FC<Props> = ({
     handleClose(event);
   }
 
+  // Sends to Rantverse Page
+  const handleRantverse = (event: any) => {
+    history.push("/home/rantverse")
+    handleClose(event);
+  }
+
   // Sends to Profile Page
   const handleProfile = (event: any) => {
     history.push("/home/profile")
@@ -62,7 +68,7 @@ export const MobileMenu: React.FC<Props> = ({
             <MenuItem onClick={handleCreate}>
               Create Rant
             </MenuItem>
-            <MenuItem>Rantverse</MenuItem>
+            <MenuItem onClick = {handleRantverse}>Rantverse</MenuItem>
             <MenuItem onClick={handleProfile}>Profile</MenuItem>
           </MenuList>
         </ClickAwayListener>

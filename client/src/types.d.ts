@@ -9,6 +9,7 @@ export type RantData = {
   body: string;
   likeCount: number;
   commentCount: number;
+  rantverseScore?: number;
   createdAt: string;
   imageURL: string;
 };

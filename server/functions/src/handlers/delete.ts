@@ -38,6 +38,12 @@ exports.deleteComment = (req: express.Request, res: express.Response) => {
   // Document Path for Comment
   const commentDocument = db.doc(`/comments/${req.params.commentID}`);
 
+  // Comment Length for Rantverse Score
+  let commentLength: number;
+
+  // Number to Decrement Rantverse Score Count By
+  let rantverseUpdate: number;
+
   // Deletes Document
   commentDocument
     .get()
@@ -47,7 +53,6 @@ exports.deleteComment = (req: express.Request, res: express.Response) => {
         res.status(404).json({ error: "Comment Not Found" });
         return;
       }
-      //return res.json({ info: doc.data() });
       // Checks if User is Authorized
       if (
         doc.data().commenterID !== req.user.uid &&
@@ -56,15 +61,21 @@ exports.deleteComment = (req: express.Request, res: express.Response) => {
         return res.status(403).json({ error: "Unauthorized" });
       // Gets Rant Document
       else {
+        commentLength = doc.data().body.length;
         return db.doc(`/rants/${doc.data().rantID}`).get();
       }
     })
     .then((doc: any) => {
       // Updates Comment Count on Rant Document in Database (if it exists)
       if (doc.exists) {
+        if (commentLength < 250) rantverseUpdate = 2;
+        else rantverseUpdate = 3;
         return db
           .doc(`/rants/${doc.id}`)
-          .update({ commentCount: doc.data().commentCount - 1 });
+          .update({
+            commentCount: doc.data().commentCount - 1,
+            rantverseScore: doc.data().rantverseScore - rantverseUpdate
+          });
       } else {
         return res.status(404).json({ error: "Original Rant Not Found" });
       }

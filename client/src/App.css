@@ -839,4 +839,52 @@ COMPONENTS ---------------------------------------------------------------------
 .main-container {
   width: 80%;
   margin: 0 auto;
+  max-width: 1200px;
+}
+
+/* Trending Rant */
+.trending-card {
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0px 0px 5px 0px #3F3F3F;
+  -webkit-transition: box-shadow 0.3s ease;
+  -moz-transition: box-shadow 0.3s ease;
+  -o-transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease;
+}
+
+.trending-card:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 5px 3px #3F3F3F;
+}
+
+.trending-rant-title h2 {
+  color: white;
+  margin-top: -20px;
+  margin-left: 20px;
+}
+
+.trending-rant-score {
+  float: right;
+}
+
+.trending-handle-hover {
+  margin-top: -20px;
+  color: white;
+  transition: .3s ease;
+  cursor: pointer;
+}
+
+.trending-handle-hover:hover {
+  color: black;
+}
+
+.trending-rank {
+  width: 35px;
+  margin-right: 10px;
+  float: left;
+}
+
+.trending-rant {
+  margin-left: 30px;
 }

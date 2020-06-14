@@ -15,6 +15,7 @@ import Profile from "./Profile";
 import CreateRant from "./CreateRant";
 import RantPage from "./RantPage";
 import UserPage from "./UserPage";
+import Rantverse from './Rantverse';
 
 export const Home: React.FC = () => {
   // Importing Context (Global Store)
@@ -31,8 +32,7 @@ export const Home: React.FC = () => {
       <Header />
       <div className="main-content">
         <Switch>
-          {/* USE FOR EDITRANT <Route path="/home/create" render={(data) => <CreateRant {...data} data = {{pageTitle: 'CREATE RANT', title: '', body: ''}}/>} />*/}
-          {/*<Route path="/home/create" component={CreateRant} />*/}
+          <Route path="/home/rantverse" component={Rantverse} />
           <Route path="/home/users/:handle" component={UserPage} />
           <Route path="/home/rant/:rantID" component={RantPage} />
           <Route path="/home/create" render={(data) => <CreateRant {...data} pageTitle = {'CREATE RANT'} isCreate = {true} />} />

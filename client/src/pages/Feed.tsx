@@ -9,7 +9,7 @@ import { UserContext } from "../context/Context";
 import axios from "axios";
 
 // Components
-import { Rant } from "./components/Rant";
+import Rant from "./components/Rant";
 
 // Material UI
 import CircularProgress from "@material-ui/core/CircularProgress";

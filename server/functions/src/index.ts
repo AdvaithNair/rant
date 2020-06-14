@@ -4,7 +4,7 @@ import * as functions from "firebase-functions";
 // Authentication Middleware
 const { firebaseAuth } = require("./util/firebaseAuth");
 
-const { getAllRants, getRant, searchUsers } = require("./handlers/get");
+const { getAllRants, getTrending, getRant, searchUsers } = require("./handlers/get");
 const { createRant, createComment, toggleLike } = require("./handlers/create");
 const { updateRant } = require("./handlers/update");
 const {
@@ -36,6 +36,7 @@ const app: express.Application = express();
 
 // Get
 app.get("/get/all_rants", getAllRants); // Gets Rant Data for All Rants
+app.get("/get/rantverse/trending", getTrending); // Gets Top 10 Trending Rants
 // TODO: Get Feed
 
 // Create
