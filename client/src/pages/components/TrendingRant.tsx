@@ -80,7 +80,7 @@ export const TrendingRant: React.FC<Props> = ({ index, data }) => {
   const toRantPage = (event: any) => {
     event.stopPropagation();
     history.push(`/home/rant/${data.rantID}`);
-  }
+  };
 
   // Takes Client To User Page
   const toUserPage = (event: any) => {
@@ -90,19 +90,20 @@ export const TrendingRant: React.FC<Props> = ({ index, data }) => {
   };
 
   return (
-    <div className="trending-card" style={{ backgroundColor: color }} onClick = {toRantPage}>
+    <div
+      className="trending-card"
+      style={{ backgroundColor: color }}
+      onClick={toRantPage}
+    >
       <div className="trending-rank">
-        <h1 style = {{color: 'white'}}>{index}</h1>
+        <h1 style={{ color: "white" }}>{index}</h1>
       </div>
       <div className="trending-rant">
         <div className="trending-rant-title">
           <h1>{data.title}</h1>
           <h2>Score: {data.rantverseScore}</h2>
         </div>
-        <div
-          className="rant-credits"
-          style={{ marginTop: "-10px", marginBottom: "10px", paddingBottom: '40px' }}
-        >
+        <div className="rant-credits">
           <div className="rant-credits-main">
             <div className="rant-credits-img">
               <img alt={data.handle} src={data.imageURL}></img>
@@ -116,16 +117,15 @@ export const TrendingRant: React.FC<Props> = ({ index, data }) => {
                 <u>{formatRelative(data.createdAt)}</u>
               </p>
             </div>
-            
           </div>
-          <div className="rant-info" style = {{marginTop: '10px', paddingBottom: '30px'}}>
-              <span style={{ marginRight: "0px" }}>
-                <FavoriteIcon style={{ color: "white", fontSize: "30" }} />
-              </span>
-              <span>{data.likeCount}</span>
-              <ChatIcon style={{ color: 'white', fontSize: "30" }} />
-              <span>{data.commentCount}</span>
-            </div>
+        </div>
+        <div className="trending-rant-info">
+          <span style={{ marginRight: "0px", marginLeft: "20px" }}>
+            <FavoriteIcon style={{ color: "white", fontSize: "30" }} />
+          </span>
+          <span>{data.likeCount}</span>
+          <ChatIcon style={{ color: "white", fontSize: "30" }} />
+          <span>{data.commentCount}</span>
         </div>
       </div>
     </div>
