@@ -14,7 +14,7 @@ exports.likeNotification = functions.firestore
         // When a Like Document is Created
         if (doc.exists) {
           // Check for Reduncancy (Own Notification)
-          if (doc.data().handle !== snapshot.data().handle) {
+          if (doc.data().userID !== snapshot.data().userID) {
             // Create a Notification in the Database
             return db.doc(`/notifications/${snapshot.id}`).set({
               createdAt: new Date().toISOString(),
@@ -62,7 +62,7 @@ exports.commentNotification = functions.firestore
         // When a Comment Document is Created
         if (doc.exists) {
           // Check for Reduncancy (Own Notification)
-          if (doc.data().handle !== snapshot.data().handle) {
+          if (doc.data().userID !== snapshot.data().userID) {
             // Create a Notification in the Database
             return db.doc(`/notifications/${snapshot.id}`).set({
               createdAt: new Date().toISOString(),

@@ -32,8 +32,8 @@ export const EditProfile: React.FC<Props> = ({edit, setEdit}) => {
   // On Component Mount Set Local States
   useEffect(() => {
     const localUserData = JSON.parse(localStorage.getItem('userData') || '{}');
-    setBio(state.credentials.bio || localUserData.about.bio);
-    setWebsite(state.credentials.website|| localUserData.about.website);
+    setBio(state.credentials.bio || localUserData.about.bio || '');
+    setWebsite(state.credentials.website|| localUserData.about.website || '');
     dispatch({ type: CLEAR_LOADING });
   }, []);
 

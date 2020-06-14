@@ -93,9 +93,10 @@ export const updateUserData = (
   axios
     .get("/user")
     .then((res: any) => {
+      console.log(res.data);
       // Sets to LocalStorage
       localStorage.setItem("userData", JSON.stringify(res.data.userData));
-
+      localStorage.setItem("likeData", JSON.stringify(res.data.userData.likes));
       // Stores User Info in Global State through Reducer
       dispatch({
         type: SET_USER,
@@ -132,6 +133,7 @@ export const uploadImage = (
 export const logoutUser = (dispatch: any) => {
   localStorage.removeItem("firebaseAuthToken");
   localStorage.removeItem("userData");
+  localStorage.removeItem("likeData");
   delete axios.defaults.headers.common["Authorization"];
   dispatch({ type: SET_UNAUTHENTICATED });
 };
@@ -211,6 +213,7 @@ const checkCredentials = (
 
 // Sends Database Request to Toggle Like
 export const toggleLikeRequest = (
+  state: any,
   dispatch: (argument: { [k: string]: any }) => void,
   rantID: string,
   isLiked: boolean
@@ -221,9 +224,13 @@ export const toggleLikeRequest = (
       console.log(res.data);
       if (isLiked) dispatch({ type: UNLIKE_RANT, payload: res.data.rantData });
       else dispatch({ type: LIKE_RANT, payload: res.data.rantData });
-      //updateUserData(dispatch);
+      setTimeout(
+        () => localStorage.setItem("likeData", JSON.stringify(state.likes)),
+        2000
+      );
+      // updateUserData(dispatch);
       // TODO: Comment this out?
-      getRantData(dispatch);
+      //getRantData(dispatch);
     })
     .catch((err: any) => console.log(err));
 };
@@ -268,6 +275,7 @@ export const postRant = (
   axios
     .post("/create/rant", rantObject)
     .then((res: any) => {
+      console.log(res.data);
       dispatch({ type: ADD_RANT, payload: res.data.newRant });
       dispatch({ type: CLEAR_LOADING });
     })

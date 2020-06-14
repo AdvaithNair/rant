@@ -36,11 +36,13 @@ export const RantContent: React.FC<Props> = ({ data }) => {
   // Local States
   // TODO: Be careful about userdata local session
   const [liked, setLiked] = useState<boolean>(
-    JSON.parse(localStorage.userData || "{}").likes.find(
-      (e: any) => e.rantID === data.rantID
-    )
-      ? true
-      : false || false
+    (state.likes.find((e: any) => e.rantID === data.rantID) ? true : false) ||
+      (JSON.parse(localStorage.likeData || "{[]}").find(
+        (e: any) => e.rantID === data.rantID
+      )
+        ? true
+        : false) ||
+      false
   );
   const [menu, setMenu] = useState<boolean>(false);
   const [anchor, setAnchor] = useState<any>(null);
@@ -56,7 +58,7 @@ export const RantContent: React.FC<Props> = ({ data }) => {
   // Toggles Like
   const toggleLike = (event: any) => {
     event.stopPropagation();
-    toggleLikeRequest(dispatch, data.rantID, liked);
+    toggleLikeRequest(state, dispatch, data.rantID, liked);
     setLiked(!liked);
     liked ? data.likeCount-- : data.likeCount++;
   };
@@ -71,12 +73,12 @@ export const RantContent: React.FC<Props> = ({ data }) => {
   // Takes Client To User Page
   const toUserPage = (event: any) => {
     event.stopPropagation();
-    if(data.handle === state.credentials.handle) history.push('/home/profile');
+    if (data.handle === state.credentials.handle) history.push("/home/profile");
     else history.push(`/home/users/${data.handle}`);
   };
 
   return (
-    <div style = {{maxWidth: '1200px'}}>
+    <div style={{ maxWidth: "1200px" }}>
       <div className="rant-title">
         <div className="rant-title-text">
           <h1>{data.title}</h1>

@@ -23,7 +23,7 @@ interface Props {
 // TODO: Break this up into components
 export const UserRant: React.FC<Props> = ({ data }) => {
   // Importing Context (Global Store)
-  const { dispatch } = useContext<ReducerContext>(UserContext);
+  const { state, dispatch } = useContext<ReducerContext>(UserContext);
 
   // History to Push Pages
   const history = useHistory();
@@ -31,7 +31,7 @@ export const UserRant: React.FC<Props> = ({ data }) => {
   // Local States
   // TODO: Be careful about userdata local session
   const [liked, setLiked] = useState<boolean>(
-    JSON.parse(localStorage.userData || "{}").likes.find(
+    JSON.parse(localStorage.likeData || "{[]}").find(
       (e: any) => e.rantID === data.rantID
     )
       ? true
@@ -49,7 +49,7 @@ export const UserRant: React.FC<Props> = ({ data }) => {
   // Toggles Like
   const toggleLike = (event: any) => {
     event.stopPropagation();
-    toggleLikeRequest(dispatch, data.rantID, liked);
+    toggleLikeRequest(state, dispatch, data.rantID, liked);
     setLiked(!liked);
     liked ? data.likeCount-- : data.likeCount++;
   };

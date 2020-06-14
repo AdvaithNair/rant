@@ -132,9 +132,9 @@ exports.toggleLike = (req: express.Request, res: express.Response) => {
           .add({
             rantID: req.params.rantID,
             imageURL: req.user.imageURL,
-            userName: req.user.userName,
+            userName: rantData.handle === 'anonymous' ? 'Anonymous': req.user.userName,
             userID: req.user.uid,
-            handle: req.user.handle
+            handle: rantData.handle === 'anonymous' ? 'anonymous': req.user.handle
           })
           .then(() => {
             // Increment Like Count and Update in Database

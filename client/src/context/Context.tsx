@@ -149,6 +149,7 @@ function reducer(state: any, action: any) {
             body: action.payload.body,
             handle: action.payload.handle,
             userName: action.payload.userName,
+            userID: action.payload.userID,
             createdAt: action.payload.createdAt,
             imageURL: action.payload.imageURL,
             likeCount: action.payload.likeCount,
