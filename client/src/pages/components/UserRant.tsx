@@ -11,6 +11,7 @@ import { toggleLikeRequest } from "../../context/Actions";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ChatIcon from "@material-ui/icons/Chat";
+import LockIcon from "@material-ui/icons/Lock";
 
 // Time Formatting
 import { formatRelative } from "../../time";
@@ -60,7 +61,18 @@ export const UserRant: React.FC<Props> = ({ data }) => {
       onClick={() => history.push(`/home/rant/${data.rantID}`)}
       style={{ width: "100%" }}
     >
-      <div className="rant-title" style = {{backgroundColor: '#956FC5'}}>
+      <div className="rant-title" style={{ backgroundColor: "#956FC5" }}>
+        {data.isPrivate && (
+          <LockIcon
+            style={{
+              color: "white",
+              fontSize: "40px",
+              marginLeft: "10px",
+              marginTop: "10px",
+              marginRight: "-10px"
+            }}
+          />
+        )}
         <div className="rant-title-text">
           <h1>{data.title}</h1>
         </div>
@@ -70,7 +82,7 @@ export const UserRant: React.FC<Props> = ({ data }) => {
           {data.body.split("\\\\n").map((item: string, i: any) => (
             <p key={i}>{item}</p>
           ))}
-          <div className="rant-info" style={{marginBottom: '-20px'}}>
+          <div className="rant-info" style={{ marginBottom: "-20px" }}>
             <span style={{ marginRight: "0px" }} onClick={toggleLike}>
               {liked ? isLiked : notLiked}
             </span>
@@ -78,7 +90,7 @@ export const UserRant: React.FC<Props> = ({ data }) => {
             <ChatIcon style={{ color: "#39CCCC", fontSize: "30" }} />
             <span>{data.commentCount}</span>
             <div className="user-rant-date">
-              <p style = {{fontWeight: 600}}>
+              <p style={{ fontWeight: 600 }}>
                 <u>{formatRelative(data.createdAt)}</u>
               </p>
             </div>

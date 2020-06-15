@@ -362,27 +362,44 @@ exports.getUserDetails = (req: express.Request, res: express.Response) => {
     .then((doc: any) => {
       if (doc.exists) {
         userData.user = doc.data();
+
+        //if(isFriend) {
         return db
           .collection("rants")
           .where("handle", "==", req.params.handle)
           .orderBy("createdAt", "desc")
           .get();
+        /*}
+        else {
+        return db
+          .collection("rants")
+          .where("handle", "==", req.params.handle)
+          .where('isPrivate', '==', false)
+          .orderBy("createdAt", "desc")
+          .get();
+        }*/
       }
     })
     .then((data: any) => {
+      const isFriend: boolean = userData.user.friends.some(
+        (e: any) => e.handle === req.user.handle
+      );
+
       userData.rants = [];
       data.forEach((doc: any) => {
-        userData.rants.push({
-          title: doc.data().title,
-          body: doc.data().body,
-          createdAt: doc.data().createdAt,
-          userName: doc.data().userName,
-          handle: doc.data().handle,
-          likeCount: doc.data().likeCount,
-          commentCount: doc.data().commentCount,
-          imageURL: doc.data().imageURL,
-          rantID: doc.id
-        });
+        if (!isFriend) {
+          if (!doc.data().isPrivate) {
+            userData.rants.push({
+              ...doc.data(),
+              rantID: doc.id
+            });
+          }
+        } else {
+          userData.rants.push({
+            ...doc.data(),
+            rantID: doc.id
+          });
+        }
       });
 
       // Returns User Data
@@ -405,14 +422,13 @@ exports.followUser = (req: express.Request, res: express.Response) => {
       followingCount: increment
     })
     .then(() => {
-      return db.doc(`/users/${req.body.handle}`)
-      .update({
+      return db.doc(`/users/${req.body.handle}`).update({
         followers: arrayUnion({
           handle: req.user.handle,
           imageURL: req.user.imageURL
         }),
         followerCount: increment
-      })
+      });
     })
     .then(() => {
       return res.status(200).json({ message: "Followed User" });
@@ -434,14 +450,13 @@ exports.unfollowUser = (req: express.Request, res: express.Response) => {
       followingCount: decrement
     })
     .then(() => {
-      return db.doc(`/users/${req.body.handle}`)
-      .update({
+      return db.doc(`/users/${req.body.handle}`).update({
         followers: arrayRemove({
           handle: req.user.handle,
           imageURL: req.user.imageURL
         }),
         followerCount: decrement
-      })
+      });
     })
     .then(() => {
       return res.status(200).json({ message: "Unfollowed User" });

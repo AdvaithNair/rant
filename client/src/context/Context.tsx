@@ -163,6 +163,7 @@ function reducer(state: any, action: any) {
             handle: action.payload.handle,
             userName: action.payload.userName,
             userID: action.payload.userID,
+            isPrivate: action.payload.isPrivate,
             createdAt: action.payload.createdAt,
             imageURL: action.payload.imageURL,
             likeCount: action.payload.likeCount,

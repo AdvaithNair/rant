@@ -46,6 +46,7 @@ exports.getFeed = (req: express.Request, res: express.Response) => {
         // Gets Rants Of Following Users
         return db.collection("rants")
         .where('handle', 'in', followingArray)
+        .where('isPrivate', '==', false)
         .orderBy("createdAt", "desc")
         .limit(50)
         .get()
