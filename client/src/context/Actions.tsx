@@ -24,6 +24,7 @@ import {
 
 // Axios
 import axios from "axios";
+import API from '../API';
 
 // JWT
 import jwtDecode from "jwt-decode";
@@ -52,6 +53,7 @@ export const handleUser = (
   axios
     .post(`/user/${endpoint}`, credentials)
     .then((res: any) => {
+      console.log(res.data);
       // Sets Auth Token in Header
       setAuthorizationHeader(res.data.token);
 
@@ -97,7 +99,7 @@ export const updateUserData = (
   dispatch: (argument: { [k: string]: string }) => void,
   history?: any
 ) => {
-  axios
+  API
     .get("/user")
     .then((res: any) => {
       console.log(res.data);
@@ -125,7 +127,7 @@ export const uploadImage = (
   formData: any
 ) => {
   dispatch({ type: SET_LOADING });
-  axios
+  API
     .post("/user/image", formData)
     .then((res: any) => {
       dispatch({ type: UPDATE_USER_IMAGE, payload: res.data.imageURL });
@@ -248,7 +250,7 @@ export const toggleLikeRequest = (
   rantID: string,
   isLiked: boolean
 ) => {
-  axios
+  API
     .get(`/rant/like/${rantID}`)
     .then((res: any) => {
       console.log(res.data);
@@ -270,7 +272,7 @@ export const getRantData = (
   dispatch: (argument: { [k: string]: any }) => void
 ) => {
   dispatch({ type: SET_LOADING });
-  axios
+  API
     .get("/get/all_rants")
     .then((res: any) => {
       console.log(res.data);
@@ -283,7 +285,7 @@ export const getRantData = (
 // Retreives Rant Feed Data from Database
 export const getFeed = (dispatch: (argument: { [k: string]: any }) => void) => {
   dispatch({ type: SET_LOADING });
-  axios
+  API
     .get("/get/feed")
     .then((res: any) => {
       console.log(res.data);
@@ -316,7 +318,7 @@ export const postRant = (
   dispatch: (argument: { [k: string]: any }) => void
 ) => {
   dispatch({ type: SET_LOADING });
-  axios
+  API
     .post("/create/rant", rantObject)
     .then((res: any) => {
       console.log(res.data);
@@ -333,7 +335,7 @@ export const updateRant = (
   dispatch: (argument: { [k: string]: any }) => void
 ) => {
   dispatch({ type: SET_LOADING });
-  axios
+  API
     .put(`/update/rant/${rantID}`, rantObject)
     .then((res: any) => {
       console.log(res.data.updatedRant);
@@ -349,7 +351,7 @@ export const deleteRant = (
   dispatch: (argument: { [k: string]: any }) => void
 ) => {
   dispatch({ type: SET_LOADING });
-  axios
+  API
     .delete(`/delete/rant/${rantID}`)
     .then(() => {
       // Replace this with state change
@@ -366,7 +368,7 @@ export const editUserDetails = (
   userData: { [k: string]: string }
 ) => {
   dispatch({ type: SET_LOADING });
-  axios
+  API
     .post("/user/update", userData)
     .then(() => {
       dispatch({ type: UPDATE_USER, payload: userData });
@@ -384,7 +386,7 @@ export const getRantInfo = (
   rantID: string
 ) => {
   dispatch({ type: SET_LOADING });
-  axios
+  API
     .get(`/rant/${rantID}`)
     .then((res: any) => {
       console.log(res.data);
@@ -402,7 +404,7 @@ export const readNotifications = (
   dispatch: (argument: { [k: string]: any }) => void,
   notificationIDs: Array<{ [k: string]: any }>
 ) => {
-  axios
+  API
     .post("/notifications", notificationIDs)
     .then((res: any) => {
       dispatch({ type: MARK_NOTIFICATIONS_READ });
@@ -415,7 +417,7 @@ export const followUser = (
   dispatch: (argument: { [k: string]: any }) => void,
   userData: NetworkData
 ) => {
-  axios
+  API
     .post("/user/follow", userData)
     .then((res: any) => {
       dispatch({ type: FOLLOW_USER, payload: userData });
@@ -428,7 +430,7 @@ export const unfollowUser = (
   dispatch: (argument: { [k: string]: any }) => void,
   userData: NetworkData
 ) => {
-  axios
+  API
     .post("/user/unfollow", userData)
     .then((res: any) => {
       dispatch({ type: UNFOLLOW_USER, payload: userData });
@@ -441,7 +443,7 @@ export const addFriend = (
   dispatch: (argument: { [k: string]: any }) => void,
   userData: NetworkData
 ) => {
-  axios
+  API
     .post("/user/friend/add", userData)
     .then((res: any) => {
       dispatch({ type: FRIEND_USER, payload: userData });
@@ -454,7 +456,7 @@ export const removeFriend = (
   dispatch: (argument: { [k: string]: any }) => void,
   userData: NetworkData
 ) => {
-  axios
+  API
     .post("/user/friend/remove", userData)
     .then((res: any) => {
       dispatch({ type: UNFRIEND_USER, payload: userData });

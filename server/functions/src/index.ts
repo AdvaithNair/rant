@@ -25,8 +25,8 @@ const {
   followUser,
   unfollowUser,
   addFriend,
-  removeFriend
-  //onImageChange
+  removeFriend,
+  onImageChange
 } = require("./handlers/users");
 const {
   deleteRant,
@@ -40,9 +40,12 @@ const {
   deleteCommentNotification,
   readNotifications
 } = require("./handlers/notifications");
+const cors = require('cors');
+
 
 // Initialize Express
 const app: express.Application = express();
+app.use(cors({origin: true}));
 
 // Get
 app.get("/get/all_rants", getAllRants); // Gets Rant Data for All Rants
@@ -101,7 +104,24 @@ exports.createCommentNotification = commentNotification;
 exports.deleteCommentNotification = deleteCommentNotification;
 
 // Updates User Image Upon Update
-// exports.imageUpdate = onImageChange;
+exports.imageUpdate = onImageChange;
 
 // Deletes Comments When Rant is Deleted
 exports.deleteRantComplete = onRantDelete;
+
+// CORS (Allows for Client Communication)
+/*
+exports.corsEnabledFunctionAuth = (req: express.Request, res: express.Response) => {
+  res.set('Access-Control-Allow-Origin', '*');
+  res.set('Access-Control-Allow-Credentials', 'true');
+
+  if (req.method === 'OPTIONS') {
+    // Send response to OPTIONS requests
+    res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.set('Access-Control-Allow-Headers', 'Authorization');
+    res.set('Access-Control-Max-Age', '3600');
+    res.status(200).send('');
+  } else {
+    res.send('Hello World!');
+  }
+};*/

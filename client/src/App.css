@@ -2,6 +2,7 @@
 APP ----------------------------------------------------------------------------------------------------------------------------------------------
 */
 
+@import url(https://fonts.googleapis.com/css?family=Roboto);
 body {
   font-family: 'Montserrat';
 }
@@ -10,14 +11,14 @@ body {
   font-family: 'Montserrat';
   font-style: normal;
   font-weight: 400;
-  src: local('Montserrat-Regular'), url(http://fonts.gstatic.com/s/montserrat/v6/zhcz-_WihjSQC0oHJ9TCYC3USBnSvpkopQaUR-2r7iU.ttf) format('truetype');
+  src: local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v6/zhcz-_WihjSQC0oHJ9TCYC3USBnSvpkopQaUR-2r7iU.ttf) format('truetype');
 }
 
 @font-face {
   font-family: 'Montserrat';
   font-style: bold;
   font-weight: 700;
-  src: local('Montserrat-Bold'), url(http://fonts.gstatic.com/s/montserrat/v6/IQHow_FEYlDC4Gzy_m8fcvEr6Hm6RMS0v1dtXsGir4g.ttf) format('truetype');
+  src: local('Montserrat-Bold'), url(https://fonts.gstatic.com/s/montserrat/v6/IQHow_FEYlDC4Gzy_m8fcvEr6Hm6RMS0v1dtXsGir4g.ttf) format('truetype');
 }
 
 /*
@@ -845,6 +846,7 @@ COMPONENTS ---------------------------------------------------------------------
 }
 
 /* Trending Rant */
+
 .trending-card {
   padding: 10px 20px;
   margin-bottom: 20px;

@@ -65,12 +65,14 @@ export const Profile: React.FC<Props> = ({ match }) => {
       followUser(dispatch, userData);
       setUser({
         ...user,
+        followers: user!.followers!.concat(userData),
         followerCount: (user.followerCount ? user.followerCount : 0) + 1
       });
     } else {
       unfollowUser(dispatch, userData);
       setUser({
         ...user,
+        followers: user!.followers!.filter((e: NetworkData) => e !== userData),
         followerCount: (user.followerCount ? user.followerCount : 1) - 1
       });
     }

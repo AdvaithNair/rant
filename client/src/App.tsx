@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
@@ -24,6 +24,12 @@ import { mainTheme } from "./assets/themes/Themes";
 import { ThemeProvider } from "@material-ui/core/styles";
 
 const App: React.FC = () => {
+  //axios.defaults.baseURL = 'https://us-central1-rant-dd853.cloudfunctions.net/api';
+
+  useEffect(() => {
+    axios.defaults.baseURL = 'https://us-central1-rant-dd853.cloudfunctions.net/api';
+  }, [])
+
   return (
     <ThemeProvider theme={mainTheme}>
       <UserProvider>
