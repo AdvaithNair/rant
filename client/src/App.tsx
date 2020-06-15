@@ -26,9 +26,9 @@ import { ThemeProvider } from "@material-ui/core/styles";
 const App: React.FC = () => {
   //axios.defaults.baseURL = 'https://us-central1-rant-dd853.cloudfunctions.net/api';
 
-  useEffect(() => {
+  /*useEffect(() => {
     axios.defaults.baseURL = 'https://us-central1-rant-dd853.cloudfunctions.net/api';
-  }, [])
+  }, [])*/
 
   return (
     <ThemeProvider theme={mainTheme}>

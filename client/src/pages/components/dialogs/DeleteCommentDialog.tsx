@@ -6,7 +6,7 @@ import { UserContext } from "../../../context/Context";
 import { DELETE_COMMENT } from "../../../context/ReducerTypes";
 
 // Axios
-import axios from "axios";
+import api from '../../../api';
 
 // Material UI
 import Button from "@material-ui/core/Button";
@@ -45,7 +45,7 @@ export const DeleteCommentDialog: React.FC<Props> = ({
   // Deletes Object
   const handleSubmit = (event: any) => {
     event.stopPropagation();
-    axios
+    api
       .delete(`/delete/comment/${commentData.commentID}`)
       .then(() => {
         // Filter Comments

@@ -241,12 +241,17 @@ function reducer(state: any, action: any) {
       };
     case UNFOLLOW_USER:
       state.credentials.followingCount--;
+      console.log(
+        state.credentials.following.filter(
+          (e: NetworkData) => e.handle !== action.payload.handle
+        )
+      );
       return {
         ...state,
         credentials: {
           ...state.credentials,
           following: state.credentials.following.filter(
-            (e: NetworkData) => e !== action.payload
+            (e: NetworkData) => e.handle !== action.payload.handle
           )
         }
       };

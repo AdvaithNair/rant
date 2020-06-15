@@ -9,7 +9,7 @@ import { UserContext } from "../../context/Context";
 import Comment from "./Comment";
 
 // Axios
-import API from "../../API";
+import api from '../../api';
 
 // Material UI
 import TextField from "@material-ui/core/TextField";
@@ -50,7 +50,7 @@ export const CommentSection: React.FC<Props> = ({
     const newComment = commentText.replace(/\n/g, "\\\\n"); //"\\\\n"
 
     // Posts Comment
-    API
+    api
       .post(`/rant/comment/${rantID}`, { body: newComment, anonymous })
       .then((res: any) => {
         setComments(comments => comments.concat(res.data.returnComment));

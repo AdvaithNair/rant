@@ -13,7 +13,7 @@ import RantContent from "./components/RantContent";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 // Axios
-import axios from "axios";
+import api from '../api';
 
 // Props
 interface Props {
@@ -47,7 +47,7 @@ export const Rant: React.FC<Props> = ({ match }) => {
   // On Component Mount, Renders Like
   useEffect(() => {
     setLoading(true);
-    axios
+    api
       .get(`/rant/${rantID}`)
       .then((res: any) => {
         setRantData({

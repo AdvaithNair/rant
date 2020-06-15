@@ -81,8 +81,10 @@ exports.signUp = (req: express.Request, res: express.Response) => {
         email: newUser.email,
         friends: [],
         followers: [],
+        following: [],
         friendCount: 0,
         followerCount: 0,
+        followingCount: 0,
         userID,
         imageURL: `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${noImg}?alt=media`,
         createdAt: new Date().toISOString()

@@ -42,7 +42,8 @@ exports.getFeed = (req: express.Request, res: express.Response) => {
       if (doc.exists) {
         // Stores About Information to User Information Object
         const followingArrayFull: Array<any> = doc.data().following;
-        followingArrayFull.forEach((e: any) => followingArray.push(e.handle));
+        if(followingArrayFull.length > 0) followingArrayFull.forEach((e: any) => followingArray.push(e.handle));
+        else followingArray.push('rant')
 
         // Gets Rants Of Following Users
         return db
@@ -54,36 +55,17 @@ exports.getFeed = (req: express.Request, res: express.Response) => {
           .get();
       }
     })
-    .then((data: any) => {
+    .then((data: any | undefined) => {
       // Array of Documents
       const rants: FirebaseFirestore.DocumentData[] = [];
 
       // Add Documents to Array
-      if (data) {
+      if (data.size !== 0) {
         data.forEach((doc: any) => {
           rants.push({
             ...doc.data(),
             rantID: doc.id
           });
-        });
-      } else {
-        return res.json({
-          rants: [
-            {
-              title: "No Rants Available",
-              body: "Follow your friends to see their rants on your feed!",
-              rantID: "6HFkW57zYVRfr0Dq2D4W",
-              userName: "Rant",
-              userID: "zGK5Za10wkRUCRxCk3CXLzPrw1F3",
-              handle: "rant",
-              likeCount: 0,
-              commentCount: 0,
-              rantverseScore: 0,
-              isPrivate: false,
-              createdAt: "2020-06-15T12:09:57.716Z",
-              imageURL: "https://firebasestorage.googleapis.com/v0/b/rant-dd853.appspot.com/o/rant.png?alt=media"
-            }
-          ]
         });
       }
 
@@ -93,24 +75,25 @@ exports.getFeed = (req: express.Request, res: express.Response) => {
     .catch((err: any) => {
       // Returns Errors
       console.error(err);
-      return res.json({
+      /*return res.json({
         rants: [
           {
             title: "No Rants Available",
-              body: "Follow your friends to see their rants on your feed!",
-              rantID: "6HFkW57zYVRfr0Dq2D4W",
-              userName: "Rant",
-              userID: "zGK5Za10wkRUCRxCk3CXLzPrw1F3",
-              handle: "rant",
-              likeCount: 0,
-              commentCount: 0,
-              rantverseScore: 0,
-              isPrivate: false,
-              createdAt: "2020-06-15T12:09:57.716Z",
-              imageURL: "https://firebasestorage.googleapis.com/v0/b/rant-dd853.appspot.com/o/rant.png?alt=media"
+            body: "Follow your friends to see their rants on your feed!",
+            rantID: "6HFkW57zYVRfr0Dq2D4W",
+            userName: "Rant",
+            userID: "zGK5Za10wkRUCRxCk3CXLzPrw1F3",
+            handle: "rant",
+            likeCount: 0,
+            commentCount: 0,
+            rantverseScore: 0,
+            isPrivate: false,
+            createdAt: "2020-06-15T12:09:57.716Z",
+            imageURL:
+              "https://firebasestorage.googleapis.com/v0/b/rant-dd853.appspot.com/o/rant.png?alt=media"
           }
         ]
-      });
+      });*/
       res.status(500).json({ error: err.code });
     });
 };

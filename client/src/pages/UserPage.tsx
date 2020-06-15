@@ -13,16 +13,18 @@ import { SET_LOADING, CLEAR_LOADING } from "../context/ReducerTypes";
 // Components
 import UserContent from "./components/UserContent";
 import UserRant from "./components/UserRant";
-
-// Axios
-import axios from "axios";
-import Button from "@material-ui/core/Button";
 import {
   followUser,
   unfollowUser,
   addFriend,
   removeFriend
 } from "../context/Actions";
+
+// Axios
+import api from '../api';
+
+// Material UI
+import Button from "@material-ui/core/Button";
 
 // type ImageUploadData = { [k: string]: any | string | Blob };
 
@@ -65,14 +67,14 @@ export const Profile: React.FC<Props> = ({ match }) => {
       followUser(dispatch, userData);
       setUser({
         ...user,
-        followers: user!.followers!.concat(userData),
+        followers: user!.followers!.concat({handle: state.credentials.handle, imageURL: state.credentials.imageURL}),
         followerCount: (user.followerCount ? user.followerCount : 0) + 1
       });
     } else {
       unfollowUser(dispatch, userData);
       setUser({
         ...user,
-        followers: user!.followers!.filter((e: NetworkData) => e !== userData),
+        followers: user!.followers!.filter((e: NetworkData) => e.handle !== state.credentials.handle),
         followerCount: (user.followerCount ? user.followerCount : 1) - 1
       });
     }
@@ -95,7 +97,7 @@ export const Profile: React.FC<Props> = ({ match }) => {
 
   useEffect(() => {
     dispatch({ type: SET_LOADING });
-    axios
+    api
       .get(`/user/${match.params.handle}`)
       .then((res: any) => {
         setUser(res.data.userData.user);

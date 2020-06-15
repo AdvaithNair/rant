@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { RantData } from "../types";
 
 // Axios
-import axios from "axios";
+import api from '../api';
 
 // Components
 import TrendingRant from "./components/TrendingRant";
@@ -16,7 +16,7 @@ export const Rantverse: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    axios
+    api
       .get("/get/rantverse/trending")
       .then((res: any) => {
         console.log(res.data);

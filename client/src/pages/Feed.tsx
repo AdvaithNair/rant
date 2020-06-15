@@ -6,7 +6,7 @@ import { ReducerContext } from "../types";
 import { UserContext } from "../context/Context";
 
 // Axios
-import axios from "axios";
+import api from '../api';
 
 // Components
 import Rant from "./components/Rant";
@@ -51,7 +51,7 @@ export const Feed: React.FC = () => {
   const handleSubmit = (event: any) => {
     // TODO: Create this endpoint
     if (query) {
-      axios
+      api
         .get(`/search/users/${query}`)
         .then((res: any) => {
           setResults(res.data.results);

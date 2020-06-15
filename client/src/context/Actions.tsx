@@ -23,8 +23,7 @@ import {
 } from "./ReducerTypes";
 
 // Axios
-import axios from "axios";
-import API from '../API';
+import api from '../api';
 
 // JWT
 import jwtDecode from "jwt-decode";
@@ -34,7 +33,7 @@ import { NetworkData } from "../types";
 const setAuthorizationHeader = (token: string) => {
   const firebaseAuthToken = `Bearer ${token}`;
   localStorage.setItem("firebaseAuthToken", firebaseAuthToken);
-  axios.defaults.headers.common["Authorization"] = firebaseAuthToken;
+  api.defaults.headers.common["Authorization"] = firebaseAuthToken;
 };
 
 // Logs In or Signs Up User
@@ -47,13 +46,10 @@ export const handleUser = (
   // Checks for Errors
   if (checkCredentials(credentials, dispatch)) return;
 
-  console.log("here");
-
   // Makes Login Request
-  axios
+  api
     .post(`/user/${endpoint}`, credentials)
     .then((res: any) => {
-      console.log(res.data);
       // Sets Auth Token in Header
       setAuthorizationHeader(res.data.token);
 
@@ -99,10 +95,9 @@ export const updateUserData = (
   dispatch: (argument: { [k: string]: string }) => void,
   history?: any
 ) => {
-  API
+  api
     .get("/user")
     .then((res: any) => {
-      console.log(res.data);
       // Sets to LocalStorage
       localStorage.setItem("userData", JSON.stringify(res.data.userData));
       localStorage.setItem("likeData", JSON.stringify(res.data.userData.likes));
@@ -127,7 +122,7 @@ export const uploadImage = (
   formData: any
 ) => {
   dispatch({ type: SET_LOADING });
-  API
+  api
     .post("/user/image", formData)
     .then((res: any) => {
       dispatch({ type: UPDATE_USER_IMAGE, payload: res.data.imageURL });
@@ -145,7 +140,7 @@ export const logoutUser = (dispatch: any) => {
   localStorage.removeItem("firebaseAuthToken");
   localStorage.removeItem("userData");
   localStorage.removeItem("likeData");
-  delete axios.defaults.headers.common["Authorization"];
+  delete api.defaults.headers.common["Authorization"];
   dispatch({ type: SET_UNAUTHENTICATED });
 };
 
@@ -221,25 +216,8 @@ const checkCredentials = (
     //toTerminate = true;
   }
 
-  /*if (credentials.handle) {
-    if (
-      credentials.handle.includes("<") ||
-      credentials.handle.includes(">") ||
-      credentials.handle.includes(":") ||
-      credentials.handle.includes('"') ||
-      credentials.handle.includes("/") ||
-      credentials.handle.includes("\\") ||
-      credentials.handle.includes("|") ||
-      credentials.handle.includes("?") ||
-      credentials.handle.includes("*") ||
-      credentials.handle.includes(" ")
-    )
-      errors.handle = "Invalid Username";
-  }*/
-
   dispatch({ type: SET_ERRORS, payload: errors });
   if (toTerminate) dispatch({ type: CLEAR_LOADING });
-  console.log("to Terminate: " + toTerminate);
   return toTerminate;
 };
 
@@ -250,7 +228,7 @@ export const toggleLikeRequest = (
   rantID: string,
   isLiked: boolean
 ) => {
-  API
+  api
     .get(`/rant/like/${rantID}`)
     .then((res: any) => {
       console.log(res.data);
@@ -272,7 +250,7 @@ export const getRantData = (
   dispatch: (argument: { [k: string]: any }) => void
 ) => {
   dispatch({ type: SET_LOADING });
-  API
+  api
     .get("/get/all_rants")
     .then((res: any) => {
       console.log(res.data);
@@ -285,11 +263,10 @@ export const getRantData = (
 // Retreives Rant Feed Data from Database
 export const getFeed = (dispatch: (argument: { [k: string]: any }) => void) => {
   dispatch({ type: SET_LOADING });
-  API
+  api
     .get("/get/feed")
     .then((res: any) => {
-      console.log(res.data);
-      dispatch({ type: SET_RANTS, payload: res.data.rants });
+      dispatch({ type: SET_RANTS, payload: res.data });
       dispatch({ type: CLEAR_LOADING });
     })
     .catch((err: Error) => console.log(err));
@@ -306,7 +283,7 @@ export const checkAuth = (
       window.location.href = "/";
       logoutUser(dispatch);
     } else {
-      axios.defaults.headers.common["Authorization"] = token;
+      api.defaults.headers.common["Authorization"] = token;
       getUserData(dispatch);
     }
   }
@@ -318,10 +295,9 @@ export const postRant = (
   dispatch: (argument: { [k: string]: any }) => void
 ) => {
   dispatch({ type: SET_LOADING });
-  API
+  api
     .post("/create/rant", rantObject)
     .then((res: any) => {
-      console.log(res.data);
       dispatch({ type: ADD_RANT, payload: res.data.newRant });
       dispatch({ type: CLEAR_LOADING });
     })
@@ -335,10 +311,9 @@ export const updateRant = (
   dispatch: (argument: { [k: string]: any }) => void
 ) => {
   dispatch({ type: SET_LOADING });
-  API
+  api
     .put(`/update/rant/${rantID}`, rantObject)
     .then((res: any) => {
-      console.log(res.data.updatedRant);
       dispatch({ type: UPDATE_RANT, payload: res.data.updatedRant });
       dispatch({ type: CLEAR_LOADING });
     })
@@ -351,7 +326,7 @@ export const deleteRant = (
   dispatch: (argument: { [k: string]: any }) => void
 ) => {
   dispatch({ type: SET_LOADING });
-  API
+  api
     .delete(`/delete/rant/${rantID}`)
     .then(() => {
       // Replace this with state change
@@ -368,7 +343,7 @@ export const editUserDetails = (
   userData: { [k: string]: string }
 ) => {
   dispatch({ type: SET_LOADING });
-  API
+  api
     .post("/user/update", userData)
     .then(() => {
       dispatch({ type: UPDATE_USER, payload: userData });
@@ -386,10 +361,9 @@ export const getRantInfo = (
   rantID: string
 ) => {
   dispatch({ type: SET_LOADING });
-  API
+  api
     .get(`/rant/${rantID}`)
     .then((res: any) => {
-      console.log(res.data);
       //dispatch({ type: GET_COMMENTS, payload: res.data });
       dispatch({ type: CLEAR_LOADING });
     })
@@ -404,7 +378,7 @@ export const readNotifications = (
   dispatch: (argument: { [k: string]: any }) => void,
   notificationIDs: Array<{ [k: string]: any }>
 ) => {
-  API
+  api
     .post("/notifications", notificationIDs)
     .then((res: any) => {
       dispatch({ type: MARK_NOTIFICATIONS_READ });
@@ -417,7 +391,7 @@ export const followUser = (
   dispatch: (argument: { [k: string]: any }) => void,
   userData: NetworkData
 ) => {
-  API
+  api
     .post("/user/follow", userData)
     .then((res: any) => {
       dispatch({ type: FOLLOW_USER, payload: userData });
@@ -430,7 +404,7 @@ export const unfollowUser = (
   dispatch: (argument: { [k: string]: any }) => void,
   userData: NetworkData
 ) => {
-  API
+  api
     .post("/user/unfollow", userData)
     .then((res: any) => {
       dispatch({ type: UNFOLLOW_USER, payload: userData });
@@ -443,7 +417,7 @@ export const addFriend = (
   dispatch: (argument: { [k: string]: any }) => void,
   userData: NetworkData
 ) => {
-  API
+  api
     .post("/user/friend/add", userData)
     .then((res: any) => {
       dispatch({ type: FRIEND_USER, payload: userData });
@@ -456,7 +430,7 @@ export const removeFriend = (
   dispatch: (argument: { [k: string]: any }) => void,
   userData: NetworkData
 ) => {
-  API
+  api
     .post("/user/friend/remove", userData)
     .then((res: any) => {
       dispatch({ type: UNFRIEND_USER, payload: userData });

@@ -6,7 +6,7 @@ import { UserContext } from "../../../context/Context";
 import { UPDATE_USER_EMAIL } from "../../../context/ReducerTypes";
 
 // Axios
-import axios from "axios";
+import api from '../../../api';
 
 // Material UI
 import Button from "@material-ui/core/Button";
@@ -95,7 +95,7 @@ export const UserSettingsMenu: React.FC<Props> = ({
       setEmailError("Must Be A Valid Email Address");
       return;
     }
-    axios
+    api
       .put("/user/update/email", { email })
       .then(() => {
         dispatch({ type: UPDATE_USER_EMAIL, payload: email });
@@ -152,7 +152,7 @@ export const UserSettingsMenu: React.FC<Props> = ({
       setConfirmPasswordError("Passwords Must Match");
       return;
     }
-    axios
+    api
       .put("/user/update/password", { password })
       .then(() => {})
       .catch((err: Error) => {
