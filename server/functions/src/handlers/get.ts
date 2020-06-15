@@ -14,17 +14,8 @@ exports.getAllRants = (req: express.Request, res: express.Response) => {
       // Add Documents to Array
       data.forEach((doc: any) => {
         rants.push({
-          rantID: doc.id,
-          userName: doc.data().userName,
-          userID: doc.data().userID,
-          handle: doc.data().handle,
-          title: doc.data().title,
-          body: doc.data().body,
-          rantverseScore: doc.data().rantverseScore,
-          likeCount: doc.data().likeCount,
-          commentCount: doc.data().commentCount,
-          createdAt: doc.data().createdAt,
-          imageURL: doc.data().imageURL
+          ...doc.data(),
+          rantID: doc.id
         });
       });
 

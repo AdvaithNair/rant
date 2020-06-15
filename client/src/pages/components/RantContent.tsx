@@ -16,6 +16,7 @@ import IconButton from "@material-ui/core/IconButton";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ChatIcon from "@material-ui/icons/Chat";
+import LockIcon from "@material-ui/icons/Lock";
 
 // Time Formatting
 import { formatDate, formatTime, formatRelative } from "../../time";
@@ -80,6 +81,17 @@ export const RantContent: React.FC<Props> = ({ data }) => {
   return (
     <div style={{ maxWidth: "1200px" }}>
       <div className="rant-title">
+        {data.isPrivate && (
+          <LockIcon
+            style={{
+              color: "white",
+              fontSize: "40px",
+              marginLeft: "10px",
+              marginTop: "10px",
+              marginRight: "-10px"
+            }}
+          />
+        )}
         <div className="rant-title-text">
           <h1>{data.title}</h1>
         </div>

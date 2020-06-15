@@ -25,6 +25,7 @@ export const CreateRant: React.FC<Props> = ({ pageTitle, isCreate, match }) => {
   const [titleError, setTitleError] = useState<string>("");
   const [bodyError, setBodyError] = useState<string>("");
   const [anonymous, setAnonymous] = useState<boolean>(false);
+  const [priv, setPriv] = useState<boolean>(false);
 
   const emptyMessage = "Must Not Be Empty";
 
@@ -74,10 +75,11 @@ export const CreateRant: React.FC<Props> = ({ pageTitle, isCreate, match }) => {
     const rantData: { [k: string]: any } = {
       title,
       body: newBody,
-      anonymous
+      anonymous,
+      isPrivate: priv
     };
 
-    console.log(rantData);
+    //console.log(rantData);
 
     // Posts Rant
     if (isCreate) postRant(rantData, dispatch);
@@ -119,6 +121,14 @@ export const CreateRant: React.FC<Props> = ({ pageTitle, isCreate, match }) => {
               <Switch
                 checked={anonymous}
                 onChange={() => setAnonymous(!anonymous)}
+                color="primary"
+              />
+            </div>
+            <p className="text-center">Post Privately</p>
+            <div className="manipulate-anonymous-switch">
+              <Switch
+                checked={priv}
+                onChange={() => setPriv(!priv)}
                 color="primary"
               />
             </div>

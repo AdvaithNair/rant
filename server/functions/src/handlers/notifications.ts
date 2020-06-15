@@ -40,7 +40,7 @@ exports.likeNotification = functions.firestore
 
 // Unlike Notification Snapshot
 exports.unlikeNotification = functions.firestore
-  .document("likes/{id}")
+  .document("/likes/{id}")
   .onDelete((snapshot: any) => {
     return db
       .doc(`/notifications/${snapshot.id}`)

@@ -10,6 +10,7 @@ export type RantData = {
   likeCount: number;
   commentCount: number;
   rantverseScore?: number;
+  isPrivate?: boolean;
   createdAt: string;
   imageURL: string;
 };

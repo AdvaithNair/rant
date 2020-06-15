@@ -29,6 +29,7 @@ exports.createRant = (req: express.Request, res: express.Response) => {
     likeCount: 0,
     commentCount: 0,
     rantverseScore: 0,
+    isPrivate: req.body.isPrivate,
     createdAt: new Date().toISOString()
   };
 
