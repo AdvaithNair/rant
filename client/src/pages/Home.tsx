@@ -4,7 +4,7 @@ import { Route, Switch } from "react-router-dom";
 // Context
 import { ReducerContext } from "../types";
 import { UserContext } from "../context/Context";
-import { checkAuth, getRantData } from "../context/Actions";
+import { checkAuth, getRantData, getFeed } from "../context/Actions";
 
 // Components
 import Header from "./components/Header";
@@ -24,7 +24,8 @@ export const Home: React.FC = () => {
   // On Component Mount, Check User Auth State
   useEffect(() => {
     checkAuth(dispatch);
-    getRantData(dispatch);
+    //getRantData(dispatch);
+    getFeed(dispatch);
   }, []);
 
   return (

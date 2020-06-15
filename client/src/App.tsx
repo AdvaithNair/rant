@@ -8,6 +8,9 @@ import { UserProvider } from "./context/Context";
 // Components
 import AuthRoute from "./pages/components/AuthRoute";
 
+// Axios
+import axios from 'axios';
+
 // Pages
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";

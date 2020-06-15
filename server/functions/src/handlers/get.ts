@@ -31,6 +31,7 @@ exports.getAllRants = (req: express.Request, res: express.Response) => {
 
 // Gets Feed of Rants
 // TODO: Incorporate Private Posts if Possible
+// TODO: Try to fix the default value (keep error handling if possible)
 exports.getFeed = (req: express.Request, res: express.Response) => {
   const followingArray: Array<string> = [];
   // Returns User Information from Database
@@ -41,15 +42,16 @@ exports.getFeed = (req: express.Request, res: express.Response) => {
       if (doc.exists) {
         // Stores About Information to User Information Object
         const followingArrayFull: Array<any> = doc.data().following;
-        followingArrayFull.forEach((e: any) => followingArray.push(e.handle))
+        followingArrayFull.forEach((e: any) => followingArray.push(e.handle));
 
         // Gets Rants Of Following Users
-        return db.collection("rants")
-        .where('handle', 'in', followingArray)
-        .where('isPrivate', '==', false)
-        .orderBy("createdAt", "desc")
-        .limit(50)
-        .get()
+        return db
+          .collection("rants")
+          .where("handle", "in", followingArray)
+          .where("isPrivate", "==", false)
+          .orderBy("createdAt", "desc")
+          .limit(50)
+          .get();
       }
     })
     .then((data: any) => {
@@ -57,21 +59,33 @@ exports.getFeed = (req: express.Request, res: express.Response) => {
       const rants: FirebaseFirestore.DocumentData[] = [];
 
       // Add Documents to Array
-      data.forEach((doc: any) => {
-        rants.push({
-          rantID: doc.id,
-          userName: doc.data().userName,
-          userID: doc.data().userID,
-          handle: doc.data().handle,
-          title: doc.data().title,
-          body: doc.data().body,
-          rantverseScore: doc.data().rantverseScore,
-          likeCount: doc.data().likeCount,
-          commentCount: doc.data().commentCount,
-          createdAt: doc.data().createdAt,
-          imageURL: doc.data().imageURL
+      if (data) {
+        data.forEach((doc: any) => {
+          rants.push({
+            ...doc.data(),
+            rantID: doc.id
+          });
         });
-      });
+      } else {
+        return res.json({
+          rants: [
+            {
+              title: "No Rants Available",
+              body: "Follow your friends to see their rants on your feed!",
+              rantID: "6HFkW57zYVRfr0Dq2D4W",
+              userName: "Rant",
+              userID: "zGK5Za10wkRUCRxCk3CXLzPrw1F3",
+              handle: "rant",
+              likeCount: 0,
+              commentCount: 0,
+              rantverseScore: 0,
+              isPrivate: false,
+              createdAt: "2020-06-15T12:09:57.716Z",
+              imageURL: "https://firebasestorage.googleapis.com/v0/b/rant-dd853.appspot.com/o/rant.png?alt=media"
+            }
+          ]
+        });
+      }
 
       // Return Array
       return res.json(rants);
@@ -79,6 +93,24 @@ exports.getFeed = (req: express.Request, res: express.Response) => {
     .catch((err: any) => {
       // Returns Errors
       console.error(err);
+      return res.json({
+        rants: [
+          {
+            title: "No Rants Available",
+              body: "Follow your friends to see their rants on your feed!",
+              rantID: "6HFkW57zYVRfr0Dq2D4W",
+              userName: "Rant",
+              userID: "zGK5Za10wkRUCRxCk3CXLzPrw1F3",
+              handle: "rant",
+              likeCount: 0,
+              commentCount: 0,
+              rantverseScore: 0,
+              isPrivate: false,
+              createdAt: "2020-06-15T12:09:57.716Z",
+              imageURL: "https://firebasestorage.googleapis.com/v0/b/rant-dd853.appspot.com/o/rant.png?alt=media"
+          }
+        ]
+      });
       res.status(500).json({ error: err.code });
     });
 };
@@ -118,7 +150,7 @@ exports.getTrending = (req: express.Request, res: express.Response) => {
       console.error(err);
       res.status(500).json({ error: err.code });
     });
-}
+};
 
 // Retreives Specific Rant
 exports.getRant = (req: express.Request, res: express.Response) => {
@@ -177,7 +209,7 @@ exports.searchUsers = (req: express.Request, res: express.Response) => {
 
       // Pushes Handles into Array
       data.forEach((doc: any) => {
-        const userData: {[k: string]: string} = {
+        const userData: { [k: string]: string } = {
           handle: doc.data().handle,
           userName: doc.data().userName,
           imageURL: doc.data().imageURL

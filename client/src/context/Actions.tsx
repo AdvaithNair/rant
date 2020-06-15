@@ -46,6 +46,8 @@ export const handleUser = (
   // Checks for Errors
   if (checkCredentials(credentials, dispatch)) return;
 
+  console.log("here");
+
   // Makes Login Request
   axios
     .post(`/user/${endpoint}`, credentials)
@@ -127,8 +129,10 @@ export const uploadImage = (
     .post("/user/image", formData)
     .then((res: any) => {
       dispatch({ type: UPDATE_USER_IMAGE, payload: res.data.imageURL });
-      getRantData(dispatch);
+      updateUserData(dispatch);
+      //getRantData(dispatch); //TODO: Check on this
       dispatch({ type: CLEAR_LOADING });
+      // TODO: Fix This Part, try to overload cache
       window.location.reload(false);
     })
     .catch((err: any) => console.log(err));
@@ -153,8 +157,26 @@ const isValid = (
   const regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   // Checks if Empty
-  if (inputString === "") {
+  if (property !== 'lastName' && inputString.trim() === "") {
     errors[property] = "Must Not Be Empty";
+    return false;
+  }
+
+  // Checks Username
+  else if (
+    property === "handle" &&
+    (inputString.includes("<") ||
+      inputString.includes(">") ||
+      inputString.includes(":") ||
+      inputString.includes('"') ||
+      inputString.includes("/") ||
+      inputString.includes("\\") ||
+      inputString.includes("|") ||
+      inputString.includes("?") ||
+      inputString.includes("*") ||
+      inputString.includes(" "))
+  ) {
+    errors.handle = "Invalid Username";
     return false;
   }
 
@@ -192,10 +214,12 @@ const checkCredentials = (
     if (!isValid(credentialType, credentialInput, errors)) toTerminate = true;
   }
 
-  if (credentials.password !== credentials.confirmPassword)
+  if (credentials.password !== credentials.confirmPassword) {
     errors.confirmPassword = "Passwords Must Match";
+    //toTerminate = true;
+  }
 
-  if (credentials.handle) {
+  /*if (credentials.handle) {
     if (
       credentials.handle.includes("<") ||
       credentials.handle.includes(">") ||
@@ -209,10 +233,11 @@ const checkCredentials = (
       credentials.handle.includes(" ")
     )
       errors.handle = "Invalid Username";
-  }
+  }*/
 
   dispatch({ type: SET_ERRORS, payload: errors });
   if (toTerminate) dispatch({ type: CLEAR_LOADING });
+  console.log("to Terminate: " + toTerminate);
   return toTerminate;
 };
 
@@ -248,7 +273,21 @@ export const getRantData = (
   axios
     .get("/get/all_rants")
     .then((res: any) => {
+      console.log(res.data);
       dispatch({ type: SET_RANTS, payload: res.data });
+      dispatch({ type: CLEAR_LOADING });
+    })
+    .catch((err: Error) => console.log(err));
+};
+
+// Retreives Rant Feed Data from Database
+export const getFeed = (dispatch: (argument: { [k: string]: any }) => void) => {
+  dispatch({ type: SET_LOADING });
+  axios
+    .get("/get/feed")
+    .then((res: any) => {
+      console.log(res.data);
+      dispatch({ type: SET_RANTS, payload: res.data.rants });
       dispatch({ type: CLEAR_LOADING });
     })
     .catch((err: Error) => console.log(err));

@@ -1,6 +1,7 @@
 import * as express from "express";
 import * as firebase from "firebase";
 import * as admin from "firebase-admin";
+import * as functions from "firebase-functions";
 
 // const { v1: uuidv1 } = require("uuid");
 const { db } = require("../util/admin");
@@ -506,7 +507,6 @@ exports.removeFriend = (req: express.Request, res: express.Response) => {
 };
 
 // Updates Images
-/*
 exports.onImageChange = functions.firestore
   .document("/users/{handle}")
   .onUpdate((change: any) => {
@@ -546,4 +546,3 @@ exports.onImageChange = functions.firestore
         });
     } else return true;
   });
-*/

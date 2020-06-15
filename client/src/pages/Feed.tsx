@@ -30,6 +30,22 @@ export const Feed: React.FC = () => {
   const [results, setResults] = useState<Array<SearchUserData>>([]);
   const [search, setSearch] = useState<boolean>(false);
 
+  // Default First Rant Object
+  const firstRant: RantData = {
+    title: "No Rants Available",
+    body: "Follow your friends to see their rants on your feed!",
+    rantID: "12345",
+    userName: "Rant",
+    userID: "12345",
+    handle: "rant",
+    likeCount: 0,
+    commentCount: 0,
+    rantverseScore: 0,
+    isPrivate: false,
+    createdAt: "",
+    imageURL: ""
+  };
+
   // Handles Search
   // TODO: in the future, add autocomplete based on friends
   const handleSubmit = (event: any) => {
@@ -95,7 +111,10 @@ export const Feed: React.FC = () => {
         </div>
       )}
       {search && results.length === 0 ? (
-        <p className="text-center" style={{ color: "red", paddingTop: "30px", fontWeight: 600 }}>
+        <p
+          className="text-center"
+          style={{ color: "red", paddingTop: "30px", fontWeight: 600 }}
+        >
           No Results
         </p>
       ) : (
@@ -104,7 +123,7 @@ export const Feed: React.FC = () => {
         ))
       )}
       {search && (
-        <div className = 'search-back'>
+        <div className="search-back">
           <div className="search-back-button" onClick={handleBack}>
             <ArrowBackIcon style={{ paddingTop: "10px" }} />
             <p style={{ marginLeft: "30px", marginTop: "-25px" }}>Go Back</p>
