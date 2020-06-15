@@ -17,7 +17,9 @@ import {
   UNLIKE_RANT,
   MARK_NOTIFICATIONS_READ,
   FOLLOW_USER,
-  UNFOLLOW_USER
+  UNFOLLOW_USER,
+  FRIEND_USER,
+  UNFRIEND_USER
 } from "./ReducerTypes";
 
 // Axios
@@ -391,6 +393,32 @@ export const unfollowUser = (
     .post("/user/unfollow", userData)
     .then((res: any) => {
       dispatch({ type: UNFOLLOW_USER, payload: userData });
+    })
+    .catch((err: Error) => console.log(err));
+};
+
+// Adds User to Friend Array
+export const addFriend = (
+  dispatch: (argument: { [k: string]: any }) => void,
+  userData: NetworkData
+) => {
+  axios
+    .post("/user/friend/add", userData)
+    .then((res: any) => {
+      dispatch({ type: FRIEND_USER, payload: userData });
+    })
+    .catch((err: Error) => console.log(err));
+};
+
+// Removes User to Friend Array
+export const removeFriend = (
+  dispatch: (argument: { [k: string]: any }) => void,
+  userData: NetworkData
+) => {
+  axios
+    .post("/user/friend/remove", userData)
+    .then((res: any) => {
+      dispatch({ type: UNFRIEND_USER, payload: userData });
     })
     .catch((err: Error) => console.log(err));
 };

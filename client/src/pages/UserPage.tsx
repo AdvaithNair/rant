@@ -17,7 +17,12 @@ import UserRant from "./components/UserRant";
 // Axios
 import axios from "axios";
 import Button from "@material-ui/core/Button";
-import { followUser, unfollowUser } from "../context/Actions";
+import {
+  followUser,
+  unfollowUser,
+  addFriend,
+  removeFriend
+} from "../context/Actions";
 
 // type ImageUploadData = { [k: string]: any | string | Blob };
 
@@ -52,21 +57,17 @@ export const Profile: React.FC<Props> = ({ match }) => {
 
   // Submits Follow Request
   const handleFollow = () => {
-    console.log("here");
     const userData: NetworkData = {
       handle: user.handle,
       imageURL: user.imageURL
     };
-    console.log(userData);
     if (!following) {
-      console.log("following!");
       followUser(dispatch, userData);
       setUser({
         ...user,
         followerCount: (user.followerCount ? user.followerCount : 0) + 1
       });
     } else {
-      console.log("unfollowed");
       unfollowUser(dispatch, userData);
       setUser({
         ...user,
@@ -74,6 +75,20 @@ export const Profile: React.FC<Props> = ({ match }) => {
       });
     }
     setFollowing(!following);
+  };
+
+  // Submits Friend Request
+  const handleFriend = () => {
+    const userData: NetworkData = {
+      handle: user.handle,
+      imageURL: user.imageURL
+    };
+    if (!friend) {
+      addFriend(dispatch, userData);
+    } else {
+      removeFriend(dispatch, userData);
+    }
+    setFriend(!friend);
   };
 
   useEffect(() => {
@@ -131,7 +146,7 @@ export const Profile: React.FC<Props> = ({ match }) => {
               fontFamily: "Montserrat",
               fontWeight: 550
             }}
-            onClick={() => console.log("added")}
+            onClick={handleFriend}
             fullWidth
           >
             {friend ? "Remove Friend" : "Add Friend"}
