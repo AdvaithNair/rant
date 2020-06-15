@@ -15,7 +15,9 @@ import {
   DELETE_RANT,
   LIKE_RANT,
   UNLIKE_RANT,
-  MARK_NOTIFICATIONS_READ
+  MARK_NOTIFICATIONS_READ,
+  FOLLOW_USER,
+  UNFOLLOW_USER
 } from "./ReducerTypes";
 
 // Axios
@@ -23,6 +25,7 @@ import axios from "axios";
 
 // JWT
 import jwtDecode from "jwt-decode";
+import { NetworkData } from "../types";
 
 // Adds Authorization Axios Header for Further Requests
 const setAuthorizationHeader = (token: string) => {
@@ -353,6 +356,7 @@ export const getRantInfo = (
     });
 };
 
+// Deletes All Notifications
 export const readNotifications = (
   dispatch: (argument: { [k: string]: any }) => void,
   notificationIDs: Array<{ [k: string]: any }>
@@ -363,4 +367,30 @@ export const readNotifications = (
       dispatch({ type: MARK_NOTIFICATIONS_READ });
     })
     .catch((err: any) => console.log(err));
+};
+
+// Adds User to Following Array
+export const followUser = (
+  dispatch: (argument: { [k: string]: any }) => void,
+  userData: NetworkData
+) => {
+  axios
+    .post("/user/follow", userData)
+    .then((res: any) => {
+      dispatch({ type: FOLLOW_USER, payload: userData });
+    })
+    .catch((err: Error) => console.log(err));
+};
+
+// Removes User from Following Array
+export const unfollowUser = (
+  dispatch: (argument: { [k: string]: any }) => void,
+  userData: NetworkData
+) => {
+  axios
+    .post("/user/unfollow", userData)
+    .then((res: any) => {
+      dispatch({ type: UNFOLLOW_USER, payload: userData });
+    })
+    .catch((err: Error) => console.log(err));
 };

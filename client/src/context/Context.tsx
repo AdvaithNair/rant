@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useMemo } from "react";
-import { ReducerContext, GlobalState } from "../types";
+import { ReducerContext, GlobalState, NetworkData } from "../types";
 
 // Reducer Types
 import {
@@ -21,8 +21,13 @@ import {
   UNLIKE_RANT,
   ADD_COMMENT,
   DELETE_COMMENT,
-  MARK_NOTIFICATIONS_READ
+  MARK_NOTIFICATIONS_READ,
+  FOLLOW_USER,
+  UNFOLLOW_USER,
+  FRIEND_USER,
+  UNFRIEND_USER
 } from "./ReducerTypes";
+import { NetworkInterfaceBase } from "os";
 
 // Initial Error Object
 const initialErrors: { [k: string]: string } = {
@@ -226,6 +231,40 @@ function reducer(state: any, action: any) {
       return {
         ...state,
         notifications: []
+      };
+    case FOLLOW_USER:
+      state.credentials.following.push(action.payload);
+      state.credentials.followingCount++;
+      return {
+        ...state
+      };
+    case UNFOLLOW_USER:
+      state.credentials.followingCount--;
+      return {
+        ...state,
+        credentials: {
+          ...state.credentials,
+          following: state.credentials.following.filter(
+            (e: NetworkData) => e !== action.payload
+          )
+        }
+      };
+    case FRIEND_USER:
+      state.credentials.friends.push(action.payload);
+      state.credentials.friendCount++;
+      return {
+        ...state
+      };
+    case UNFRIEND_USER:
+      state.credentials.friendCount--;
+      return {
+        ...state,
+        credentials: {
+          ...state.credentials,
+          friends: state.credentials.friends.filter(
+            (e: NetworkData) => e !== action.payload
+          )
+        }
       };
     default:
       return state;

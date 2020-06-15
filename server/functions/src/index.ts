@@ -75,7 +75,7 @@ app.put("/user/update/password", firebaseAuth, updatePassword); // Updates User 
 app.post("/user/image", firebaseAuth, uploadImage); // Uploads Image for User
 app.post("/user/update", firebaseAuth, updateUser); // Updates User Info (Bio/Website)
 app.post("/user/follow", firebaseAuth, followUser); // Follows User
-app.post("/user/unfollow", firebaseAuth, unfollowUser); // Follows User
+app.post("/user/unfollow", firebaseAuth, unfollowUser); // Unfollows User
 app.post("/user/friend/add", firebaseAuth, addFriend); // Friends User
 app.post("/user/friend/remove", firebaseAuth, removeFriend); // Unfriends User
 

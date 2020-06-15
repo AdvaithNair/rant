@@ -23,3 +23,9 @@ export const LIKE_RANT = "LIKE_RANT";
 export const UNLIKE_RANT = "UNLIKE_RANT";
 export const ADD_COMMENT = "ADD_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
+
+// Network Operations
+export const FOLLOW_USER = 'FOLLOW_USER';
+export const UNFOLLOW_USER = 'UNFOLLOW_USER';
+export const FRIEND_USER = 'FRIEND_USER';
+export const UNFRIEND_USER = 'UNFRIEND_USER';

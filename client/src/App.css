@@ -308,6 +308,8 @@ PAGES --------------------------------------------------------------------------
   width: 200px;
   background-color: #F012BE;
   margin: 0 auto;
+  margin-top: -30px;
+  margin-bottom: 20px;
 }
 
 .logout-button {

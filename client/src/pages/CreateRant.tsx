@@ -135,7 +135,7 @@ export const CreateRant: React.FC<Props> = ({ pageTitle, isCreate, match }) => {
           </div>
         </div>
       )}
-      <div className="edit-profile-button" style={{ marginTop: "30px" }}>
+      <div className="edit-profile-button" style={{ marginTop: "50px" }}>
         <Button
           variant="contained"
           color="primary"
