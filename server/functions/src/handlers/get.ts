@@ -34,6 +34,8 @@ exports.getAllRants = (req: express.Request, res: express.Response) => {
 // TODO: Try to fix the default value (keep error handling if possible)
 exports.getFeed = (req: express.Request, res: express.Response) => {
   const followingArray: Array<string> = [];
+  let rants: FirebaseFirestore.DocumentData[] = [];
+
   // Returns User Information from Database
   db.doc(`/users/${req.user.handle}`)
     .get()
@@ -42,8 +44,10 @@ exports.getFeed = (req: express.Request, res: express.Response) => {
       if (doc.exists) {
         // Stores About Information to User Information Object
         const followingArrayFull: Array<any> = doc.data().following;
-        if(followingArrayFull.length > 0) followingArrayFull.forEach((e: any) => followingArray.push(e.handle));
-        else followingArray.push('rant')
+
+        if (followingArrayFull.length > 0)
+          followingArrayFull.forEach((e: any) => followingArray.push(e.handle));
+        else followingArray.push("rant");
 
         // Gets Rants Of Following Users
         return db
@@ -56,9 +60,6 @@ exports.getFeed = (req: express.Request, res: express.Response) => {
       }
     })
     .then((data: any | undefined) => {
-      // Array of Documents
-      const rants: FirebaseFirestore.DocumentData[] = [];
-
       // Add Documents to Array
       if (data.size !== 0) {
         data.forEach((doc: any) => {
@@ -68,6 +69,26 @@ exports.getFeed = (req: express.Request, res: express.Response) => {
           });
         });
       }
+
+      // Return Array
+      return db
+        .collection("rants")
+        .where("userID", "==", req.user.uid)
+        .orderBy("createdAt", "desc")
+        .get();
+    })
+    .then((data: any | undefined) => {
+      // Add Documents to Array
+      if (data.size !== 0) {
+        data.forEach((doc: any) => {
+          rants.push({
+            ...doc.data(),
+            rantID: doc.id
+          });
+        });
+      }
+
+      rants.sort((a, b) => (a.createdAt > b.createdAt) ? -1 : 1)
 
       // Return Array
       return res.json(rants);

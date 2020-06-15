@@ -96,6 +96,7 @@ export const Profile: React.FC<Props> = ({ match }) => {
   };
 
   useEffect(() => {
+    console.log('run');
     dispatch({ type: SET_LOADING });
     api
       .get(`/user/${match.params.handle}`)
@@ -115,7 +116,7 @@ export const Profile: React.FC<Props> = ({ match }) => {
         dispatch({ type: CLEAR_LOADING });
       })
       .catch((error: Error) => console.log(error));
-  }, [match.params.handle]);
+  }, [match.params.handle, state.authenticated]);
 
   return (
     <div className="main-home-content">

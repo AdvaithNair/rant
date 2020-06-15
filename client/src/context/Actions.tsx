@@ -23,11 +23,11 @@ import {
 } from "./ReducerTypes";
 
 // Axios
-import api from '../api';
+import api from "../api";
 
 // JWT
 import jwtDecode from "jwt-decode";
-import { NetworkData } from "../types";
+import { NetworkData, GlobalState } from "../types";
 
 // Adds Authorization Axios Header for Further Requests
 const setAuthorizationHeader = (token: string) => {
@@ -118,6 +118,7 @@ export const updateUserData = (
 
 // Uploads Image
 export const uploadImage = (
+  state: GlobalState,
   dispatch: (argument: { [k: string]: string }) => void,
   formData: any
 ) => {
@@ -125,12 +126,14 @@ export const uploadImage = (
   api
     .post("/user/image", formData)
     .then((res: any) => {
+      const toReload: boolean =
+        res.data.imageURL === state.credentials.imageURL;
       dispatch({ type: UPDATE_USER_IMAGE, payload: res.data.imageURL });
       updateUserData(dispatch);
       //getRantData(dispatch); //TODO: Check on this
       dispatch({ type: CLEAR_LOADING });
       // TODO: Fix This Part, try to overload cache
-      window.location.reload(false);
+      if (toReload) window.location.reload(false);
     })
     .catch((err: any) => console.log(err));
 };
@@ -154,7 +157,7 @@ const isValid = (
   const regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   // Checks if Empty
-  if (property !== 'lastName' && inputString.trim() === "") {
+  if (property !== "lastName" && inputString.trim() === "") {
     errors[property] = "Must Not Be Empty";
     return false;
   }

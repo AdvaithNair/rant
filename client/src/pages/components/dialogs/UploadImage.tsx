@@ -21,7 +21,7 @@ interface Props {
 
 export const Profile: React.FC<Props> = ({ image, setImage }) => {
   // Importing Context (Global Store)
-  const { dispatch } = useContext<ReducerContext>(UserContext);
+  const { state, dispatch } = useContext<ReducerContext>(UserContext);
 
   // Local States for Edit Dialog
   // TODO: Implement Update for First Name, Last Name, and Handle
@@ -58,7 +58,7 @@ export const Profile: React.FC<Props> = ({ image, setImage }) => {
   const handleImageSubmit = (event: any) => {
     const formData = new FormData();
     formData.append("image", imageUpload, imageName);
-    uploadImage(dispatch, formData);
+    uploadImage(state, dispatch, formData);
     handleImageClose();
   };
 

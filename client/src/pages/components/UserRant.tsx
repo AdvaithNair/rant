@@ -7,11 +7,17 @@ import { ReducerContext } from "../../types";
 import { UserContext } from "../../context/Context";
 import { toggleLikeRequest } from "../../context/Actions";
 
+// Components
+import RantMenu from "./dialogs/RantMenu";
+
 // Material UI
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ChatIcon from "@material-ui/icons/Chat";
 import LockIcon from "@material-ui/icons/Lock";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import IconButton from "@material-ui/core/IconButton";
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 // Time Formatting
 import { formatRelative } from "../../time";
@@ -38,6 +44,8 @@ export const UserRant: React.FC<Props> = ({ data }) => {
       ? true
       : false
   );
+  const [menu, setMenu] = useState<boolean>(false);
+  const [anchor, setAnchor] = useState<any>(null);
 
   // Liked Componenets
   const isLiked: JSX.Element = (
@@ -53,6 +61,13 @@ export const UserRant: React.FC<Props> = ({ data }) => {
     toggleLikeRequest(state, dispatch, data.rantID, liked);
     setLiked(!liked);
     liked ? data.likeCount-- : data.likeCount++;
+  };
+
+  // On Click of Menu
+  const handleClick = (event: any) => {
+    event.stopPropagation();
+    setMenu(true);
+    setAnchor(event.currentTarget);
   };
 
   return (
@@ -73,8 +88,33 @@ export const UserRant: React.FC<Props> = ({ data }) => {
             }}
           />
         )}
+        {data.handle === 'anonymous' && (
+          <AccountCircleIcon
+            style={{
+              color: "white",
+              fontSize: "40px",
+              marginLeft: "10px",
+              marginTop: "10px",
+              marginRight: "-10px"
+            }}
+          />
+        )}
         <div className="rant-title-text">
           <h1>{data.title}</h1>
+        </div>
+        <div className="more-icon">
+          {state.credentials.userID === data.userID && (
+            <IconButton onClick={handleClick}>
+              <MoreVertIcon style={{ color: "white" }} />
+            </IconButton>
+          )}
+          <RantMenu
+            menu={menu}
+            setMenu={setMenu}
+            anchor={anchor}
+            setAnchor={setAnchor}
+            rantData={data}
+          />
         </div>
       </div>
       <div className="rant-content-body">

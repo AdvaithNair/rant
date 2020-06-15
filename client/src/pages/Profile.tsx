@@ -105,13 +105,13 @@ export const Profile: React.FC = () => {
       <div style={{ clear: "both" }}></div>
       <h1>RANTS</h1>
       {state.rants.filter(
-        (rant: RantData) => rant.handle === state.credentials.handle
+        (rant: RantData) => rant.userID === state.credentials.userID
       ) &&
         state.rants
-          .filter((rant: RantData) => rant.handle === state.credentials.handle)
+          .filter((rant: RantData) => rant.userID === state.credentials.userID)
           .map((rant: RantData) => <UserRant key={rant.rantID} data={rant} />)}
       {state.rants.filter(
-        (rant: RantData) => rant.handle === state.credentials.handle
+        (rant: RantData) => rant.userID === state.credentials.userID
       ).length === 0 && <h4 className="text-center">No Rants</h4>}
       <div style={{ marginBottom: "20px" }}></div>
     </div>
