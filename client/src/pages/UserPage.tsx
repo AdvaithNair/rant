@@ -46,12 +46,13 @@ export const Profile: React.FC<Props> = ({ match }) => {
     axios
       .get(`/user/${match.params.handle}`)
       .then((res: any) => {
+        console.log('hit');
         setUser(res.data.userData.user);
         setRants(rants => rants.concat(res.data.userData.rants));
         dispatch({ type: CLEAR_LOADING });
       })
       .catch((error: Error) => console.log(error));
-  }, []);
+  }, [match.params.handle]);
 
   return (
     <div className="main-home-content">

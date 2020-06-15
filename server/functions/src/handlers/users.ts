@@ -354,6 +354,7 @@ exports.getUser = (req: express.Request, res: express.Response) => {
 
 // Retrieves User Information of Any User
 // TODO: FIX THIS
+// TODO: Incorporate Private Rants
 exports.getUserDetails = (req: express.Request, res: express.Response) => {
   const userData: { [k: string]: any } = {};
   db.doc(`/users/${req.params.handle}`)

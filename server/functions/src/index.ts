@@ -48,6 +48,7 @@ const app: express.Application = express();
 app.get("/get/all_rants", getAllRants); // Gets Rant Data for All Rants
 app.get('/get/feed', firebaseAuth, getFeed) // Gets Feed for User
 app.get("/get/rantverse/trending", getTrending); // Gets Top 10 Trending Rants
+// TODO: Rant
 
 // Create
 app.post("/create/rant", firebaseAuth, createRant); // Creates Rant
@@ -66,7 +67,7 @@ app.delete("/delete/comment/:commentID", firebaseAuth, deleteComment); // Delete
 
 // User
 app.get("/user", firebaseAuth, getUser); // Gets Own User Details
-app.get("/user/:handle", getUserDetails); // Gets Any User Details
+app.get("/user/:handle", firebaseAuth, getUserDetails); // Gets Any User Details
 app.post("/user/signup", signUp); // Signs Up User
 app.post("/user/login", logIn); // Logs In User
 app.put("/user/update/email", firebaseAuth, updateEmail); // Updates User Email Address

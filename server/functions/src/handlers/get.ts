@@ -39,6 +39,7 @@ exports.getAllRants = (req: express.Request, res: express.Response) => {
 };
 
 // Gets Feed of Rants
+// TODO: Incorporate Private Posts if Possible
 exports.getFeed = (req: express.Request, res: express.Response) => {
   const followingArray: Array<string> = [];
   // Returns User Information from Database
@@ -48,7 +49,7 @@ exports.getFeed = (req: express.Request, res: express.Response) => {
       // Gets Information
       if (doc.exists) {
         // Stores About Information to User Information Object
-        const followingArrayFull = doc.data().following;
+        const followingArrayFull: Array<any> = doc.data().following;
         followingArrayFull.forEach((e: any) => followingArray.push(e.handle))
 
         // Gets Rants Of Following Users
