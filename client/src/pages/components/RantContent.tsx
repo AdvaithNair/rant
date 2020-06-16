@@ -113,12 +113,12 @@ export const RantContent: React.FC<Props> = ({ data }) => {
       <div className="rant-content-body">
         <div className="rant-credits">
           <div className="rant-credits-main">
-            <div className="rant-credits-img">
+            <div className="rant-credits-img" onClick={toUserPage}>
               <img alt={data.handle} src={data.imageURL}></img>
             </div>
             <div className="rant-credits-info">
-              <h2>{data.userName}</h2>
               <div onClick={toUserPage}>
+                <h2>{data.userName}</h2>
                 <h3 className="user-handle-hover">@{data.handle}</h3>
               </div>
               <p>

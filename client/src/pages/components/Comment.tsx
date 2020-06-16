@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { CommentData, RantData } from "../../types";
+import { useHistory } from "react-router-dom";
 
 // Context
 import { ReducerContext } from "../../types";
@@ -37,6 +38,9 @@ export const Comment: React.FC<Props> = ({
   // Local States
   const [dialog, setDialog] = useState<boolean>(false);
 
+  // History to Push Pages
+  const history = useHistory();
+
   // On Component Mount, Renders Like
   useEffect(() => {}, []);
 
@@ -45,6 +49,13 @@ export const Comment: React.FC<Props> = ({
     event.stopPropagation();
     setDialog(true);
     console.log(dialog);
+  };
+
+  // Takes Client To User Page
+  const toUserPage = (event: any) => {
+    event.stopPropagation();
+    if (data.handle === state.credentials.handle) history.push("/home/profile");
+    else history.push(`/home/users/${data.handle}`);
   };
 
   // TODO: Add comment component and
@@ -56,14 +67,17 @@ export const Comment: React.FC<Props> = ({
           className="header-img"
           src={data.imageURL}
           alt={state.credentials.userName}
+          onClick={toUserPage}
         ></img>
         <div className="comment-content">
           <div className="comment-credits">
-            <div className="comment-credit-text">
+            <div className="comment-credit-text" onClick={toUserPage}>
               <h3>{data.userName}</h3>
               <h4>@{data.handle}</h4>
             </div>
-            <div className="commented-at"><u>{formatRelative(data.createdAt)}</u></div>
+            <div className="commented-at">
+              <u>{formatRelative(data.createdAt)}</u>
+            </div>
             <div className="clear"></div>
           </div>
           <div className="comment-body">

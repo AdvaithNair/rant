@@ -45,11 +45,13 @@ exports.getFeed = (req: express.Request, res: express.Response) => {
         // Stores About Information to User Information Object
         const followingArrayFull: Array<any> = doc.data().following;
 
-        if (followingArrayFull.length > 0)
+        if (followingArrayFull.length > 0) {
           followingArrayFull.forEach((e: any) => followingArray.push(e.handle));
-        else followingArray.push("rant");
+          followingArray.push("anonymous");
+        } else followingArray.push("rant");
 
         // Gets Rants Of Following Users
+        // TODO: Implement userID here in feed generation
         return db
           .collection("rants")
           .where("handle", "in", followingArray)
@@ -79,7 +81,7 @@ exports.getFeed = (req: express.Request, res: express.Response) => {
     })
     .then((data: any | undefined) => {
       // Add Documents to Array
-      if (data.size !== 0) {
+      if (data.size !== 0 && req.user.handle !== "rant") {
         data.forEach((doc: any) => {
           rants.push({
             ...doc.data(),
@@ -88,7 +90,13 @@ exports.getFeed = (req: express.Request, res: express.Response) => {
         });
       }
 
-      rants.sort((a, b) => (a.createdAt > b.createdAt) ? -1 : 1)
+      //const newRants = [...new Set(rants)];
+
+      // Filters out Duplicates
+      rants.filter((item: any, index: number) => rants.indexOf(item) === index);
+
+      // Sorts in Reverse Chronological Order
+      rants.sort((a: any, b: any) => (a.createdAt > b.createdAt ? -1 : 1));
 
       // Return Array
       return res.json(rants);
