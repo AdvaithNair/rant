@@ -90,10 +90,11 @@ exports.getFeed = (req: express.Request, res: express.Response) => {
         });
       }
 
-      //const newRants = [...new Set(rants)];
-
       // Filters out Duplicates
-      rants.filter((item: any, index: number) => rants.indexOf(item) === index);
+      rants = rants.filter(
+        (item: any, index: number, self: any) =>
+          index === self.findIndex((t: any) => t.rantID === item.rantID)
+      );
 
       // Sorts in Reverse Chronological Order
       rants.sort((a: any, b: any) => (a.createdAt > b.createdAt ? -1 : 1));
@@ -104,25 +105,6 @@ exports.getFeed = (req: express.Request, res: express.Response) => {
     .catch((err: any) => {
       // Returns Errors
       console.error(err);
-      /*return res.json({
-        rants: [
-          {
-            title: "No Rants Available",
-            body: "Follow your friends to see their rants on your feed!",
-            rantID: "6HFkW57zYVRfr0Dq2D4W",
-            userName: "Rant",
-            userID: "zGK5Za10wkRUCRxCk3CXLzPrw1F3",
-            handle: "rant",
-            likeCount: 0,
-            commentCount: 0,
-            rantverseScore: 0,
-            isPrivate: false,
-            createdAt: "2020-06-15T12:09:57.716Z",
-            imageURL:
-              "https://firebasestorage.googleapis.com/v0/b/rant-dd853.appspot.com/o/rant.png?alt=media"
-          }
-        ]
-      });*/
       res.status(500).json({ error: err.code });
     });
 };
@@ -156,6 +138,46 @@ exports.getTrending = (req: express.Request, res: express.Response) => {
 
       // Return Array
       return res.json(rants);
+    })
+    .catch((err: any) => {
+      // Returns Errors
+      console.error(err);
+      res.status(500).json({ error: err.code });
+    });
+};
+
+// Retreives Extended Network (explore)
+exports.getExplore = (req: express.Request, res: express.Response) => {
+  const followingHandles: Array<string> = [];
+
+  req.body.following.forEach((e: any) => followingHandles.push(e.handle));
+
+  db.collection("users")
+    .where("handle", "in", followingHandles)
+    .get()
+    .then((data: any) => {
+      // Array of Users
+      let users: Array<any> = [];
+
+      // Add Documents to Array
+      data.forEach((doc: any) => {
+        doc.data().following.forEach((e: any) => users.push(e));
+      });
+
+      // Filters out Duplicates
+      /*users = users.filter(
+        (item: any, index: number) => users.indexOf(item) === index
+      );*/
+      users = users.filter(
+        (item: any, index: number, self: any) =>
+          index === self.findIndex((t: any) => t.handle === item.handle)
+      );
+
+      // Filters out Own User from Network
+      users = users.filter((item: any) => item.handle !== req.user.handle);
+
+      // Return Array
+      return res.json(users);
     })
     .catch((err: any) => {
       // Returns Errors

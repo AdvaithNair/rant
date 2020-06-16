@@ -135,6 +135,7 @@ export const Profile: React.FC<Props> = ({ match }) => {
               fontWeight: 550
             }}
             onClick={handleFollow}
+            disabled = {state.UI.loading}
             fullWidth
           >
             {following ? "Unfollow" : "Follow"}
@@ -152,6 +153,7 @@ export const Profile: React.FC<Props> = ({ match }) => {
               fontWeight: 550
             }}
             onClick={handleFriend}
+            disabled = {state.UI.loading}
             fullWidth
           >
             {friend ? "Remove Friend" : "Add Friend"}

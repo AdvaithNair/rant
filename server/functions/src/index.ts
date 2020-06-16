@@ -8,6 +8,7 @@ const {
   getAllRants,
   getFeed,
   getTrending,
+  getExplore,
   getRant,
   searchUsers
 } = require("./handlers/get");
@@ -51,6 +52,7 @@ app.use(cors({origin: true}));
 app.get("/get/all_rants", getAllRants); // Gets Rant Data for All Rants
 app.get('/get/feed', firebaseAuth, getFeed) // Gets Feed for User
 app.get("/get/rantverse/trending", getTrending); // Gets Top 10 Trending Rants
+app.post('/get/rantverse/explore', firebaseAuth, getExplore); // Gets Extended Network
 // TODO: Rant
 
 // Create
