@@ -162,6 +162,12 @@ const isValid = (
     return false;
   }
 
+  // Makes Sure Username is Lowercase
+  else if (property === 'handle' && inputString !== inputString.toLowerCase()) {
+    errors.handle = "Username Must Be Lowercase";
+    return false;
+  }
+
   // Checks Username
   else if (
     property === "handle" &&

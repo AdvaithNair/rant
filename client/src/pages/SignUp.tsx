@@ -62,8 +62,6 @@ export const SignUp: React.FC = () => {
       confirmPassword: confirmPassword
     };
 
-    console.log('reached');
-
     // Signs Up User
     handleUser(signupCredentials, history, dispatch, "signup");
   };
