@@ -49,13 +49,25 @@ export const CreateRant: React.FC<Props> = ({ pageTitle, isCreate, match }) => {
         body: "",
         likeCount: 0,
         commentCount: 0,
-        createdAt: '',
-        imageURL: ''
+        createdAt: "",
+        imageURL: ""
       };
       setTitle(rantData.title || "");
       setBody(rantData.body || "");
     }
   }, [isCreate]);
+
+  // Adjusts Private Switch to Set Anonymous
+  const handleAnonymous = () => {
+    if (priv && !anonymous) setPriv(false);
+    setAnonymous(!anonymous);
+  };
+
+  // Adjusts Anonymous Switch to Set Private
+  const handlePrivate = () => {
+    if (anonymous) setAnonymous(false);
+    setPriv(!priv);
+  };
 
   const handleSubmit = () => {
     // TODO: Possible Reduce This Function Down
@@ -92,7 +104,7 @@ export const CreateRant: React.FC<Props> = ({ pageTitle, isCreate, match }) => {
 
   return (
     <div className="main-home-content">
-      <h1>{pageTitle}</h1>
+      <h1 className="main-header">{pageTitle}</h1>
       <TextField
         label="Title"
         placeholder="Title"
@@ -120,7 +132,7 @@ export const CreateRant: React.FC<Props> = ({ pageTitle, isCreate, match }) => {
             <div className="manipulate-anonymous-switch">
               <Switch
                 checked={anonymous}
-                onChange={() => setAnonymous(!anonymous)}
+                onChange={handleAnonymous}
                 color="primary"
               />
             </div>
@@ -128,7 +140,7 @@ export const CreateRant: React.FC<Props> = ({ pageTitle, isCreate, match }) => {
             <div className="manipulate-anonymous-switch">
               <Switch
                 checked={priv}
-                onChange={() => setPriv(!priv)}
+                onChange={handlePrivate}
                 color="primary"
               />
             </div>

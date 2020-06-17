@@ -57,6 +57,11 @@ export const Rantverse: React.FC = () => {
           <TrendingRant key={rant.rantID} index={index + 1} data={rant} />
         ))}
       <h1>EXPLORE</h1>
+      {loading && (
+        <div className="loading-rants">
+          <CircularProgress style={{ marginLeft: "50%" }} color="primary" />
+        </div>
+      )}
       {!loading && exploreData &&
         <ExploreMenu data={exploreData}/>
         }

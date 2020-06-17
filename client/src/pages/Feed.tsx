@@ -54,7 +54,6 @@ export const Feed: React.FC = () => {
       let submitQuery: string = query;
       if (submitQuery !== submitQuery.toLowerCase()) {
         submitQuery = submitQuery.toLowerCase();
-        setQuery(submitQuery);
       }
       api
         .get(`/search/users/${submitQuery}`)

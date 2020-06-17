@@ -27,7 +27,7 @@ export const ExploreMenu: React.FC<Props> = ({ data }) => {
         <div className="explore-container">
           <div className="explore-row">
             {data.map((explore: NetworkData) => (
-              <div className="explore-card">
+              <div className="explore-card" onClick = {(e: any) => toUserPage(e, explore)}>
                 <img
                   className="explore-img"
                   alt={explore.handle}
