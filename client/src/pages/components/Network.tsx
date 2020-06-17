@@ -11,15 +11,15 @@ interface Props {
 
 // TODO: Break this up into components
 export const Network: React.FC<Props> = ({ data }) => {
-    //onClick={() => history.push(`/home/users/${data.handle}`)}
-
   return (
     <div>
       <Divider />
       <div className="notification-main">
         <img className="header-img" src={data.imageURL} alt={data.handle}></img>
         <div className="notification-data" style={{ whiteSpace: "pre" }}>
-          <span className="notification-handle" style = {{marginTop: '20px'}}>@{data.handle}</span>
+          <span className="notification-handle" style={{ marginTop: "20px" }}>
+            @{data.handle}
+          </span>
         </div>
       </div>
     </div>

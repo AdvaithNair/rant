@@ -40,7 +40,7 @@ export const NetworkDialog: React.FC<Props> = ({
   return (
     <div>
       <Dialog open={dialog} onClose={handleClose}>
-        <DialogTitle style = {{textAlign: 'center'}}>{title}</DialogTitle>
+        <DialogTitle style={{ textAlign: "center" }}>{title}</DialogTitle>
         <DialogContent>
           <MenuList>
             {data.length > 0 &&
@@ -52,7 +52,7 @@ export const NetworkDialog: React.FC<Props> = ({
                     handleClose(event);
                   }}
                 >
-                  <Network data={network} />
+                    <Network data={network} />
                 </MenuItem>
               ))}
             {data.length === 0 && (
