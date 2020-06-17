@@ -51,8 +51,13 @@ export const Feed: React.FC = () => {
   const handleSubmit = (event: any) => {
     // TODO: Create this endpoint
     if (query) {
+      let submitQuery: string = query;
+      if (submitQuery !== submitQuery.toLowerCase()) {
+        submitQuery = submitQuery.toLowerCase();
+        setQuery(submitQuery);
+      }
       api
-        .get(`/search/users/${query}`)
+        .get(`/search/users/${submitQuery}`)
         .then((res: any) => {
           setResults(res.data.results);
           setSearch(true);
@@ -78,7 +83,7 @@ export const Feed: React.FC = () => {
   return (
     <div style={{ display: "block" }}>
       <div className="search-bar">
-        <IconButton onClick = {handleSubmit}>
+        <IconButton onClick={handleSubmit}>
           <SearchIcon />
         </IconButton>
         <Divider orientation="vertical" />
