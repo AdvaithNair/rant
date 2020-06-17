@@ -6,7 +6,7 @@ import { ReducerContext } from "../types";
 import { UserContext } from "../context/Context";
 
 // Axios
-import api from '../api';
+import api from "../api";
 
 // Components
 import Rant from "./components/Rant";
@@ -78,7 +78,7 @@ export const Feed: React.FC = () => {
   return (
     <div style={{ display: "block" }}>
       <div className="search-bar">
-        <IconButton>
+        <IconButton onClick = {handleSubmit}>
           <SearchIcon />
         </IconButton>
         <Divider orientation="vertical" />
@@ -110,18 +110,19 @@ export const Feed: React.FC = () => {
           <h1>SEARCH RESULTS</h1>
         </div>
       )}
-      {search && results.length === 0 ? (
-        <p
-          className="text-center"
-          style={{ color: "red", paddingTop: "30px", fontWeight: 600 }}
-        >
-          No Results
-        </p>
-      ) : (
-        results.map((result: SearchUserData) => (
-          <SearchUser key={result.handle} data={result} />
-        ))
-      )}
+      {search &&
+        (results.length === 0 ? (
+          <p
+            className="text-center"
+            style={{ color: "red", paddingTop: "30px", fontWeight: 600 }}
+          >
+            No Results
+          </p>
+        ) : (
+          results.map((result: SearchUserData) => (
+            <SearchUser key={result.handle} data={result} />
+          ))
+        ))}
       {search && (
         <div className="search-back">
           <div className="search-back-button" onClick={handleBack}>

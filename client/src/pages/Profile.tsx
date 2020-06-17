@@ -51,7 +51,7 @@ export const Profile: React.FC = () => {
 
   return (
     <div className="main-home-content">
-      <h1>PROFILE</h1>
+      <h1 className="main-header">PROFILE</h1>
       <div className="profile-card">
         <div className="profile-settings">
           <Tooltip title="Settings" placement="bottom">
@@ -103,7 +103,7 @@ export const Profile: React.FC = () => {
         <UploadImage image={image} setImage={setImage} />
       </div>
       <div style={{ clear: "both" }}></div>
-      <h1>RANTS</h1>
+      <h1 className="main-header">RANTS</h1>
       {state.rants.filter(
         (rant: RantData) => rant.userID === state.credentials.userID
       ) &&

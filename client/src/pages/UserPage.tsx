@@ -21,7 +21,7 @@ import {
 } from "../context/Actions";
 
 // Axios
-import api from '../api';
+import api from "../api";
 
 // Material UI
 import Button from "@material-ui/core/Button";
@@ -67,14 +67,19 @@ export const Profile: React.FC<Props> = ({ match }) => {
       followUser(dispatch, userData);
       setUser({
         ...user,
-        followers: user!.followers!.concat({handle: state.credentials.handle, imageURL: state.credentials.imageURL}),
+        followers: user!.followers!.concat({
+          handle: state.credentials.handle,
+          imageURL: state.credentials.imageURL
+        }),
         followerCount: (user.followerCount ? user.followerCount : 0) + 1
       });
     } else {
       unfollowUser(dispatch, userData);
       setUser({
         ...user,
-        followers: user!.followers!.filter((e: NetworkData) => e.handle !== state.credentials.handle),
+        followers: user!.followers!.filter(
+          (e: NetworkData) => e.handle !== state.credentials.handle
+        ),
         followerCount: (user.followerCount ? user.followerCount : 1) - 1
       });
     }
@@ -96,7 +101,6 @@ export const Profile: React.FC<Props> = ({ match }) => {
   };
 
   useEffect(() => {
-    console.log('run');
     dispatch({ type: SET_LOADING });
     api
       .get(`/user/${match.params.handle}`)
@@ -120,7 +124,7 @@ export const Profile: React.FC<Props> = ({ match }) => {
 
   return (
     <div className="main-home-content">
-      <h1>PROFILE</h1>
+      <h1 className="main-header">PROFILE</h1>
       <div className="profile-card">
         <UserContent setImage={false} isAuth={false} data={user} />
         <div
@@ -135,7 +139,7 @@ export const Profile: React.FC<Props> = ({ match }) => {
               fontWeight: 550
             }}
             onClick={handleFollow}
-            disabled = {state.UI.loading}
+            disabled={state.UI.loading}
             fullWidth
           >
             {following ? "Unfollow" : "Follow"}
@@ -153,24 +157,20 @@ export const Profile: React.FC<Props> = ({ match }) => {
               fontWeight: 550
             }}
             onClick={handleFriend}
-            disabled = {state.UI.loading}
+            disabled={state.UI.loading}
             fullWidth
           >
             {friend ? "Remove Friend" : "Add Friend"}
           </Button>
         </div>
       </div>
-      <h1>RANTS</h1>
+      <h1 className="main-header">RANTS</h1>
       {rants &&
-        user.handle !== "anonymous" &&
         rants.map((rant: RantData) => (
           <UserRant key={rant.rantID} data={rant} />
         ))}
       {rants.length === 0 && user.handle !== "anonymous" && (
         <h4 className="text-center">No Rants</h4>
-      )}
-      {user.handle === "anonymous" && (
-        <h4 className="text-center">Cannot View Anonymous Rants</h4>
       )}
       <div style={{ marginBottom: "20px" }}></div>
     </div>

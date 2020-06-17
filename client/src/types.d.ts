@@ -78,7 +78,7 @@ export type UserCredentials = {
   followerCount?: number;
   followingCount?: number;
   friends?: Array<NetworkData>;
-  followers?: Array<NetworkData>;
+  followers: Array<NetworkData>;
   following?: Array<NetworkData>;
 }
 

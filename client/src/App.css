@@ -159,7 +159,9 @@ PAGES --------------------------------------------------------------------------
   margin-top: 30px;
 }
 
-.terms:hover, .signup-back:hover, .terms-text:hover, .footer:hover, .search-back-button:hover, .user-network:hover {
+.terms:hover, .signup-back:hover, .terms-text:hover, .footer:hover, 
+.search-back-button:hover, .user-network:hover, .rant-credits-img:hover, 
+.rant-user-name:hover, .header-img:hover, .comment-credit-text:hover {
   cursor: pointer;
 }
 
@@ -908,4 +910,54 @@ COMPONENTS ---------------------------------------------------------------------
   margin-right: 30px;
   margin-left: 5px;
   font-weight: 600;
+}
+
+.main-header {
+  font-size: 30pt;
+  text-align: center;
+}
+
+/* Explore Component */
+.explore-container {
+  display: flex;
+}
+
+.explore-row {
+  overflow-x: auto;
+  white-space: nowrap;
+  display: flex;
+  margin: 0 auto;
+  padding: 10px 10px;
+}
+
+.explore-card {
+  display: inline-block; 
+  float: none; 
+  background-color: #CCCCCC;
+  padding: 20px;
+  margin-right: 20px;
+  display: block;
+  text-align: center;
+  box-shadow: 0px 0px 5px 0px #3F3F3F;
+  -webkit-transition: box-shadow 0.3s ease;
+  -moz-transition: box-shadow 0.3s ease;
+  -o-transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease;
+}
+
+.explore-card:hover {
+  box-shadow: 0px 0px 5px 3px #3F3F3F;
+}
+
+.explore-img {
+  margin: 0 auto;
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
+  border-radius: 100px;
+  border: solid 5px transparent;
+  background-image: linear-gradient(white, white), radial-gradient(circle at top left, #F012BE, #39CCCC);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  margin-bottom: 30px;
 }
