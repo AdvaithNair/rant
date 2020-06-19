@@ -2,6 +2,25 @@
 
 RANT! is a Social Media Full Stack Web Application designed for individuals to Rant.
 
+[Visit App Here!](https://rant-dd853.web.app/)
+NOTE: If you spot a bug, please contact me at [advaithnair2@gmail.com](mailto:advaithnair2@gmail.com).
+
+With RANT, a user can:
+* View Unique User Feed
+* Create RANTs (Posts) that are Public, Private, or Anonymous
+* Edit RANTs
+* Delete RANTs
+* Comment on RANTs
+* Like RANTs
+* Search for Users
+* View User Profiles
+* Edit Own User Details
+* Rank on Trending Leaderboard
+* Explore Extended Network
+* Receieve Notifications
+
+![Rant Infographic](https://advaithnair.github.io/assets/images/Rant/RantInfographic.png)
+
 ## Technology Overview
 It utilizes the following technologies:
 * Client
@@ -18,7 +37,7 @@ It utilizes the following technologies:
     * Cloud Firestore
     * Cloud Storage
 
-All code is constructed using Typescript.
+All code is constructed using TypeScript.
 
 ## Prerequisites
 
@@ -105,6 +124,29 @@ firebase init
     * *customRequest.d.ts* - additional user property for ExpressJS Request type (used for LogIn)
     * *index.ts* - main file for ExpressJS API and Firebase Cloud Functions
 
+## What I Learned
+
+### Frontend
+* Local State Management (Context API)
+* TypeScript React
+* JWT Parsing
+* Axios
+* Material UI
+* Firebase Web Hosting (Deployed)
+
+### Backend
+* REST API Creation
+* Firebase NoSQL Database Management (Firebase Firestore)
+* Firebase Cloud Functions Serverless Deployment (Deployed)
+* TypeScript NodeJS
+* ExpressJS x Firebase Cloud Functions API Endpoint
+* Database Trigger Functions
+* Cloud Storage Image Upload
+* Efficient Queries/Writes
+* Postman Debugging
+* Authentication Middleware
+* HTTP Response and TypeScript Promises Error Handling
+
 ## Contributors
 
 * **Advaith Nair** 
@@ -113,4 +155,4 @@ firebase init
     * [Website](https://advaithnair.com)
 
 ## Contact
-For questions, feel free to contact me at [advaithnair2@gmail.com](mailto:advaithnair2@gmail.com)
+For questions, feel free to contact me at [advaithnair2@gmail.com](mailto:advaithnair2@gmail.com).
