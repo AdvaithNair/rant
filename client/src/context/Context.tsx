@@ -216,7 +216,9 @@ function reducer(state: any, action: any) {
       const commentIndex = state.rants.findIndex(
         (rant: { [k: string]: any }) => rant.rantID === action.payload
       );
-      state.rants[commentIndex].commentCount++;
+      state.rants[commentIndex].commentCount
+        ? state.rants[commentIndex].commentCount++
+        : (state.rants[commentIndex].commentCount = 1);
       return {
         ...state
       };

@@ -39,7 +39,6 @@ export const NotificationMenu: React.FC<Props> = ({
 
   // On Close of Menu (or Click Away)
   const handleClose = (event: any) => {
-    console.log(notifications)
     if (notifications) readNotifications(dispatch, notifications);
     event.stopPropagation();
     setMenu(false);
