@@ -322,7 +322,7 @@ exports.getUser = (req: express.Request, res: express.Response) => {
       // TODO: change this to userID instead of handle
       return db
         .collection("notifications")
-        .where("recipient", "==", req.user.handle)
+        .where("recipient", "==", req.user.uid)
         .orderBy("createdAt", "desc")
         .limit(25)
         .get();

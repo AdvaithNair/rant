@@ -118,7 +118,7 @@ export const RantContent: React.FC<Props> = ({ data }) => {
             </div>
             <div className="rant-credits-info">
               <div onClick={toUserPage}>
-                <h2 className = 'rant-user-name'>{data.userName}</h2>
+                <h2 className="rant-user-name">{data.userName}</h2>
                 <h3 className="user-handle-hover">@{data.handle}</h3>
               </div>
               <p>

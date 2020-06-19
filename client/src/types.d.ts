@@ -18,7 +18,8 @@ export type RantData = {
 export type CommentData = {
   rantID: string;
   userName: string;
-  userID: string;
+  commenterID: string;
+  ranterID: string;
   handle: string;
   body: string;
   createdAt: string;

@@ -110,7 +110,7 @@ exports.toggleLike = (req: express.Request, res: express.Response) => {
   // Gets Like Document (if it exists)
   const likeDocument = db
     .collection("likes")
-    .where("handle", "==", req.user.handle)
+    .where("userID", "==", req.user.uid)
     .where("rantID", "==", req.params.rantID)
     .limit(1);
 

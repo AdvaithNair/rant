@@ -18,7 +18,7 @@ exports.likeNotification = functions.firestore
             // Create a Notification in the Database
             return db.doc(`/notifications/${snapshot.id}`).set({
               createdAt: new Date().toISOString(),
-              recipient: doc.data().handle,
+              recipient: doc.data().userID,
               sender: snapshot.data().handle,
               imageURL: snapshot.data().imageURL,
               type: "like",
@@ -66,7 +66,7 @@ exports.commentNotification = functions.firestore
             // Create a Notification in the Database
             return db.doc(`/notifications/${snapshot.id}`).set({
               createdAt: new Date().toISOString(),
-              recipient: doc.data().handle,
+              recipient: doc.data().commenterID,
               sender: snapshot.data().handle,
               imageURL: snapshot.data().imageURL,
               type: "comment",
@@ -100,7 +100,6 @@ exports.deleteCommentNotification = functions.firestore
   });
 
 // Marks Notifications as Read
-// TODO: Delete Read Notifications
 exports.readNotifications = (req: express.Request, res: express.Response) => {
   const batch = db.batch();
 

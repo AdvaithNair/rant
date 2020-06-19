@@ -48,7 +48,6 @@ export const Comment: React.FC<Props> = ({
   const handleOpen = (event: any) => {
     event.stopPropagation();
     setDialog(true);
-    console.log(dialog);
   };
 
   // Takes Client To User Page
@@ -84,7 +83,7 @@ export const Comment: React.FC<Props> = ({
             <div className="delete-comment">
               {(state.credentials.handle === data.handle ||
                 state.credentials.handle === rantData.handle ||
-                state.credentials.userID === data.userID ||
+                state.credentials.userID === data.commenterID ||
                 state.credentials.userID === rantData.userID) && (
                 <Tooltip title="Delete Comment" placement="bottom">
                   <IconButton onClick={handleOpen}>

@@ -56,7 +56,7 @@ export const CommentSection: React.FC<Props> = ({
         setComments(comments => comments.concat(res.data.returnComment));
         // Increment Comment Count
         dispatch({ type: ADD_COMMENT, payload: rantID });
-        rantData.commentCount++;
+        rantData.commentCount ? rantData.commentCount++ : rantData.commentCount = 1;
         setRantData({
           ...rantData
         });
