@@ -304,7 +304,7 @@ exports.getUser = (req: express.Request, res: express.Response) => {
         // Gets User Comments
         return db
           .collection("likes")
-          .where("handle", "==", req.user.handle)
+          .where("userID", "==", req.user.uid)
           .get();
       }
     })
