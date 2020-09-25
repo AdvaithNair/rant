@@ -19,7 +19,7 @@ With RANT, a user can:
 * Explore Extended Network
 * Receieve Notifications
 
-![Rant Infographic](https://advaithnair.github.io/assets/images/Rant/RantInfographic.png)
+![Rant Infographic](https://advaithnair.github.io/old-portfolio/assets/images/Rant/RantInfographic.png)
 
 ## Technology Overview
 It utilizes the following technologies:
