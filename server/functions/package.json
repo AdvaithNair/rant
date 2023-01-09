@@ -18,7 +18,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "firebase": "^7.14.3",
-    "firebase-admin": "^8.10.0",
+    "firebase-admin": "^11.4.1",
     "firebase-functions": "^3.7.0",
     "uuid": "^8.0.0",
     "websocket-extensions": ">=0.1.4"
